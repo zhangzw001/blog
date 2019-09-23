@@ -1,7 +1,11 @@
 ---
-title: 1. 首次搭建hexo博客系统
+title: 一. 首次搭建hexo博客系统
 date: 2019-09-19 17:24:53
+copyright: true
 tags:
+  - hexo6
+  - hexo美化
+top: 10
 ---
 ### 1 在mac上安装
 ```
@@ -10,6 +14,7 @@ brew install node npm
 # 安装hexo
 npm install -g hexo
 ```
+ <!-- more -->
 
 ### 2 初始化
 ```
@@ -29,17 +34,19 @@ hexo server
 ```
 
 ### 3 主题和配置
-- 下载主题：[https://github.com/iissnan/hexo-theme-next](https://github.com/iissnan/hexo-theme-next)
+- 下载主题：[https://github.com/theme-next/hexo-theme-next](https://github.com/theme-next/hexo-theme-next)
 ```
 unzip hexo-theme-next-master.zip
 mv hexo-theme-next-master $blog/themes/
 ```
 
-- 修改 _config.yml 中的其他属性
+- 修改主题配置 _config.yml 中的其他属性
 ```
 title: Zhangzhiwei's Blog
 ...
 theme: hexo-theme-next
+...
+scheme: Mist
 ```
 
 ### 4. 编写更新博客
@@ -59,11 +66,11 @@ categories:
   - hexo学习
 ```
 
-- github 创建一个项目
+- github 创建一个Repository仓库
 ```
-1. 项目名字必须是 xxx.github.io
+1. 仓库名字必须是 xxx.github.io
 2. 在settings中 勾选Template repository
-3. 之后会看到如下提示
+3. 记得添加自己的ssh
 ```
 
 
@@ -82,8 +89,198 @@ deploy:
   branch: master
 ```
 
+- 查看是否能提交代码github
+```
+ssh -T -ai ~/.ssh/id_rsa git@github.com
+```
+
 - 部署
 ```
 hexo g
 hexo d
+或者
+hexo d -g
 ```
+
+### 4. next6让首页文字预览显示
+```
+1. 找到主题的配置文件(themes/hexo-theme-next/_config.yml)
+2. 修改auto_excerpt,把enable改为对应的false改为true
+3. hexo d -g
+```
+
+### 5. next6添加搜索功能
+```
+1. npm install hexo-generator-searchdb --save
+2. 全局配置文件_config.yml
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+3. 修改主题的_config.yml
+local_search:
+  enable: true
+```
+
+### 6. next6 Mist字体的 首页文章间距和首页页宽,字体
+- 6.1 首页文章间距
+
+	```
+	增加一些内容: source/css/_schemes/Mist/_posts-expanded.styl
+	.posts-expand .post {
+	  margin-top: 30px;
+	  margin-bottom: 30px;
+	}
+	
+	```
+
+- 6.2 页宽
+
+	```
+	source/css/_variables/base.styl
+	$content-desktop                = 900px
+	$content-desktop-large          = 1000px
+	$content-desktop-largest        = 1100px
+	```
+
+- 6.3 字体大小
+
+```
+themes/next/source/css/_variables/base.styl
+
+$font-size-base           = 0.95em;
+$font-size-base           = unit(hexo-config('font.global.size'), em) if hexo-config('font.global.size') is a 'unit';
+$font-size-smallest       = .75em;
+$font-size-smaller        = .8125em;
+$font-size-small          = .855em;
+$font-size-medium         = 0.95em;
+$font-size-large          = 0.975em;
+$font-size-larger         = 1.em;
+$font-size-largest        = 1.125em;
+```
+
+### 7. 添加网格
+-  7.1 自定义方式修改
+
+	```
+	# 新创建自定义文件
+	cat themes/next/source/css/_custom/custom.styl
+	// 主页文章添加阴影效果
+	.post {
+	margin-top: 60px;
+	margin-bottom: 60px;
+	padding: 25px;
+	-webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
+	-moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);
+	}
+
+	# 修改config文件
+	vim ./themes/next/_config.yml
+	custom: custom
+	```
+
+- 7.2 next6版本修改方式
+	> 参考: [hexo6--next美化整理](https://www.jianshu.com/p/ec2e6c8a1d89)
+
+	1. 修改 themes/next/layout/_layout.swig
+	```
+	{% if theme.canvas_nest %}
+	<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+	</script>
+	{% endif %}
+	```
+
+	> 将上述代码防止在< /body> 前就可以了(注意不要放在< /head>的后面)。
+
+	2. 修改主题的_config.yml
+
+	```
+	canvas_nest: true
+
+	//color: 线条颜色, 默认: '0,0,0'；三个数字分别为(R,G,B)
+	//opacity: 线条透明度（0~1）, 默认: 0.5
+	//count: 线条的总数量, 默认: 150
+	//zIndex: 背景的z-index属性，css属性用于控制所在层的位置, 默认: -1
+	```
+> 注意:
+我这里打开提示缺少 canvas-nest.min.js文件,这里是手动copy的一份写到 source/lib/canvas-nest/canvas-nest.min.js
+
+```
+!function(){function o(w,v,i){return w.getAttribute(v)||i}function j(i){return document.getElementsByTagName(i)}function l(){var i=j("script"),w=i.length,v=i[w-1];return{l:w,z:o(v,"zIndex",-1),o:o(v,"opacity",0.5),c:o(v,"color","0,0,0"),n:o(v,"count",99)}}function k(){r=u.width=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth,n=u.height=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight}function b(){e.clearRect(0,0,r,n);var w=[f].concat(t);var x,v,A,B,z,y;t.forEach(function(i){i.x+=i.xa,i.y+=i.ya,i.xa*=i.x>r||i.x<0?-1:1,i.ya*=i.y>n||i.y<0?-1:1,e.fillRect(i.x-0.5,i.y-0.5,1,1);for(v=0;v<w.length;v++){x=w[v];if(i!==x&&null!==x.x&&null!==x.y){B=i.x-x.x,z=i.y-x.y,y=B*B+z*z;y<x.max&&(x===f&&y>=x.max/2&&(i.x-=0.03*B,i.y-=0.03*z),A=(x.max-y)/x.max,e.beginPath(),e.lineWidth=A/2,e.strokeStyle="rgba("+s.c+","+(A+0.2)+")",e.moveTo(i.x,i.y),e.lineTo(x.x,x.y),e.stroke())}}w.splice(w.indexOf(i),1)}),m(b)}var u=document.createElement("canvas"),s=l(),c="c_n"+s.l,e=u.getContext("2d"),r,n,m=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||function(i){window.setTimeout(i,1000/45)},a=Math.random,f={x:null,y:null,max:20000};u.id=c;u.style.cssText="position:fixed;top:0;left:0;z-index:"+s.z+";opacity:"+s.o;j("body")[0].appendChild(u);k(),window.onresize=k;window.onmousemove=function(i){i=i||window.event,f.x=i.clientX,f.y=i.clientY},window.onmouseout=function(){f.x=null,f.y=null};for(var t=[],p=0;s.n>p;p++){var h=a()*r,g=a()*n,q=2*a()-1,d=2*a()-1;t.push({x:h,y:g,xa:q,ya:d,max:6000})}setTimeout(function(){b()},100)}();%                                                                                                    zhangzw@MacBook-Pro  /data/github/blog   master ● 
+```
+
+### 8. 添加评论功能
+
+- 8.1 注册leancloud
+ ```
+ 注册-> 验证邮箱-> 实名认证 -> 设置获取appid和appkey
+ ```
+
+- 8.2 修改配置文件
+ ```
+ valine:
+   enable: true 
+   appid: 'appid' 
+   appkey: 'appkey' 
+   placeholder: "ヾﾉ≧∀≦)o 来呀！快活呀！~啦啦啦~ 啦啦啦啦~" 
+   visitor: true //这个打开页会统计文章阅读数
+ ```
+
+
+
+
+### 9. next6添加字数统计 和阅读时长
+
+> [hexo-symbols-count-time](https://github.com/theme-next/hexo-symbols-count-time)
+
+- 9.1 安装node扩展
+ ```
+ npm install hexo-symbols-count-time --save
+ ```
+
+- 9.2 修改全局配置 _config.yml
+ ```
+ symbols_count_time:
+   symbols: true
+   time: true
+   total_symbols: true
+   total_time: true
+   exclude_codeblock: false
+ ```
+
+- 9.3 修改主题配置 _config.yml
+ ```
+ symbols_count_time:
+   separated_meta: true
+   item_text_post: true
+   item_text_total: false
+   awl: 4
+   wpm: 275
+   suffix: mins.
+ ```
+
+
+
+### 10. next6 文章置顶功能
+
+- 10.1 安装node扩展 
+ ```
+ npm uninstall hexo-generator-index --save
+ npm install hexo-generator-index-pin-top --save
+ ```
+
+- 10.2 在文章开头添加置顶标识
+ ```
+ top: 10
+ ```
+
+- 10.3 首页添加明显置顶标识
+ ```
+ themes/next/layout/_macro/post.swig 在<div class="post-meta"> 下添加如下代码
+ {% if post.top %}
+     <i class="fa fa-thumb-tack"></i>
+     <font color=green>置顶</font>
+     <span class="post-meta-divider">|</span>
+ {% endif %}
+ ```
