@@ -7,14 +7,27 @@ tags:
   - hexo美化
 top: 10
 ---
-### 1 在mac上安装
+### 1 安装hexo
+- 1.1 在mac上安装
 ```
 # 安装node
 brew install node npm
+```
+ <!-- more -->
+
+- 1.2 在linux安装
+```
+# 安装node10
+curl -sL https://rpm.nodesource.com/setup_10.x | bash -
+yum install -y nodejs
+```
+
+- 1.3 安装hexo
+```
 # 安装hexo
 npm install -g hexo
 ```
- <!-- more -->
+
 
 ### 2 初始化
 ```
