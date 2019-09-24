@@ -8,16 +8,16 @@ tags:
 categories: 
   - 技术文档
   - 博客
-
+description: "介绍一些hexo常用的配置和优化"
 top: 10
 ---
+
 ### 1 安装hexo
 - 1.1 在mac上安装
 ```
 # 安装node
 brew install node npm
 ```
- <!-- more -->
 
 - 1.2 在linux安装
 ```

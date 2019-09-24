@@ -127,3 +127,7 @@
   {% include '_third-party/pdf.swig' %}
 </body>
 </html>
+<!-- 鼠标桃心动画 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<!-- 鼠标移动星星特效 -->
+<script type="text/javascript" src="/js/src/love2.js"></script>
