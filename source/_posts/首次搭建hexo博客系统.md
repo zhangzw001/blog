@@ -120,11 +120,35 @@ hexo d -g
 ```
 
 ### 5. next6让首页文字预览显示
+- 5.1 方法一: 自动形成摘要,默认截取的长度为 150 字符
 ```
-1. 找到主题的配置文件(themes/hexo-theme-next/_config.yml)
+1. 找到主题的配置文件(themes/next/_config.yml)
 2. 修改auto_excerpt,把enable改为对应的false改为true
 3. hexo d -g
 ```
+
+- 5.2 方法二: 博客内容中添加 < !--more-->
+```
+# 安装node
+brew install node npm
+ <!-- more -->
+```
+
+- 5.3 方法三: 在文章中的front-matter中添加description，并提供文章摘录,这种方式只会在首页列表中显示文章的摘要内容，进入文章详情后不会再显示。
+```
+title: 部署elk7.2.0
+date: 2019-09-19 17:59:53
+copyright: true
+tags:
+  - k8s
+  - elk
+  - elk7
+categories:
+  - 技术文档
+  - elk
+description: 本文主要是简单单机版部署elk7体验,  并非高可用集群方式部署, 部分安装步骤省略. 主要是记录yml配置文件, 仅供参考. 详细内容请点击下方阅读全文, 非常感谢!
+```
+
 
 ### 6. next6添加搜索功能
 ```
