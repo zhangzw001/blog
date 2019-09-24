@@ -1,5 +1,5 @@
 ---
-title: 一. 首次搭建hexo博客系统
+title: 首次搭建hexo博客系统
 date: 2019-09-19 17:24:53
 copyright: true
 tags:
