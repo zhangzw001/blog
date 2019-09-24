@@ -131,3 +131,5 @@
 <script type="text/javascript" src="/js/src/love.js"></script>
 <!-- 鼠标移动星星特效 -->
 <script type="text/javascript" src="/js/src/love2.js"></script>
+<!-- 看板娘 -->
+<script src="https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"></script>

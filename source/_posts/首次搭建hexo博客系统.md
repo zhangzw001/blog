@@ -6,7 +6,7 @@ tags:
   - hexo6
   - hexo美化
 categories: 
-  - 技术文档
+  - 有趣
   - 博客
 description: "介绍一些hexo常用的配置和优化"
 top: 10
