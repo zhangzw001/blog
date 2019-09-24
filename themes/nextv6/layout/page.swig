@@ -24,7 +24,7 @@
     {### PAGE BLOCK ###}
     {##################}
     <div class="post-block page">
-<!-- {% include '_partials/page/page-header.swig' %} -->
+      {% include '_partials/page/page-header.swig' %}
       {#################}
       {### PAGE BODY ###}
       {#################}
@@ -83,5 +83,6 @@
 {% endblock %}
 
 {% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
+  {% include '_scripts/pages/post-details.swig' %} 
 {% endblock %}
+abded

@@ -187,19 +187,19 @@ local_search:
 
 - 7.3 字体大小
 
-```
-themes/next/source/css/_variables/base.styl
-
-$font-size-base           = 0.95em;
-$font-size-base           = unit(hexo-config('font.global.size'), em) if hexo-config('font.global.size') is a 'unit';
-$font-size-smallest       = .75em;
-$font-size-smaller        = .8125em;
-$font-size-small          = .855em;
-$font-size-medium         = 0.95em;
-$font-size-large          = 0.975em;
-$font-size-larger         = 1.em;
-$font-size-largest        = 1.125em;
-```
+	```
+	themes/next/source/css/_variables/base.styl
+	
+	$font-size-base           = 0.95em;
+	$font-size-base           = unit(hexo-config('font.global.size'), em) if hexo-config('font.global.size') is a 'unit';
+	$font-size-smallest       = .75em;
+	$font-size-smaller        = .8125em;
+	$font-size-small          = .855em;
+	$font-size-medium         = 0.95em;
+	$font-size-large          = 0.975em;
+	$font-size-larger         = 1.em;
+	$font-size-largest        = 1.125em;
+	```
 
 ### 8. 添加网格
 -  8.1 自定义方式修改
