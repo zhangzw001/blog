@@ -24,7 +24,7 @@
     {### PAGE BLOCK ###}
     {##################}
     <div class="post-block page">
-      {% include '_partials/page/page-header.swig' %}
+<!-- {% include '_partials/page/page-header.swig' %} -->
       {#################}
       {### PAGE BODY ###}
       {#################}

@@ -5,6 +5,10 @@ copyright: true
 tags:
   - hexo6
   - hexo美化
+categories: 
+  - 技术文档
+  - 博客
+
 top: 10
 ---
 ### 1 安装hexo
@@ -115,14 +119,14 @@ hexo d
 hexo d -g
 ```
 
-### 4. next6让首页文字预览显示
+### 5. next6让首页文字预览显示
 ```
 1. 找到主题的配置文件(themes/hexo-theme-next/_config.yml)
 2. 修改auto_excerpt,把enable改为对应的false改为true
 3. hexo d -g
 ```
 
-### 5. next6添加搜索功能
+### 6. next6添加搜索功能
 ```
 1. npm install hexo-generator-searchdb --save
 2. 全局配置文件_config.yml
@@ -136,8 +140,8 @@ local_search:
   enable: true
 ```
 
-### 6. next6 Mist字体的 首页文章间距和首页页宽,字体
-- 6.1 首页文章间距
+### 7. next6 Mist字体的 首页文章间距和首页页宽,字体
+- 7.1 首页文章间距
 
 	```
 	增加一些内容: source/css/_schemes/Mist/_posts-expanded.styl
@@ -148,7 +152,7 @@ local_search:
 	
 	```
 
-- 6.2 页宽
+- 7.2 页宽
 
 	```
 	source/css/_variables/base.styl
@@ -157,7 +161,7 @@ local_search:
 	$content-desktop-largest        = 1100px
 	```
 
-- 6.3 字体大小
+- 7.3 字体大小
 
 ```
 themes/next/source/css/_variables/base.styl
@@ -173,8 +177,8 @@ $font-size-larger         = 1.em;
 $font-size-largest        = 1.125em;
 ```
 
-### 7. 添加网格
--  7.1 自定义方式修改
+### 8. 添加网格
+-  8.1 自定义方式修改
 
 	```
 	# 新创建自定义文件
@@ -193,7 +197,7 @@ $font-size-largest        = 1.125em;
 	custom: custom
 	```
 
-- 7.2 next6版本修改方式
+- 8.2 next6版本修改方式
 	> 参考: [hexo6--next美化整理](https://www.jianshu.com/p/ec2e6c8a1d89)
 
 	1. 修改 themes/next/layout/_layout.swig
@@ -223,14 +227,14 @@ $font-size-largest        = 1.125em;
 !function(){function o(w,v,i){return w.getAttribute(v)||i}function j(i){return document.getElementsByTagName(i)}function l(){var i=j("script"),w=i.length,v=i[w-1];return{l:w,z:o(v,"zIndex",-1),o:o(v,"opacity",0.5),c:o(v,"color","0,0,0"),n:o(v,"count",99)}}function k(){r=u.width=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth,n=u.height=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight}function b(){e.clearRect(0,0,r,n);var w=[f].concat(t);var x,v,A,B,z,y;t.forEach(function(i){i.x+=i.xa,i.y+=i.ya,i.xa*=i.x>r||i.x<0?-1:1,i.ya*=i.y>n||i.y<0?-1:1,e.fillRect(i.x-0.5,i.y-0.5,1,1);for(v=0;v<w.length;v++){x=w[v];if(i!==x&&null!==x.x&&null!==x.y){B=i.x-x.x,z=i.y-x.y,y=B*B+z*z;y<x.max&&(x===f&&y>=x.max/2&&(i.x-=0.03*B,i.y-=0.03*z),A=(x.max-y)/x.max,e.beginPath(),e.lineWidth=A/2,e.strokeStyle="rgba("+s.c+","+(A+0.2)+")",e.moveTo(i.x,i.y),e.lineTo(x.x,x.y),e.stroke())}}w.splice(w.indexOf(i),1)}),m(b)}var u=document.createElement("canvas"),s=l(),c="c_n"+s.l,e=u.getContext("2d"),r,n,m=window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||function(i){window.setTimeout(i,1000/45)},a=Math.random,f={x:null,y:null,max:20000};u.id=c;u.style.cssText="position:fixed;top:0;left:0;z-index:"+s.z+";opacity:"+s.o;j("body")[0].appendChild(u);k(),window.onresize=k;window.onmousemove=function(i){i=i||window.event,f.x=i.clientX,f.y=i.clientY},window.onmouseout=function(){f.x=null,f.y=null};for(var t=[],p=0;s.n>p;p++){var h=a()*r,g=a()*n,q=2*a()-1,d=2*a()-1;t.push({x:h,y:g,xa:q,ya:d,max:6000})}setTimeout(function(){b()},100)}();%                                                                                                    zhangzw@MacBook-Pro  /data/github/blog   master ● 
 ```
 
-### 8. 添加评论功能
+### 9. 添加评论功能
 
-- 8.1 注册leancloud
+- 9.1 注册leancloud
  ```
  注册-> 验证邮箱-> 实名认证 -> 设置获取appid和appkey
  ```
 
-- 8.2 修改配置文件
+- 9.2 修改配置文件
  ```
  valine:
    enable: true 
@@ -243,16 +247,16 @@ $font-size-largest        = 1.125em;
 
 
 
-### 9. next6添加字数统计 和阅读时长
+### 10. next6添加字数统计 和阅读时长
 
 > [hexo-symbols-count-time](https://github.com/theme-next/hexo-symbols-count-time)
 
-- 9.1 安装node扩展
+- 10.1 安装node扩展
  ```
  npm install hexo-symbols-count-time --save
  ```
 
-- 9.2 修改全局配置 _config.yml
+- 10.2 修改全局配置 _config.yml
  ```
  symbols_count_time:
    symbols: true
@@ -262,7 +266,7 @@ $font-size-largest        = 1.125em;
    exclude_codeblock: false
  ```
 
-- 9.3 修改主题配置 _config.yml
+- 10.3 修改主题配置 _config.yml
  ```
  symbols_count_time:
    separated_meta: true
@@ -275,20 +279,20 @@ $font-size-largest        = 1.125em;
 
 
 
-### 10. next6 文章置顶功能
+### 11. next6 文章置顶功能
 
-- 10.1 安装node扩展 
+- 11.1 安装node扩展 
  ```
  npm uninstall hexo-generator-index --save
  npm install hexo-generator-index-pin-top --save
  ```
 
-- 10.2 在文章开头添加置顶标识
+- 11.2 在文章开头添加置顶标识
  ```
  top: 10
  ```
 
-- 10.3 首页添加明显置顶标识
+- 11.3 首页添加明显置顶标识
  ```
  themes/next/layout/_macro/post.swig 在<div class="post-meta"> 下添加如下代码
  {% if post.top %}
@@ -297,3 +301,49 @@ $font-size-largest        = 1.125em;
      <span class="post-meta-divider">|</span>
  {% endif %}
  ```
+
+### 12. next6 开启标签和分类
+
+- 12.1 创建tags相关目录
+```
+hexo new page tags
+hexo new page categories
+```
+
+- 12.2 开启tags标签和分类
+```
+vim themes/next/_config.yml
+tags: /tags/ || tags
+categories: /categories/ || th
+```
+
+- 12.3 修改tags站点文件
+```
+cat source/tags/index.md
+---
+title: tags
+date: 2019-09-24 10:08:59
+type: "tags"
+layout: "tags"
+comments: false
+---
+```
+
+- 12.4 修改categories站点文件
+```
+cat source/categories/index.md
+---
+title: categories
+date: 2019-09-24 10:09:55
+type: "categories"
+layout: "categories"
+comments: false
+---
+```
+
+- 12.5 去掉xxx.github.io/tags/ 页面的post-title(因为我的这个css左对齐了,默认是居中,所以很丑)
+```
+# 注释下面这段代码
+vim themes/nextv/layout/page.swig 
+<!-- {% include '_partials/page/page-header.swig' %} -->
+```
