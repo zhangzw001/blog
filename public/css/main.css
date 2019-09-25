@@ -1930,7 +1930,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #524e8e;
+  background: #2f8e17;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2598,10 +2598,11 @@ hr {
   margin-top: 80px;
 }
 .header {
-  background: url("../image/docker1.jpg");
+  background: url("/images/title1.jpg");
+  height: 1000px;
 }
 .header-inner {
-  padding: 25px 0 20px;
+  padding: 365px 0 250px;
 }
 .header-inner:before,
 .header-inner:after {
@@ -2614,8 +2615,8 @@ hr {
 @media (max-width: 767px) {
   .header-inner {
     width: auto;
-    margin-bottom: 50px;
-    padding: 10px;
+    margin-bottom: 80px;
+    padding: 20px;
   }
 }
 .site-meta {
