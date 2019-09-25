@@ -1930,7 +1930,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #d1acf1;
+  background: #524e8e;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2598,7 +2598,7 @@ hr {
   margin-top: 80px;
 }
 .header {
-  background: #f5f5f5;
+  background: url("../image/docker1.jpg");
 }
 .header-inner {
   padding: 25px 0 20px;
