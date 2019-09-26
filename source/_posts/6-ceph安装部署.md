@@ -16,135 +16,131 @@ categories:
 [Kubernetes 集成 Ceph 后端存储教程](https://blog.csdn.net/shida_csdn/article/details/78579043)
 [centos7安装ceph集群](https://blog.csdn.net/zcc_heu/article/details/79017624)
 
-### 1 准备
+###  准备
+#### 配置源
 ```
-在 /etc/yum.repos.d/目录下创建 ceph.repo然后写入以下内容
-
-[Ceph]
-name=Ceph packages for $basearch
-baseurl=http://mirrors.163.com/ceph/rpm-jewel/el7/$basearch
-enabled=1
+cat >/etc/yum.repos.d/ceph.repo<<EOF
+[ceph]
+name=ceph
+baseurl=http://mirrors.aliyun.com/ceph/rpm-jewel/el7/x86_64/
 gpgcheck=0
-type=rpm-md
-gpgkey=https://mirrors.163.com/ceph/keys/release.asc
 priority=1
 
-[Ceph-noarch]
-name=Ceph noarch packages
-baseurl=http://mirrors.163.com/ceph/rpm-jewel/el7/noarch
-enabled=1
+[ceph-noarch]
+name=cephnoarch
+baseurl=http://mirrors.aliyun.com/ceph/rpm-jewel/el7/noarch/
 gpgcheck=0
-type=rpm-md
-gpgkey=https://mirrors.163.com/ceph/keys/release.asc
 priority=1
 
 [ceph-source]
 name=Ceph source packages
 baseurl=http://mirrors.163.com/ceph/rpm-jewel/el7/SRPMS
-enabled=1
-gpgcheck=0
+enabled=0
+gpgcheck=1
 type=rpm-md
-gpgkey=https://mirrors.163.com/ceph/keys/release.asc
+gpgkey=http://mirrors.163.com/ceph/keys/release.asc
 priority=1
-
-sudo scp /etc/yum.repos.d/ceph.repo dk-centos6:/etc/yum.repos.d/
-sudo scp /etc/yum.repos.d/ceph.repo dk-centos7:/etc/yum.repos.d/
+EOF
 
 ```
 
+
+#### 安装过卸载
 ```
-172.16.54.251 dk-centos5
-172.16.54.252 dk-centos6
-172.16.54.253 dk-centos7
-
-useradd ceph
-passwd ceph
-
-vim /etc/sudoers
-ceph All=(root) NOPAASSWD:ALL
-
-su - ceph
-
-sudo yum install -y yum-utils
-sudo yum-config-manager --add-repo https://dl.fedoraproject.org/pub/epel/7/x86_64/
-sudo yum install --nogpgcheck -y epel-release
-sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
-sudo rm /etc/yum.repos.d/dl.fedoraproject.org*
-```
-
-### 2 安装过请卸载
-
-```
-sudo ceph-deploy purge dk-centos5 dk-centos6 dk-centos7
-sudo ceph-deploy purgedata dk-centos5 dk-centos6 dk-centos7
-sudo ceph-deploy forgetkeys
+ceph-deploy purge dk1-t dk2-t
+ceph-deploy purgedata dk1-t dk2-t
+ceph-deploy forgetkeys
 
 ```
 
-### 3 安装ceph创建集群
 
+### 在dk2-t节点创建集群 mon模块
 ```
-
-sudo yum install ceph-deploy
+yum install ceph-deploy -y
 ceph-deploy --version
 
-#安装ceph,在deploy节点上建立cephinstall目录，我们首先来创建一个ceph cluster，这个环节需要通过执行ceph-deploy new {initial-monitor-node(s)}命令
-sudo ceph-deploy new dk-centos5 dk-centos6 dk-centos7
+mkdir /data/ceph
+cd /data/ceph
+ceph-deploy new dk2-t
 
-# ceph.conf
+# 查看配置文件
+ls -l
+
+# 配置ceph.conf
 [global]
+...
+# 如果有多个网卡，应该配置如下选项，
+# public network是公共网络，负责集群对外提供服务的流量
+# cluster network是集群网络，负载集群中数据复制传输通信等
+# 本次实验使用同一块网卡，生境环境建议分别使用一块网卡
+public network = 172.16.76.0/22
+cluster network = 172.16.76.0/22
 osd pool default size = 2
 
-# 安装ceph-release会报错,yum install ceph-release的是1.1版本
-sudo ceph-deploy install --release jewel --repo-url http://mirrors.163.com/ceph/rpm-jewel/el7  dk-centos5 dk-centos6 dk-centos7
-sudo ceph-deploy install dk-centos5 dk-centos6 dk-centos7
-//配置初始 monitor(s)、并收集所有密钥
+
+# 安装 ceph 包
+# 如果按照官方文档安装方法 会重新配置安装官方ceph源
+# 由于网络问题，安装可能会出错，需要多次执行
+# ceph-deploy install 其实只是会安装 ceph ceph-radosgw 两个包
+# ceph-deploy install lab1 lab2 lab3
+# 推荐使用阿里源安装，因为使用ceph-deploy安装会很慢
+# 使用如下命令手动安装包，替代官方的 ceph-deploy install 命令
+# 如下操作在所有node节点上执行
+export CEPH_DEPLOY_REPO_URL=http://mirrors.163.com/ceph/rpm-luminous/el7
+export CEPH_DEPLOY_GPG_URL=http://mirrors.163.com/ceph/keys/release.asc
+
+# 先执行是因为 ceph-deploy install太慢
+yum install -y ceph ceph-radosgw
+ceph-deploy install dk2-t
+
+
+# 部署monitor和生成keys
 ceph-deploy mon create-initial
+ls -l *.keyring
+
+# 复制文件到node节点
+ceph-deploy dk1-t dk2-t
+
+# 额外mon节点，mon节点也需要高可用
+ceph-deploy mon add dk1-t
 ```
 
-### 4 新建osd
-#### 添加两个 OSD ，登录到 Ceph 节点、并给 OSD 守护进程创建一个目录。
 
+### 在dk2-t节点创建集群 mgr模块
 ```
-ssh dk-centos6
-sudo mkdir /var/local/osd0
-exit
-
-ssh dk-centos7
-sudo mkdir /var/local/osd1
-exit
+# 部署manager （luminous+）12及以后的版本需要部署
+# 本次部署 jewel 版本 ，不需要执行如下命令
+ ceph-deploy mgr create dk2-t
 ```
 
-#### 然后，从管理节点执行 ceph-deploy 来准备 OSD
-
+### 在dk2-t节点创建集群 osd模块
 ```
-ceph-deploy osd prepare dk-centos6:/var/local/osd0 dk-centos7:/var/local/osd1 dk-centos5:/var/local/osd2
-
-//最后，激活 OSD
-ceph-deploy osd activate dk-centos5:/var/local/osd2 dk-centos6:/var/local/osd0 dk-centos7:/var/local/osd1
-
-//确保你对 ceph.client.admin.keyring 有正确的操作权限。
-sudo chown -R ceph:ceph /etc/ceph
-
-//检查集群的健康状况
-ceph health 等 peering 完成后，集群应该达到 active + clean 状态。
+# 12的版本(这里挂载一个 10G的磁盘 /dev/sdb)
+# create 命令一次完成准备 OSD 、部署到 OSD 节点、并激活它。 create 命令是依次执行 prepare 和 activate 命令的捷径。
+ceph-deploy osd create --data /dev/sdb dk2-t
+ceph-deploy osd create --data /dev/sdc dk1-t
 ```
 
-#### 更新keyring文件到节点
 
+### 如何卸载osd
 ```
-scp *.keyring dk-centos5:/etc/ceph/
-scp *.keyring dk-centos6:/etc/ceph/
-scp *.keyring dk-centos7:/etc/ceph/
+# 查看
+ceph osd tree
+
+# 节点状态标记为out
+ceph osd out osd.0
+
+# 从crush中移除节点
+ceph osd crush remove osd.0
+
+# 删除节点
+ceph osd rm osd.0
+
+# 删除节点认证（不删除编号会占住）
+ceph auth del osd.0
 ```
 
-#### ceph health
 
-```
-HEALTH_WARN 64 pgs degraded; 64 pgs stuck degraded; 64 pgs stuck unclean; 64 pgs stuck undersized; 64 pgs undersized
-```
-
-### 5 配置k8s
 #### 查看 mon 信息
 
 ```
@@ -152,21 +148,38 @@ ceph mon dump
 
 dumped monmap epoch 1
 epoch 1
-fsid edd43684-b6ab-4cb1-a1f6-0ec4c036bc7d
-last_changed 2018-07-20 16:03:58.763683
-created 2018-07-20 16:03:58.763683
-0: 172.16.54.251:6789/0 mon.dk-centos5
-1: 172.16.54.252:6789/0 mon.dk-centos6
-2: 172.16.54.253:6789/0 mon.dk-centos7
+fsid 4620d0c7-4458-4ff9-9296-d1318058bafc
+last_changed 2019-06-19 14:44:41.361005
+created 2019-06-19 14:44:41.361005
+0: 172.16.76.134:6789/0 mon.dk2-t
 ```
 
-#### 为 kubernetes 准备 ceph 存储池,创建 rbd pool，名字叫做 kube
+#### 配置文件内容 /etc/ceph/ceph.conf
+```
+[global]
+public network = 172.16.76.0/22
+cluster network = 172.16.76.0/22
+osd pool default size = 2
+fsid = 4620d0c7-4458-4ff9-9296-d1318058bafc
+mon_initial_members = dk2-t
+mon_host = 172.16.76.134
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx
+mon_max_pg_per_osd = 1000
+```
 
+> 这里由于机器原因安装的是非高可用, 建议安装在三或基数台以上
+
+
+### ceph 一些测试命令
+
+####  创建 rbd pool，名字叫做 kube
 ```
 ceph osd pool create kube 256 256
 ```
 
-#### 取得admin的密钥,后面用到
+#### 如何取得admin的密钥
 
 ```
 ceph auth get client.admin 2>&1 |grep "key = " |awk '{print  $3}'
@@ -192,23 +205,114 @@ cd /data/rbd0 && echo test > test.txt
 
 ```
 
-### k8s集成ceph
-> 部署 rbd provisioner
-在集群各机器导入 quay.io/external_storage/rbd-provisioner:v0.1.0 容器镜像
+
+---
+
+
+
+
+### 在k8s 手动创建存储类
+#### 创建ceph pg
+```
+# Total PGs = (Total_number_of_OSD * 100) / max_replication_count
+# pg = 1 * 100 /2 ~ 64(取2的次方数)
+
+# 这里准备创建2个pool, 每个pool
+ceph osd pool create rbd-k8s 16
+
+# 查看
+ceph osd lspools
+
+# 创建image
+rbd create rbd-k8s/cephimageredis --size 500M
+
+# 查看list
+rbd list rbd-k8s
+
+# 处理新特性
+# 查看info
+rbd info rbd-k8s/cephimageredis
+
+# 关闭exclusive-lock object-map fast-diff deep-flatten 这些特性
+rbd feature disable  rbd-k8s/cephimageredis exclusive-lock object-map fast-diff deep-flatten
+```
+
+#### 首先创建secret
+```
+#获取key
+grep key /etc/ceph/ceph.client.admin.keyring |awk '{printf "%s", $NF}'|base64
+```
+
+- **ceph-secret.yaml**
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ceph-secret
+type: "kubernetes.io/rbd"
+data:
+  key: QVFCTFo2dGNGNXFLRnhBQXBGTXJEdm5CY2k2UGtwZmZrN0JSVEE9PQ==
+```
+
+#### 其次创建pv, pv是没有namespace概念的
+> persistentVolumeReclaimPolicy是清理规则 (retain: 不清理, Recycle: 回收)
+- **redis-ceph-pv.yml**
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis2-ceph-rbd-pv
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  rbd:
+    monitors:
+      - '172.16.76.134:6789'
+    pool: rbd-k8s
+    image: cephimageredis
+    user: admin
+    secretRef:
+      name: ceph-secret
+    fsType: ext4
+    readOnly: false
+  persistentVolumeReclaimPolicy: Recycle
+```
+
+- **执行部署pv**
+```
+kubectl create -f redis-ceph-pv.yml
+```
+
+#### 然后创建pvc
+- **redis-ceph-pvc.yml**
 
 ```
-docker pull quay.io/external_storage/rbd-provisioner:v0.1.0
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis2-ceph-rbd-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
 ```
 
-> 创建 kubernetes secret 密钥，注意使用实际获取到的密钥（245节点）
->
-> [ 注意，任何需要使用 ceph 存储的 namespace 都需要配置，各命名空间不共享密钥 ]
+- **执行部署pvc**
+```
+kubectl create -f redis-ceph-pvc.yml
+```
 
-```
-mkdir /data/docker-ce-data/ceph
-cd /data/docker-ce-data/ceph
-echo "AQAn/19bbb21GBAA1kc0HRWoGjeoPTRQziA03A==" > secret
-kubectl create secret generic ceph-admin-secret --from-file=secret --namespace=kube-system
-kubectl create secret generic ceph-admin-secret --from-file=secret --namespace=default
-```
+#### 最后在rancher上选择挂载rbd
+
+![](zhangzw001.github.io/images/blog6/rancher-pv.png)
+
+
+---
+
+
+
 
