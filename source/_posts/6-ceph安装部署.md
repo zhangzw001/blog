@@ -1,15 +1,30 @@
 ---
-title: 6-ceph安装部署
+title: ceph安装部署
 copyright: true
 date: 2019-09-26 11:13:40
 tags:
   - ceph
   - cephfs
+  - k8s
   - k8s存储
 categories:
   - 技术文档
   - ceph
 ---
+
+Ceph是一个统一的分布式存储系统，设计初衷是提供较好的性能、可靠性和可扩展性。
+
+<!-- more-->
+
+### 简单了解什么是块存储/对象存储/文件系统存储？
+
+ceph 目前提供对象存储（RADOSGW）、块存储RDB以及 CephFS 文件系统这 3 种功能。对于这3种功能介绍，分别如下：
+
+1. 对象存储，也就是通常意义的键值存储，其接口就是简单的GET、PUT、DEL 和其他扩展，代表主要有 Swift 、S3 以及 Gluster 等；
+
+2. 块存储，这种接口通常以 QEMU Driver 或者 Kernel Module 的方式存在，这种接口需要实现 Linux 的 Block Device 的接口或者 QEMU 提供的 Block Driver 接口，如 Sheepdog，AWS 的 EBS，青云的云硬盘和阿里云的盘古系统，还有 Ceph 的 RBD（RBD是Ceph面向块存储的接口）。在常见的存储中 DAS、SAN 提供的也是块存储；
+
+3. 文件存储，通常意义是支持 POSIX 接口，它跟传统的文件系统如 Ext4 是一个类型的，但区别在于分布式存储提供了并行化的能力，如 Ceph 的 CephFS (CephFS是Ceph面向文件存储的接口)，但是有时候又会把 GlusterFS ，HDFS 这种非POSIX接口的类文件存储接口归入此类。当然 NFS、NAS也是属于文件系统存储；
 
 
 ### 参考教程
@@ -169,7 +184,6 @@ auth_client_required = cephx
 mon_max_pg_per_osd = 1000
 ```
 
-> 这里由于机器原因安装的是非高可用, 建议安装在三或基数台以上
 
 
 ### ceph 一些测试命令
@@ -308,7 +322,7 @@ kubectl create -f redis-ceph-pvc.yml
 
 #### 最后在rancher上选择挂载rbd
 
-![](zhangzw001.github.io/images/blog6/rancher-pv.png)
+![rancher-pv](https://zhangzw001.github.io/images/blog6/rancher-pv.png)
 
 
 ---
