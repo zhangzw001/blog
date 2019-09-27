@@ -37,13 +37,15 @@ ln -s /usr/local/mysql-5.5.37/lib/libmysqlclient.so.18 /usr/local/mysql-5.7.24-l
 ln -s mysql-5.7.24-linux-glibc2.12-x86_64 mysql
 
 # 添加启动文件
-\cp mysql/support-files/mysql.server /etc/init.d/
+\cp mysql/support-files/mysql.server /etc/init.d/mysqld
+echo "PATH=$PATH:/usr/local/mysql/bin/" >>~/.bashrc
 
 # 可选
 wget http://centos.mirrors.ucloud.cn/centos/6/os/x86_64/Packages/numactl-2.0.9-2.el6.x86_64.rpm
 yum localinstall numactl-2.0.9-2.el6.x86_64.rpm
 \rm numactl-2.0.9-2.el6.x86_64.rpm
 
+useradd mysql
 
 # 配置下mysql的数据目录
 cd /data/
