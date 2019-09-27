@@ -109,7 +109,7 @@
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
 <meta property="og:description" content="记录一些Linux,nginx或其他服务一些问题">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-26T10:20:20.000Z">
+<meta property="og:updated_time" content="2019-09-27T02:00:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux遇到一些问题统计总结">
 <meta name="twitter:description" content="记录一些Linux,nginx或其他服务一些问题">
@@ -389,12 +389,24 @@
                 
               
 
-              <time title="创建时间：2019-09-26 17:33:38 / 修改时间：18:20:20" itemprop="dateCreated datePublished" datetime="2019-09-26T17:33:38+08:00">2019-09-26</time>
+              <time title="创建时间：2019-09-26 17:33:38" itemprop="dateCreated datePublished" datetime="2019-09-26T17:33:38+08:00">2019-09-26</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-27 10:00:08" itemprop="dateModified" datetime="2019-09-27T10:00:08+08:00">2019-09-27</time>
               
             
           </span>
@@ -467,7 +479,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">6.5k</span>
+                <span title="本文字数">8.5k</span>
               
 
               
@@ -481,7 +493,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">6 分钟</span>
+                <span title="阅读时长">8 分钟</span>
               
             </div>
           
@@ -504,13 +516,31 @@
         <p>记录一些Linux,nginx或其他服务一些问题</p>
 <a id="more"></a>
 
-<h3 id="nginx-隐藏版本信息"><a href="#nginx-隐藏版本信息" class="headerlink" title="nginx 隐藏版本信息"></a>nginx 隐藏版本信息</h3><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Syntax:  server_tokens <span class="keyword">on</span> | off | build | <span class="built_in">string</span>;</span><br><span class="line">Default:  server_tokens <span class="keyword">on</span>;</span><br><span class="line">Context:  http, server, location</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">### linux问题: 禁ping</span><br></pre></td></tr></table></figure>
 
-<h3 id="linux-禁ping"><a href="#linux-禁ping" class="headerlink" title="linux 禁ping"></a>linux 禁ping</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一次性修改</span></span><br><span class="line"><span class="keyword">echo</span> 1 &gt; <span class="string">/proc/sys/net/ipv4/icmp_echo_ignore_all</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开机自动修改</span></span><br><span class="line"><span class="keyword">echo</span> 1 &gt; <span class="string">/proc/sys/net/ipv4/icmp_echo_ignore_all</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 永久禁用,加入到/etc/sysctl.conf</span></span><br><span class="line">net.ipv4.icmp_<span class="keyword">echo</span>_ignore_all=1</span><br></pre></td></tr></table></figure>
+<h1 id="一次性修改"><a href="#一次性修改" class="headerlink" title="一次性修改"></a>一次性修改</h1><p>echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all</p>
+<h1 id="开机自动修改"><a href="#开机自动修改" class="headerlink" title="开机自动修改"></a>开机自动修改</h1><p>echo 1 &gt; /proc/sys/net/ipv4/icmp_echo_ignore_all</p>
+<h1 id="永久禁用-加入到-etc-sysctl-conf"><a href="#永久禁用-加入到-etc-sysctl-conf" class="headerlink" title="永久禁用,加入到/etc/sysctl.conf"></a>永久禁用,加入到/etc/sysctl.conf</h1><p>net.ipv4.icmp_echo_ignore_all=1</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">### Linux问题: 文件锁问题</span><br></pre></td></tr></table></figure>
 
-<h3 id="nginx-日志出现encode内容如何查看"><a href="#nginx-日志出现encode内容如何查看" class="headerlink" title="nginx 日志出现encode内容如何查看"></a>nginx 日志出现encode内容如何查看</h3><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># python2 执行decode</span><br><span class="line">&gt;&gt;&gt; print "<span class="symbol">\x</span>22content<span class="symbol">\x</span>22<span class="symbol">\x</span>0D<span class="symbol">\x</span>0A<span class="symbol">\x</span>0D<span class="symbol">\x</span>0A<span class="symbol">\x</span>E8<span class="symbol">\x</span>8A<span class="symbol">\x</span>8A<span class="symbol">\x</span>E8<span class="symbol">\x</span>8A<span class="symbol">\x</span>8A<span class="symbol">\x</span>E8<span class="symbol">\x</span>BF<span class="symbol">\x</span>98<span class="symbol">\x</span>E6<span class="symbol">\x</span>80<span class="symbol">\x</span>95<span class="symbol">\x</span>E5<span class="symbol">\x</span>A6<span class="symbol">\x</span>9E<span class="symbol">\x</span>E5<span class="symbol">\x</span>A6<span class="symbol">\x</span>9E<span class="symbol">\x</span>E4<span class="symbol">\x</span>B8<span class="symbol">\x</span>8D<span class="symbol">\x</span>E8<span class="symbol">\x</span>80<span class="symbol">\x</span>81<span class="symbol">\x</span>E5<span class="symbol">\x</span>AE<span class="symbol">\x</span>9E<span class="symbol">\x</span>EF<span class="symbol">\x</span>BC<span class="symbol">\x</span>8C<span class="symbol">\x</span>E7<span class="symbol">\x</span>89<span class="symbol">\x</span>B9<span class="symbol">\x</span>E5<span class="symbol">\x</span>9C<span class="symbol">\x</span>B0<span class="symbol">\x</span>E8<span class="symbol">\x</span>BF<span class="symbol">\x</span>87<span class="symbol">\x</span>E6<span class="symbol">\x</span>9D<span class="symbol">\x</span>A5<span class="symbol">\x</span>E8<span class="symbol">\x</span>A7<span class="symbol">\x</span>86<span class="symbol">\x</span>E5<span class="symbol">\x</span>AF<span class="symbol">\x</span>9F<span class="symbol">\x</span>E4<span class="symbol">\x</span>B8<span class="symbol">\x</span>80<span class="symbol">\x</span>E4<span class="symbol">\x</span>B8<span class="symbol">\x</span>8B<span class="symbol">\x</span>0D<span class="symbol">\x</span>0A".decode('utf-8')</span><br></pre></td></tr></table></figure>
+<p>问题描述: php slowlog 出现session_start() 慢<br>问题原因: 我们这边有A 和B 两个二级域名,A 会请求 B, 并且由于测试环境在同一台服务器,公用一个php,所以在发生调用的时候同时写了session,而php的sessions配置是默认的file方式, 这就造成了锁的问题<br>问题解决: </p>
+<ol>
+<li>修改代码部分</li>
+<li>php的session配置改成redis<br> session.save_handler = redis<br> session.save_path = “tcp://x.x.x.x:xxxx”<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### linux问题: 内存释放问题</span><br></pre></td></tr></table></figure>
 
-<h3 id="nginx-default配置未设置"><a href="#nginx-default配置未设置" class="headerlink" title="nginx default配置未设置"></a>nginx default配置未设置</h3><p>nginx 未设置default时, 如果直接访问服务器外网ip, 会去请求到第一个匹配的server段, 有可能会请求到后端的服务器的内容, 这很有可能暴露我们不想暴露的服务<br>一般来说开头添加如下配置</p>
+</li>
+</ol>
+<p>问题描述: 开发这边写了个统计脚本, 占用49G内存, 从日志发现脚本已经全部执行完成, 但是php脚本依然存在<br>问题原因: 通过 strace -p pid 观察进程, 发现是持续性的做内存释放操作 munmap(0x7f6db77ad000, 266240)          = 0<br>持续执行munmap函数是因为一直在释放内存(毕竟49G), 结果 =0 说明内存释放执行函数是返回正常了<br>问题解决: </p>
+<ol>
+<li>修改代码降低内存</li>
+<li>等待一段时间内存会释放完成(测试80分钟释放完毕)<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### nginx问题: 隐藏版本信息</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>Syntax:  server_tokens on | off | build | string;<br>Default:  server_tokens on;<br>Context:  http, server, location</p>
+<h3 id="nginx问题-日志出现encode内容如何查看"><a href="#nginx问题-日志出现encode内容如何查看" class="headerlink" title="nginx问题: 日志出现encode内容如何查看"></a>nginx问题: 日志出现encode内容如何查看</h3><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># python2 执行decode</span><br><span class="line">&gt;&gt;&gt; print "<span class="symbol">\x</span>22content<span class="symbol">\x</span>22<span class="symbol">\x</span>0D<span class="symbol">\x</span>0A<span class="symbol">\x</span>0D<span class="symbol">\x</span>0A<span class="symbol">\x</span>E8<span class="symbol">\x</span>8A<span class="symbol">\x</span>8A<span class="symbol">\x</span>E8<span class="symbol">\x</span>8A<span class="symbol">\x</span>8A<span class="symbol">\x</span>E8<span class="symbol">\x</span>BF<span class="symbol">\x</span>98<span class="symbol">\x</span>E6<span class="symbol">\x</span>80<span class="symbol">\x</span>95<span class="symbol">\x</span>E5<span class="symbol">\x</span>A6<span class="symbol">\x</span>9E<span class="symbol">\x</span>E5<span class="symbol">\x</span>A6<span class="symbol">\x</span>9E<span class="symbol">\x</span>E4<span class="symbol">\x</span>B8<span class="symbol">\x</span>8D<span class="symbol">\x</span>E8<span class="symbol">\x</span>80<span class="symbol">\x</span>81<span class="symbol">\x</span>E5<span class="symbol">\x</span>AE<span class="symbol">\x</span>9E<span class="symbol">\x</span>EF<span class="symbol">\x</span>BC<span class="symbol">\x</span>8C<span class="symbol">\x</span>E7<span class="symbol">\x</span>89<span class="symbol">\x</span>B9<span class="symbol">\x</span>E5<span class="symbol">\x</span>9C<span class="symbol">\x</span>B0<span class="symbol">\x</span>E8<span class="symbol">\x</span>BF<span class="symbol">\x</span>87<span class="symbol">\x</span>E6<span class="symbol">\x</span>9D<span class="symbol">\x</span>A5<span class="symbol">\x</span>E8<span class="symbol">\x</span>A7<span class="symbol">\x</span>86<span class="symbol">\x</span>E5<span class="symbol">\x</span>AF<span class="symbol">\x</span>9F<span class="symbol">\x</span>E4<span class="symbol">\x</span>B8<span class="symbol">\x</span>80<span class="symbol">\x</span>E4<span class="symbol">\x</span>B8<span class="symbol">\x</span>8B<span class="symbol">\x</span>0D<span class="symbol">\x</span>0A".decode('utf-8')</span><br></pre></td></tr></table></figure>
+
+<h3 id="nginx问题-default配置未设置"><a href="#nginx问题-default配置未设置" class="headerlink" title="nginx问题: default配置未设置"></a>nginx问题: default配置未设置</h3><p>nginx 未设置default时, 如果直接访问服务器外网ip, 会去请求到第一个匹配的server段, 有可能会请求到后端的服务器的内容, 这很有可能暴露我们不想暴露的服务<br>一般来说开头添加如下配置</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">  <span class="built_in"> server </span>&#123;</span><br><span class="line">       listen       80 default_server;</span><br><span class="line">       listen       [::]:80 default_server;</span><br><span class="line">       server_name  _;</span><br><span class="line">       deny all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>nginx 配置已经配置域名方式访问, 如果访问ip会返回403, 正常来说返回403已经不会对服务器造成压力了</p>
@@ -519,6 +549,10 @@
 </blockquote>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># </span></span><br><span class="line">server &#123;</span><br><span class="line">        listen       80 default_server;</span><br><span class="line">        listen       [::]:80 default_server;</span><br><span class="line">        server_name  _;</span><br><span class="line">        return 499;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#其他location,if配置,</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$host</span> != a.example.com) &#123;</span><br><span class="line">    return 499;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<hr>
+<h3 id="mysql问题-navicat连接数据库很慢"><a href="#mysql问题-navicat连接数据库很慢" class="headerlink" title="mysql问题: navicat连接数据库很慢"></a>mysql问题: navicat连接数据库很慢</h3><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">报错: <span class="number">2013</span>-Lost connection <span class="keyword">to</span> MYSQL server <span class="keyword">at</span> 'reading <span class="keyword">for</span> initial communication packet'</span><br><span class="line">说明: 只有windows 的navicat会出现上面报错, windows上通过mysql命令连接时 也很慢</span><br><span class="line"></span><br><span class="line"><span class="comment">#添加如下内容:</span></span><br><span class="line">[mysqld]</span><br><span class="line">skip-<span class="built_in">name</span>-resolve</span><br></pre></td></tr></table></figure>
+
+<hr>
 
       
     </div>
@@ -541,7 +575,7 @@
   <p><span>本文标题:</span><a href="/2019/09/26/9-linux遇到一些问题统计总结/">linux遇到一些问题统计总结</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2019年09月26日 - 17:09</p>
-  <p><span>最后更新:</span>2019年09月26日 - 18:09</p>
+  <p><span>最后更新:</span>2019年09月27日 - 10:09</p>
   <p><span>原始链接:</span><a href="/2019/09/26/9-linux遇到一些问题统计总结/" title="linux遇到一些问题统计总结">http://zhangzw001.github.io/2019/09/26/9-linux遇到一些问题统计总结/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2019/09/26/9-linux遇到一些问题统计总结/" aria-label="复制成功！"></i></span>
   </p>
@@ -778,7 +812,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx-隐藏版本信息"><span class="nav-number">1.</span> <span class="nav-text">nginx 隐藏版本信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-禁ping"><span class="nav-number">2.</span> <span class="nav-text">linux 禁ping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx-日志出现encode内容如何查看"><span class="nav-number">3.</span> <span class="nav-text">nginx 日志出现encode内容如何查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx-default配置未设置"><span class="nav-number">4.</span> <span class="nav-text">nginx default配置未设置</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一次性修改"><span class="nav-number">1.</span> <span class="nav-text">一次性修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开机自动修改"><span class="nav-number">2.</span> <span class="nav-text">开机自动修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#永久禁用-加入到-etc-sysctl-conf"><span class="nav-number">3.</span> <span class="nav-text">永久禁用,加入到/etc/sysctl.conf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx问题-日志出现encode内容如何查看"><span class="nav-number">3.0.1.</span> <span class="nav-text">nginx问题: 日志出现encode内容如何查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx问题-default配置未设置"><span class="nav-number">3.0.2.</span> <span class="nav-text">nginx问题: default配置未设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql问题-navicat连接数据库很慢"><span class="nav-number">3.0.3.</span> <span class="nav-text">mysql问题: navicat连接数据库很慢</span></a></li></ol></li></ol></div>
             
 
           </div>
