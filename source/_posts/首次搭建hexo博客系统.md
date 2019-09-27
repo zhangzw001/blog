@@ -6,8 +6,8 @@ tags:
   - hexo6
   - hexo美化
 categories: 
-  - 有趣
-  - 博客
+  - [有趣]
+  - [博客,美化]
 description: "介绍一些hexo常用的配置和优化"
 top: 10
 ---
@@ -370,4 +370,14 @@ comments: false
 # 注释下面这段代码
 vim themes/nextv/layout/page.swig 
 <!-- {% include '_partials/page/page-header.swig' %} -->
+```
+
+- 12.6 文章中多个tag和categories
+```
+tags:
+  - k8s
+  - k8s安装
+categories:
+  - [k8s,安装]
+  - [技术文档]
 ```

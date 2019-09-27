@@ -6,8 +6,8 @@ tags:
   - mysql
   - mysql5.7
 categories:
-  - 技术文档
-  - mysql
+  - [技术文档]
+  - [mysql]
 ---
 
 > 二进制方式部署mysql5.7

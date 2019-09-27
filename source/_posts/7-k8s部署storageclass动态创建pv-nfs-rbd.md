@@ -7,9 +7,12 @@ tags:
   - nfs
   - k8s
   - k8s存储
+  - storageclass
 categories:
-  - 技术文档
-  - k8s
+  - [k8s,storageclass]
+  - [存储,nfs]
+  - [存储,ceph]
+  - [技术文档]
 ---
 
 考虑到k8s存储的问题, 本机目录挂载存在太大局限性, 多node多pod的服务存储急迫需要共享存储, 这里简单应用k8s storageclass nfs和rbd存储

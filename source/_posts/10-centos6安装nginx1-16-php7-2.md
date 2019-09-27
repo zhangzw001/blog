@@ -6,8 +6,8 @@ tags:
   - nginx
   - php7
 categories:
-  - 技术文档
-  - nginx
+  - [技术文档]
+  - [nginx]
 ---
 
 记录简单的安装nginx和php的配置,仅供参考

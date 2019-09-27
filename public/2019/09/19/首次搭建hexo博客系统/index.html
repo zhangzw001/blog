@@ -109,7 +109,7 @@
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
 <meta property="og:description" content="介绍一些hexo常用的配置和优化">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-24T08:47:54.000Z">
+<meta property="og:updated_time" content="2019-09-27T09:34:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="首次搭建hexo博客系统">
 <meta name="twitter:description" content="介绍一些hexo常用的配置和优化">
@@ -406,7 +406,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-24 16:47:54" itemprop="dateModified" datetime="2019-09-24T16:47:54+08:00">2019-09-24</time>
+                <time title="修改时间：2019-09-27 17:34:58" itemprop="dateModified" datetime="2019-09-27T17:34:58+08:00">2019-09-27</time>
               
             
           </span>
@@ -430,7 +430,14 @@
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/有趣/博客/" itemprop="url" rel="index"><span itemprop="name">博客</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/博客/" itemprop="url" rel="index"><span itemprop="name">博客</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/博客/美化/" itemprop="url" rel="index"><span itemprop="name">美化</span></a></span>
 
                 
                 
@@ -493,7 +500,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">33 分钟</span>
+                <span title="阅读时长">34 分钟</span>
               
             </div>
           
@@ -667,6 +674,9 @@
 </li>
 <li><p>12.5 去掉xxx.github.io/tags/ 页面的post-title(因为我的这个css左对齐了,默认是居中,所以很丑)</p>
 <figure class="highlight django"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"># 注释下面这段代码</span></span><br><span class="line"><span class="xml">vim themes/nextv/layout/page.swig </span></span><br><span class="line"><span class="xml"><span class="comment">&lt;!-- </span></span><span class="template-tag">&#123;% <span class="name"><span class="name">include</span></span> '_partials/page/page-header.swig' %&#125;</span><span class="xml"><span class="comment"> --&gt;</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>12.6 文章中多个tag和categories</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">tags:</span></span><br><span class="line">  - k8s</span><br><span class="line">  - k8s安装</span><br><span class="line">categories:</span><br><span class="line">  - [k8s,安装]</span><br><span class="line">  - [技术文档]</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -692,7 +702,7 @@
   <p><span>本文标题:</span><a href="/2019/09/19/首次搭建hexo博客系统/">首次搭建hexo博客系统</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2019年09月19日 - 17:09</p>
-  <p><span>最后更新:</span>2019年09月24日 - 16:09</p>
+  <p><span>最后更新:</span>2019年09月27日 - 17:09</p>
   <p><span>原始链接:</span><a href="/2019/09/19/首次搭建hexo博客系统/" title="首次搭建hexo博客系统">http://zhangzw001.github.io/2019/09/19/首次搭建hexo博客系统/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2019/09/19/首次搭建hexo博客系统/" aria-label="复制成功！"></i></span>
   </p>
@@ -858,7 +868,21 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -901,7 +925,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">15</span>
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

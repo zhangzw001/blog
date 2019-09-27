@@ -5,8 +5,8 @@ date: 2019-09-26 17:33:38
 tags:
   - linux
 categories:
-  - 技术文档
-  - linux
+  - [技术文档]
+  - [linux,问题总结]
 top: 20
 ---
 记录一些Linux,nginx或其他服务一些问题
