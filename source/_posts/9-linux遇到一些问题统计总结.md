@@ -56,6 +56,7 @@ net.ipv4.icmp_echo_ignore_all=1
 Syntax:  server_tokens on | off | build | string;
 Default:  server_tokens on;
 Context:  http, server, location
+```
 
 ### nginx问题: 日志出现encode内容如何查看
 ```
@@ -66,6 +67,7 @@ Context:  http, server, location
 ### nginx问题: default配置未设置
 nginx 未设置default时, 如果直接访问服务器外网ip, 会去请求到第一个匹配的server段, 有可能会请求到后端的服务器的内容, 这很有可能暴露我们不想暴露的服务
 一般来说开头添加如下配置
+
 ```
     server {
         listen       80 default_server;
