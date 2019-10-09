@@ -206,6 +206,8 @@ links_layout: block
 #links_layout: inline
 #links:
   #Title: http://example.com
+links:
+   标题: https://johnnywl.github.io/
 
 # Sidebar Avatar
 avatar:

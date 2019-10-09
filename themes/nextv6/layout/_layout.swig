@@ -133,3 +133,6 @@
 <!-- <script type="text/javascript" src="/js/src/love2.js"></script> -->
 <!-- 看板娘 -->
 <script src="/live2d-widget/autoload.js"></script>
+<!-- 预加载 -->
+<script type="text/javascript" src="/js/src/instantclick.js" data-no-instant></script>
+<script data-no-instant>InstantClick.init();</script>
