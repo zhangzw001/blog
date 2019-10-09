@@ -125,14 +125,16 @@
   {% include '_third-party/bookmark.swig' %}
   {% include '_third-party/copy-code.swig' %}
   {% include '_third-party/pdf.swig' %}
+<!-- 预加载 -->
+<script type="text/javascript" src="/js/src/instantclick.js" data-no-instant></script>
+<script data-no-instant>InstantClick.init();</script>
+
 </body>
 </html>
+
 <!-- 鼠标桃心动画 -->
 <script type="text/javascript" src="/js/src/love.js"></script>
 <!-- 鼠标移动星星特效 -->
 <!-- <script type="text/javascript" src="/js/src/love2.js"></script> -->
 <!-- 看板娘 -->
 <script src="/live2d-widget/autoload.js"></script>
-<!-- 预加载 -->
-<script type="text/javascript" src="/js/src/instantclick.js" data-no-instant></script>
-<script data-no-instant>InstantClick.init();</script>

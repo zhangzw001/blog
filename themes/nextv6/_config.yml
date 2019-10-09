@@ -1057,6 +1057,7 @@ vendors:
   # md5: //cdn.jsdelivr.net/npm/js-md5@0/src/md5.min.js
   md5:
 
+
 # Assets
 css: css
 js: js
