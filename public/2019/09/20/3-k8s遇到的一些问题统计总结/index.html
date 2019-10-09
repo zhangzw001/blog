@@ -109,7 +109,7 @@
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
 <meta property="og:description" content="不定时更新,文章可能比较散乱,&amp;gt;_&amp;lt;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-27T09:33:04.000Z">
+<meta property="og:updated_time" content="2019-10-09T07:11:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="k8s遇到的一些问题统计总结">
 <meta name="twitter:description" content="不定时更新,文章可能比较散乱,&amp;gt;_&amp;lt;">
@@ -406,7 +406,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-27 17:33:04" itemprop="dateModified" datetime="2019-09-27T17:33:04+08:00">2019-09-27</time>
+                <time title="修改时间：2019-10-09 15:11:31" itemprop="dateModified" datetime="2019-10-09T15:11:31+08:00">2019-10-09</time>
               
             
           </span>
@@ -486,7 +486,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.5k</span>
+                <span title="本文字数">3.8k</span>
               
 
               
@@ -500,7 +500,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">2 分钟</span>
+                <span title="阅读时长">3 分钟</span>
               
             </div>
           
@@ -537,6 +537,8 @@
 </blockquote>
 <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># kubeadm 1.14 配置</span></span><br><span class="line">apiServer:</span><br><span class="line">  extraArgs:</span><br><span class="line">    authorization-mode: <span class="keyword">Node</span><span class="title">,RBAC</span></span><br><span class="line">    service-<span class="keyword">node</span>-port-range:<span class="title"> 79-33000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># kubeadm 1.10配置</span></span><br><span class="line">apiServerExtraArgs:</span><br><span class="line">  service-<span class="keyword">node</span>-port-range:<span class="title"> 79-33000</span></span><br></pre></td></tr></table></figure>
 
+<h3 id="3-traefik断电后重新启动报错-command-traefik-error-field-not-found-node-redirect"><a href="#3-traefik断电后重新启动报错-command-traefik-error-field-not-found-node-redirect" class="headerlink" title="3. traefik断电后重新启动报错 command traefik error: field not found, node: redirect"></a>3. traefik断电后重新启动报错 command traefik error: field not found, node: redirect</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">看到这个错误猜测可能是用的<span class="selector-tag">latest</span>镜像问题, 从<span class="selector-tag">hub</span><span class="selector-class">.docker</span><span class="selector-class">.com</span> 查看更新了<span class="selector-tag">v2</span><span class="selector-class">.0</span>+的版本</span><br><span class="line"></span><br><span class="line">将<span class="selector-tag">traefik</span>的<span class="selector-tag">deployment</span>配置中 <span class="selector-tag">image</span>改成 <span class="selector-tag">traefik</span><span class="selector-pseudo">:1.7</span></span><br><span class="line"></span><br><span class="line">重新部署后 问题解</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -559,7 +561,7 @@
   <p><span>本文标题:</span><a href="/2019/09/20/3-k8s遇到的一些问题统计总结/">k8s遇到的一些问题统计总结</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2019年09月20日 - 09:09</p>
-  <p><span>最后更新:</span>2019年09月27日 - 17:09</p>
+  <p><span>最后更新:</span>2019年10月09日 - 15:10</p>
   <p><span>原始链接:</span><a href="/2019/09/20/3-k8s遇到的一些问题统计总结/" title="k8s遇到的一些问题统计总结">http://zhangzw001.github.io/2019/09/20/3-k8s遇到的一些问题统计总结/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2019/09/20/3-k8s遇到的一些问题统计总结/" aria-label="复制成功！"></i></span>
   </p>
@@ -836,7 +838,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-单机版k8s-pod一直是pending的问题"><span class="nav-number">1.</span> <span class="nav-text">1. 单机版k8s pod一直是pending的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-修改service-node-port-range"><span class="nav-number">2.</span> <span class="nav-text">2. 修改service-node-port-range</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-单机版k8s-pod一直是pending的问题"><span class="nav-number">1.</span> <span class="nav-text">1. 单机版k8s pod一直是pending的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-修改service-node-port-range"><span class="nav-number">2.</span> <span class="nav-text">2. 修改service-node-port-range</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-traefik断电后重新启动报错-command-traefik-error-field-not-found-node-redirect"><span class="nav-number">3.</span> <span class="nav-text">3. traefik断电后重新启动报错 command traefik error: field not found, node: redirect</span></a></li></ol></div>
             
 
           </div>

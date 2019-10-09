@@ -107,7 +107,7 @@
   <entry>
     <title><![CDATA[k8s遇到的一些问题统计总结]]></title>
     <url>%2F2019%2F09%2F20%2F3-k8s%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%E7%BB%9F%E8%AE%A1%E6%80%BB%E7%BB%93%2F</url>
-    <content type="text"><![CDATA[不定时更新,文章可能比较散乱,&gt;_&lt; 1. 单机版k8s pod一直是pending的问题 describe一下pod会发现错误: 1 node(s) had taints that the pod didn’t tolerate.这是因为master上存在污点,pod不会再改节点上创建两种办法: deploy 的时候加上 容忍该污点 直接取消master上的污点 12345# 取消master上污点 kubectl taint nodes --all node-role.kubernetes.io/master-# 查看taintkubectl describe node node1 2. 修改service-node-port-range 由于traefik部署需要对外开放80端口, 但默认仅允许30000以上端口 123456789# kubeadm 1.14 配置apiServer: extraArgs: authorization-mode: Node,RBAC service-node-port-range: 79-33000# kubeadm 1.10配置apiServerExtraArgs: service-node-port-range: 79-33000]]></content>
+    <content type="text"><![CDATA[不定时更新,文章可能比较散乱,&gt;_&lt; 1. 单机版k8s pod一直是pending的问题 describe一下pod会发现错误: 1 node(s) had taints that the pod didn’t tolerate.这是因为master上存在污点,pod不会再改节点上创建两种办法: deploy 的时候加上 容忍该污点 直接取消master上的污点 12345# 取消master上污点 kubectl taint nodes --all node-role.kubernetes.io/master-# 查看taintkubectl describe node node1 2. 修改service-node-port-range 由于traefik部署需要对外开放80端口, 但默认仅允许30000以上端口 123456789# kubeadm 1.14 配置apiServer: extraArgs: authorization-mode: Node,RBAC service-node-port-range: 79-33000# kubeadm 1.10配置apiServerExtraArgs: service-node-port-range: 79-33000 3. traefik断电后重新启动报错 command traefik error: field not found, node: redirect12345看到这个错误猜测可能是用的latest镜像问题, 从hub.docker.com 查看更新了v2.0+的版本将traefik的deployment配置中 image改成 traefik:1.7重新部署后 问题解]]></content>
       <categories>
         <category>技术文档</category>
         <category>k8s</category>
