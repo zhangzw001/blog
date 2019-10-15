@@ -48,6 +48,45 @@ net.ipv4.icmp_echo_ignore_all=1
 ```
 ---
 
+### nginx问题: 静态文件分离
+
+对于一般的nginx+php的方式, 我们php采用nobody用户,而代码/lumen采用web-www用户, 这样的好处是页面访问到/lumen时是nobody用户, 是无法修改代码的
+
+可能我们需求是上用户upload图片等, 这时候就可能被传上某个a.php, 这就有可能被代码注入(一般来说图片是放cdn,配置单独域名回源的,这里是直接存在项目目录)
+
+所以为了防止代码注入,我们需要限制upload目录的访问权限
+
+```
+# nginx配置如下
+        location ~ /images/.*\.(gif|jpg|jpeg|png)$ {
+            root /lumen/storage/uploads/;
+        }
+
+```
+
+这样我们图片传到 /lumen/storage/uploads/images/ 目录, 访问是 www.xxx.com/images/x.png 来访问 且不允许其他类型文件访问.
+
+
+### nginx问题: root 和alias
+在配置文件映射的时候，如果使用了正则表达式，那么可能会出现无法访问文件，nginx可能会将所有的
+文件都映射成为文件夹，导致文件映射失败的情况出现；
+
+- root的例子
+```
+location /a/ {
+	root /lumen/public;
+}
+这里实际访问的路径: www.xxx.com/a/ -> /lumen/public/a/
+```
+
+- alias的例子
+```
+# 注意这里目录最后加上/
+location /a/ {
+        alias /lumen/public/;
+}
+这里实际访问的路径: www.xxx.com/a/ -> /lumen/public/
+```
 
 
 

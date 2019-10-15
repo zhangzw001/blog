@@ -109,7 +109,7 @@
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
 <meta property="og:description" content="记录一些Linux,nginx或其他服务一些问题">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-10T02:51:10.000Z">
+<meta property="og:updated_time" content="2019-10-15T09:33:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux遇到一些问题统计总结">
 <meta name="twitter:description" content="记录一些Linux,nginx或其他服务一些问题">
@@ -406,7 +406,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-10 10:51:10" itemprop="dateModified" datetime="2019-10-10T10:51:10+08:00">2019-10-10</time>
+                <time title="修改时间：2019-10-15 17:33:31" itemprop="dateModified" datetime="2019-10-15T17:33:31+08:00">2019-10-15</time>
               
             
           </span>
@@ -486,7 +486,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">13k</span>
+                <span title="本文字数">16k</span>
               
 
               
@@ -500,7 +500,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">12 分钟</span>
+                <span title="阅读时长">14 分钟</span>
               
             </div>
           
@@ -530,6 +530,22 @@
 <h3 id="linux问题-内存释放问题"><a href="#linux问题-内存释放问题" class="headerlink" title="linux问题: 内存释放问题"></a>linux问题: 内存释放问题</h3><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">问题描述: 开发这边写了个统计脚本, 占用49G内存, 从日志发现脚本已经全部执行完成, 但是php脚本依然存在</span></span><br><span class="line"><span class="section">问题原因: 通过 strace -p pid 观察进程, 发现是持续性的做内存释放操作 munmap(0x7f6db77ad000, 266240)          = 0</span></span><br><span class="line">持续执行munmap函数是因为一直在释放内存(毕竟49G), 结果 =0 说明内存释放执行函数是返回正常了</span><br><span class="line"><span class="section">问题解决: </span></span><br><span class="line">1. 修改代码降低内存</span><br><span class="line">2. 等待一段时间内存会释放完成(测试80分钟释放完毕)</span><br></pre></td></tr></table></figure>
 
 <hr>
+<h3 id="nginx问题-静态文件分离"><a href="#nginx问题-静态文件分离" class="headerlink" title="nginx问题: 静态文件分离"></a>nginx问题: 静态文件分离</h3><p>对于一般的nginx+php的方式, 我们php采用nobody用户,而代码/lumen采用web-www用户, 这样的好处是页面访问到/lumen时是nobody用户, 是无法修改代码的</p>
+<p>可能我们需求是上用户upload图片等, 这时候就可能被传上某个a.php, 这就有可能被代码注入(一般来说图片是放cdn,配置单独域名回源的,这里是直接存在项目目录)</p>
+<p>所以为了防止代码注入,我们需要限制upload目录的访问权限</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># nginx配置如下</span></span><br><span class="line">        location ~ <span class="regexp">/images/</span>.*\.(gif|jpg|jpeg|png)$ &#123;</span><br><span class="line">            root <span class="regexp">/lumen/</span>storage<span class="regexp">/uploads/</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样我们图片传到 /lumen/storage/uploads/images/ 目录, 访问是 <a href="http://www.xxx.com/images/x.png" target="_blank" rel="noopener">www.xxx.com/images/x.png</a> 来访问 且不允许其他类型文件访问.</p>
+<h3 id="nginx问题-root-和alias"><a href="#nginx问题-root-和alias" class="headerlink" title="nginx问题: root 和alias"></a>nginx问题: root 和alias</h3><p>在配置文件映射的时候，如果使用了正则表达式，那么可能会出现无法访问文件，nginx可能会将所有的<br>文件都映射成为文件夹，导致文件映射失败的情况出现；</p>
+<ul>
+<li><p>root的例子</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location <span class="regexp">/a/</span> &#123;</span><br><span class="line">	root <span class="regexp">/lumen/</span><span class="keyword">public</span>;</span><br><span class="line">&#125;</span><br><span class="line">这里实际访问的路径: www.xxx.com<span class="regexp">/a/</span> -&gt; <span class="regexp">/lumen/</span><span class="keyword">public</span><span class="regexp">/a/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>alias的例子</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 注意这里目录最后加上/</span></span><br><span class="line">location <span class="regexp">/a/</span> &#123;</span><br><span class="line">        alias <span class="regexp">/lumen/public/</span>;</span><br><span class="line">&#125;</span><br><span class="line">这里实际访问的路径: www.xxx.com<span class="regexp">/a/</span><span class="function"> -&gt;</span> <span class="regexp">/lumen/public/</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
 <h3 id="nginx问题-隐藏版本信息"><a href="#nginx问题-隐藏版本信息" class="headerlink" title="nginx问题: 隐藏版本信息"></a>nginx问题: 隐藏版本信息</h3><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Syntax:  server_tokens <span class="keyword">on</span> | off | build | <span class="built_in">string</span>;</span><br><span class="line">Default:  server_tokens <span class="keyword">on</span>;</span><br><span class="line">Context:  http, server, location</span><br></pre></td></tr></table></figure>
 
 <h3 id="nginx问题-日志出现encode内容如何查看"><a href="#nginx问题-日志出现encode内容如何查看" class="headerlink" title="nginx问题: 日志出现encode内容如何查看"></a>nginx问题: 日志出现encode内容如何查看</h3><figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># python2 执行decode</span><br><span class="line">&gt;&gt;&gt; print "<span class="symbol">\x</span>22content<span class="symbol">\x</span>22<span class="symbol">\x</span>0D<span class="symbol">\x</span>0A<span class="symbol">\x</span>0D<span class="symbol">\x</span>0A<span class="symbol">\x</span>E8<span class="symbol">\x</span>8A<span class="symbol">\x</span>8A<span class="symbol">\x</span>E8<span class="symbol">\x</span>8A<span class="symbol">\x</span>8A<span class="symbol">\x</span>E8<span class="symbol">\x</span>BF<span class="symbol">\x</span>98<span class="symbol">\x</span>E6<span class="symbol">\x</span>80<span class="symbol">\x</span>95<span class="symbol">\x</span>E5<span class="symbol">\x</span>A6<span class="symbol">\x</span>9E<span class="symbol">\x</span>E5<span class="symbol">\x</span>A6<span class="symbol">\x</span>9E<span class="symbol">\x</span>E4<span class="symbol">\x</span>B8<span class="symbol">\x</span>8D<span class="symbol">\x</span>E8<span class="symbol">\x</span>80<span class="symbol">\x</span>81<span class="symbol">\x</span>E5<span class="symbol">\x</span>AE<span class="symbol">\x</span>9E<span class="symbol">\x</span>EF<span class="symbol">\x</span>BC<span class="symbol">\x</span>8C<span class="symbol">\x</span>E7<span class="symbol">\x</span>89<span class="symbol">\x</span>B9<span class="symbol">\x</span>E5<span class="symbol">\x</span>9C<span class="symbol">\x</span>B0<span class="symbol">\x</span>E8<span class="symbol">\x</span>BF<span class="symbol">\x</span>87<span class="symbol">\x</span>E6<span class="symbol">\x</span>9D<span class="symbol">\x</span>A5<span class="symbol">\x</span>E8<span class="symbol">\x</span>A7<span class="symbol">\x</span>86<span class="symbol">\x</span>E5<span class="symbol">\x</span>AF<span class="symbol">\x</span>9F<span class="symbol">\x</span>E4<span class="symbol">\x</span>B8<span class="symbol">\x</span>80<span class="symbol">\x</span>E4<span class="symbol">\x</span>B8<span class="symbol">\x</span>8B<span class="symbol">\x</span>0D<span class="symbol">\x</span>0A".decode('utf-8')</span><br></pre></td></tr></table></figure>
@@ -576,7 +592,7 @@
   <p><span>本文标题:</span><a href="/2019/09/26/9-linux遇到一些问题统计总结/">linux遇到一些问题统计总结</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2019年09月26日 - 17:09</p>
-  <p><span>最后更新:</span>2019年10月10日 - 10:10</p>
+  <p><span>最后更新:</span>2019年10月15日 - 17:10</p>
   <p><span>原始链接:</span><a href="/2019/09/26/9-linux遇到一些问题统计总结/" title="linux遇到一些问题统计总结">http://zhangzw001.github.io/2019/09/26/9-linux遇到一些问题统计总结/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2019/09/26/9-linux遇到一些问题统计总结/" aria-label="复制成功！"></i></span>
   </p>
@@ -867,7 +883,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux问题-禁ping"><span class="nav-number">1.</span> <span class="nav-text">linux问题: 禁ping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux问题-文件锁问题"><span class="nav-number">2.</span> <span class="nav-text">Linux问题: 文件锁问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux问题-内存释放问题"><span class="nav-number">3.</span> <span class="nav-text">linux问题: 内存释放问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx问题-隐藏版本信息"><span class="nav-number">4.</span> <span class="nav-text">nginx问题: 隐藏版本信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx问题-日志出现encode内容如何查看"><span class="nav-number">5.</span> <span class="nav-text">nginx问题: 日志出现encode内容如何查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx问题-default配置未设置"><span class="nav-number">6.</span> <span class="nav-text">nginx问题: default配置未设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql问题-navicat连接数据库很慢"><span class="nav-number">7.</span> <span class="nav-text">mysql问题: navicat连接数据库很慢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql问题-mysql5-7-错误总结-ERROR-1067-42000-Invalid-default-value-for-TIMESTAMP"><span class="nav-number">8.</span> <span class="nav-text">mysql问题: mysql5.7 错误总结-ERROR 1067 (42000): Invalid default value for TIMESTAMP</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#linux问题-禁ping"><span class="nav-number">1.</span> <span class="nav-text">linux问题: 禁ping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux问题-文件锁问题"><span class="nav-number">2.</span> <span class="nav-text">Linux问题: 文件锁问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux问题-内存释放问题"><span class="nav-number">3.</span> <span class="nav-text">linux问题: 内存释放问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx问题-静态文件分离"><span class="nav-number">4.</span> <span class="nav-text">nginx问题: 静态文件分离</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx问题-root-和alias"><span class="nav-number">5.</span> <span class="nav-text">nginx问题: root 和alias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx问题-隐藏版本信息"><span class="nav-number">6.</span> <span class="nav-text">nginx问题: 隐藏版本信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx问题-日志出现encode内容如何查看"><span class="nav-number">7.</span> <span class="nav-text">nginx问题: 日志出现encode内容如何查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nginx问题-default配置未设置"><span class="nav-number">8.</span> <span class="nav-text">nginx问题: default配置未设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql问题-navicat连接数据库很慢"><span class="nav-number">9.</span> <span class="nav-text">mysql问题: navicat连接数据库很慢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql问题-mysql5-7-错误总结-ERROR-1067-42000-Invalid-default-value-for-TIMESTAMP"><span class="nav-number">10.</span> <span class="nav-text">mysql问题: mysql5.7 错误总结-ERROR 1067 (42000): Invalid default value for TIMESTAMP</span></a></li></ol></div>
             
 
           </div>
