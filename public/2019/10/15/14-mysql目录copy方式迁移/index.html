@@ -101,20 +101,25 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Zhangzw&#39;s Blog">
-<meta property="og:url" content="http://zhangzw001.github.io/categories/mysql/index.html">
+  <meta name="description" content="从现有的一台 从库 全copy data目录到2台新机器上, 再配置mysql主从">
+<meta name="keywords" content="mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql5.5目录copy方式迁移">
+<meta property="og:url" content="http://zhangzw001.github.io/2019/10/15/14-mysql目录copy方式迁移/index.html">
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
+<meta property="og:description" content="从现有的一台 从库 全copy data目录到2台新机器上, 再配置mysql主从">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-15T02:51:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zhangzw&#39;s Blog">
+<meta name="twitter:title" content="mysql5.5目录copy方式迁移">
+<meta name="twitter:description" content="从现有的一台 从库 全copy data目录到2台新机器上, 再配置mysql主从">
 
 
 
 
 
 
-  <link rel="canonical" href="http://zhangzw001.github.io/categories/mysql/">
+  <link rel="canonical" href="http://zhangzw001.github.io/2019/10/15/14-mysql目录copy方式迁移/">
 
 
 
@@ -124,7 +129,7 @@
   };
 </script>
 
-  <title>分类: mysql | Zhangzw's Blog</title>
+  <title>mysql5.5目录copy方式迁移 | Zhangzw's Blog</title>
   
 
 
@@ -172,7 +177,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
 
@@ -228,7 +233,7 @@
         
         
           
-          <li class="menu-item menu-item-categories menu-item-active">
+          <li class="menu-item menu-item-categories">
 
     
     
@@ -275,22 +280,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -336,109 +325,331 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>mysql<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangzw001.github.io/2019/10/15/14-mysql目录copy方式迁移/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zhangzw">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhangzw's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-          <a class="post-title-link" href="/2019/10/15/14-mysql目录copy方式迁移/" itemprop="url">
-            
-              <span itemprop="name">mysql5.5目录copy方式迁移</span>
-            
-          </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">mysql5.5目录copy方式迁移
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-10-15T10:44:27+08:00" content="2019-10-15">
-          10-15
-        </time>
-      </div>
+              
+            
+          </h1>
+        
 
-    </header>
-  </article>
+        <div class="post-meta">
+	
+          <span class="post-time">
 
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-15 10:44:27 / 修改时间：10:51:48" itemprop="dateCreated datePublished" datetime="2019-10-15T10:44:27+08:00">2019-10-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术文档/" itemprop="url" rel="index"><span itemprop="name">技术文档</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/10/15/14-mysql目录copy方式迁移/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2019/10/15/14-mysql目录copy方式迁移/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/10/15/14-mysql目录copy方式迁移/" class="leancloud_visitors" data-flag-title="mysql5.5目录copy方式迁移">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">5.5k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">5 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/10/10/11-mysql简单记录/" itemprop="url">
-            
-              <span itemprop="name">mysql简单记录</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-10-10T10:40:20+08:00" content="2019-10-10">
-          10-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
+        <p>从现有的一台 从库 全copy data目录到2台新机器上, 再配置mysql主从</p>
+<a id="more"></a>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
 
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/09/26/8-mysql5-7二进制部署/" itemprop="url">
-            
-              <span itemprop="name">mysql5.7二进制部署</span>
-            
-          </a>
-        
-      </h2>
+<h3 id="目录copy方式迁移"><a href="#目录copy方式迁移" class="headerlink" title="目录copy方式迁移"></a>目录copy方式迁移</h3><blockquote>
+<p> 注意</p>
+</blockquote>
+<ul>
+<li>不要删除ibdata1,会导致innodb表不存在</li>
+<li>可以不删除ib_logfile0,ib_logfile1, 但my.cnf配置大小一致</li>
+<li>区别目录权限为mysql,tmp目录存在</li>
+<li>请自行安装好mysql5.5</li>
+</ul>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> 首先停止mysql</span><br><span class="line">/etc/init.d/mysqld stop</span><br><span class="line"></span><br><span class="line"><span class="number">2</span> 同步数据目录到新机器</span><br><span class="line">/data/u01</span><br><span class="line"></span><br><span class="line"><span class="number">3</span> 确认新机器上mysql版本并配置/etc/my.cof</span><br><span class="line"><span class="number">4</span> 完整迁移时不需要删除内容(innodb_log_file_size = <span class="number">256</span>M 配置要一致)</span><br><span class="line"><span class="number">5</span> 启动mysql</span><br></pre></td></tr></table></figure>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-26T15:11:05+08:00" content="2019-09-26">
-          09-26
-        </time>
-      </div>
+<h3 id="配置主从"><a href="#配置主从" class="headerlink" title="配置主从"></a>配置主从</h3><ul>
+<li><p>1 首先 目录copy方式 同步某个从库到2台新机器并启动完成, 此时两个mysql都开启了slave</p>
+</li>
+<li><p>2 暂停同步，并设置读写；</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">stop</span> <span class="keyword">slave</span>;</span><br><span class="line"><span class="comment"># 该执行仅主库上执行(配置可写)</span></span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> read_only=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">reset</span> <span class="keyword">slave</span> <span class="keyword">all</span>;</span><br><span class="line"><span class="comment">-- RESET SLAVE ALL是清除从库的同步复制信息、包括连接信息和二进制文件名、位置</span></span><br><span class="line"><span class="comment">-- 从库上执行这个命令后，使用show slave status将不会有输出。</span></span><br></pre></td></tr></table></figure>
 
-    </header>
-  </article>
+<ul>
+<li>3 2台新的mysql中修改从库slave配置, 连接到新的主库地址(我这里通过域名解析)</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CHANGE</span> <span class="keyword">MASTER</span> <span class="keyword">TO</span> </span><br><span class="line">MASTER_HOST=<span class="string">'a_master.b.com'</span>,MASTER_PORT=<span class="number">3306</span>,MASTER_USER=<span class="string">'repl_user'</span>,MASTER_PASSWORD=<span class="string">'xxxx'</span>,MASTER_LOG_FILE=<span class="string">'m1-master-bin.000001'</span>,MASTER_LOG_POS=<span class="number">88</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>4 由于本机需要安装mysql5.5和mysql5.7所以注意一下</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化指定配置文件</span></span><br><span class="line">/usr/local/mysql57/bin/mysqld <span class="attribute">--defaults-file</span>=/etc/my57.cnf --initialize-insecure <span class="attribute">--user</span>=mysql <span class="attribute">--basedir</span>=/usr/local/mysql57 <span class="attribute">--datadir</span>=/data/u001</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改/etc/init.d/mysqld57</span></span><br><span class="line">parse_server_arguments `<span class="variable">$print_defaults</span> -c /etc/my57.cnf mysqld<span class="built_in"> server </span>mysql_server mysql.server`</span><br><span class="line"><span class="variable">$bindir</span>/mysqld_safe <span class="attribute">--defaults-file</span>=/etc/my57.cnf <span class="attribute">--pid-file</span>=<span class="string">"<span class="variable">$mysqld_pid_file_path</span>"</span> <span class="variable">$other_args</span> &gt;/dev/<span class="literal">null</span> &amp;</span><br></pre></td></tr></table></figure>
+
+<h3 id="报错统计"><a href="#报错统计" class="headerlink" title="报错统计"></a>报错统计</h3><ul>
+<li>ERROR 1840 (HY000) at line 24: @@GLOBAL.GTID_PURGED can only be set when @@GLOBAL.GTID_EXECUTED is empty.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">执行<span class="keyword">reset</span> <span class="keyword">master</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>The MySQL server is running with the–read-only option so it cannot execute this statement</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">执行 <span class="builtin-name">set</span> global <span class="attribute">read_only</span>=0;</span><br></pre></td></tr></table></figure>
 
 
       
     </div>
 
+    
+
+    
+    
+    
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2019/10/15/14-mysql目录copy方式迁移/">mysql5.5目录copy方式迁移</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
+  <p><span>发布时间:</span>2019年10月15日 - 10:10</p>
+  <p><span>最后更新:</span>2019年10月15日 - 10:10</p>
+  <p><span>原始链接:</span><a href="/2019/10/15/14-mysql目录copy方式迁移/" title="mysql5.5目录copy方式迁移">http://zhangzw001.github.io/2019/10/15/14-mysql目录copy方式迁移/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2019/10/15/14-mysql目录copy方式迁移/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+
+      </div>
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/12/13-云原生博客汇总/" rel="next" title="云原生博客汇总">
+                <i class="fa fa-chevron-left"></i> 云原生博客汇总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
 
         </div>
         
@@ -459,8 +670,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -619,6 +839,23 @@
       </div>
 
       
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#目录copy方式迁移"><span class="nav-number">1.</span> <span class="nav-text">目录copy方式迁移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置主从"><span class="nav-number">2.</span> <span class="nav-text">配置主从</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#报错统计"><span class="nav-number">3.</span> <span class="nav-text">报错统计</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
 
       
 
@@ -748,6 +985,10 @@
   
 
   
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
 
   
 
