@@ -114,7 +114,7 @@
 <meta property="og:image" content="http://zhangzw001.github.io/images/16/%E5%AE%B9%E5%99%A8%E7%9A%84%E5%8E%9F%E7%90%86-1.png">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
-<meta property="og:updated_time" content="2019-10-16T10:14:14.124Z">
+<meta property="og:updated_time" content="2019-10-16T10:20:17.143Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dockerfile介绍">
 <meta name="twitter:description" content="Dockerfile">
@@ -391,7 +391,7 @@
                 
               
 
-              <time title="创建时间：2019-10-16 15:33:17 / 修改时间：18:14:14" itemprop="dateCreated datePublished" datetime="2019-10-16T15:33:17+08:00">2019-10-16</time>
+              <time title="创建时间：2019-10-16 15:33:17 / 修改时间：18:20:17" itemprop="dateCreated datePublished" datetime="2019-10-16T15:33:17+08:00">2019-10-16</time>
             
 
             
@@ -469,7 +469,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">10k</span>
+                <span title="本文字数">11k</span>
               
 
               
@@ -559,7 +559,7 @@
 <p>结果显然是空…</p>
 <p>喔,,, 因为”在Dockerfile中，每条指令都会创建一个镜像层，继而会增加镜像整体的大小”, 在看我们写的Dockerfile,<br>我们第一个run 执行的时候, 这里假装叫 (run1层), 我们生成了file1文件<br>当执行第二个run的时候, 我们处在了 (run2层), (run1层)已经是父层,是个只读层了,只有当前层可写, 虽然我们在 (run2层)删除了这个文件,但删除的仅仅是份拷贝而已, 这就是写时复制.</p>
 <p>所以以上的优化应该是: 写成一条run</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#cat Dockerfile</span></span><br><span class="line"><span class="keyword">from</span> busybox:latest</span><br><span class="line"></span><br><span class="line"><span class="builtin-name">run</span> mkdir /tmp/dir \</span><br><span class="line">    &amp;&amp; dd <span class="attribute">if</span>=/dev/zero <span class="attribute">of</span>=/tmp/dir/file1 <span class="attribute">bs</span>=1M <span class="attribute">count</span>=10 \</span><br><span class="line">    &amp;&amp; rm -f /tmp/dir/file1</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#cat Dockerfile</span></span><br><span class="line"><span class="keyword">from</span> busybox:latest</span><br><span class="line"></span><br><span class="line"><span class="builtin-name">run</span> mkdir /tmp/dir \</span><br><span class="line">    &amp;&amp; dd <span class="attribute">if</span>=/dev/zero <span class="attribute">of</span>=/tmp/dir/file1 <span class="attribute">bs</span>=1M <span class="attribute">count</span>=10 \</span><br><span class="line">    &amp;&amp; rm -f /tmp/dir/file1</span><br><span class="line"></span><br><span class="line"><span class="comment"># build</span></span><br><span class="line">docker build -t busybox-test2 .</span><br></pre></td></tr></table></figure>
 
 <p>结果显然</p>
 <figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker images|grep busybox</span><br><span class="line">busybox-test2           latest              faf8b7d4f140        <span class="number">3</span> seconds ago       <span class="number">1.22</span>MB</span><br><span class="line">busybox-test            latest              <span class="number">00041489</span>cc0e        <span class="number">10</span> minutes ago      <span class="number">11.7</span>MB</span><br><span class="line">busybox                 latest              <span class="number">19485</span>c79a9bb        <span class="number">5</span> weeks ago         <span class="number">1.22</span>MB</span><br></pre></td></tr></table></figure>
