@@ -121,6 +121,9 @@ from busybox:latest
 run mkdir /tmp/dir \
     && dd if=/dev/zero of=/tmp/dir/file1 bs=1M count=10 \
     && rm -f /tmp/dir/file1
+
+# build
+docker build -t busybox-test2 .
 ```
 
 结果显然
