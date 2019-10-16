@@ -13,6 +13,45 @@ top: 20
 
 <!-- more -->
 
+### linux问题: tcpdump抓包tcp第三次握手ack为1
+- 执行命令监听: tcpdump -n port 80 (想要详细信息加 -vv)
+
+> 客户端 telnet x.x.x.x 80
+
+日志如下:
+```
+tcpdump  -n port 80
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
+11:16:40.689157 IP 172.16.54.141.53444 > 172.16.53.106.http: Flags [SEW], seq 1306124348, win 65535, options [mss 1460,nop,wscale 5,nop,nop,TS val 458678777 ecr 0,sackOK,eol], length 0
+11:16:40.689724 IP 172.16.53.106.http > 172.16.54.141.53444: Flags [S.E], seq 1553518959, ack 1306124349, win 64308, options [mss 1410,sackOK,TS val 4208119240 ecr 458678777,nop,wscale 7], length 0
+11:16:40.690320 IP 172.16.54.141.53444 > 172.16.53.106.http: Flags [.], ack 1, win 4106, options [nop,nop,TS val 458678778 ecr 4208119240], length 0
+```
+这里第一和第二次握手都没有问题, 第三次 ack 1, 并非是seq+1
+
+这里提一下ACK, ACK 是确认值, ack 是确认编号, 第一次握手ACK=0,在第二次握手开始ACK=1, 而ack是=seq+1(收到的随机数+1)
+
+那么这里ack 1 是啥呢?  ... 应该就是默认tcpdump 显示成相对值了, 通过-S 参数会显示绝对值
+
+- 执行命令监听: tcpdump -S  -n port 80
+```
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
+11:16:54.806628 IP 172.16.54.141.53516 > 172.16.53.106.http: Flags [S], seq 316359286, win 65535, options [mss 1460,nop,wscale 5,nop,nop,TS val 458692791 ecr 0,sackOK,eol], length 0
+11:16:54.806861 IP 172.16.53.106.http > 172.16.54.141.53516: Flags [S.], seq 1113466641, ack 316359287, win 64308, options [mss 1410,sackOK,TS val 4208133357 ecr 458692791,nop,wscale 7], length 0
+11:16:54.807576 IP 172.16.54.141.53516 > 172.16.53.106.http: Flags [.], ack 1113466642, win 4106, options [nop,nop,TS val 458692792 ecr 4208133357], length 0
+```
+
+---
+三次握手图
+![三次握手图](images/tcp三次握手图.png)
+
+---
+四次挥手图
+![四次挥手图](images/tcp四次挥手图.png)
+
+---
+
 ### linux问题: 禁ping
 ```
 # 一次性修改
@@ -25,8 +64,9 @@ echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
 net.ipv4.icmp_echo_ignore_all=1
 ```
 
+---
 
-### Linux问题: 文件锁问题
+### linux问题: 文件锁问题
 ```
 问题描述: php slowlog 出现session_start() 慢
 问题原因: 我们这边有A 和B 两个二级域名,A 会请求 B, 并且由于测试环境在同一台服务器,公用一个php,所以在发生调用的时候同时写了session,而php的sessions配置是默认的file方式, 这就造成了锁的问题
@@ -37,6 +77,7 @@ net.ipv4.icmp_echo_ignore_all=1
     session.save_path = "tcp://x.x.x.x:xxxx"
 ```
 
+---
 ### linux问题: 内存释放问题
 ```
 问题描述: 开发这边写了个统计脚本, 占用49G内存, 从日志发现脚本已经全部执行完成, 但是php脚本依然存在
@@ -67,6 +108,7 @@ net.ipv4.icmp_echo_ignore_all=1
 这样我们图片传到 /lumen/storage/uploads/images/ 目录, 访问是 www.xxx.com/images/x.png 来访问 且不允许其他类型文件访问.
 
 
+---
 ### nginx问题: root 和alias
 在配置文件映射的时候，如果使用了正则表达式，那么可能会出现无法访问文件，nginx可能会将所有的
 文件都映射成为文件夹，导致文件映射失败的情况出现；
@@ -90,6 +132,7 @@ location /a/ {
 
 
 
+---
 ### nginx问题: 隐藏版本信息
 ```
 Syntax:  server_tokens on | off | build | string;
@@ -97,12 +140,14 @@ Default:  server_tokens on;
 Context:  http, server, location
 ```
 
+---
 ### nginx问题: 日志出现encode内容如何查看
 ```
 # python2 执行decode
 >>> print "\x22content\x22\x0D\x0A\x0D\x0A\xE8\x8A\x8A\xE8\x8A\x8A\xE8\xBF\x98\xE6\x80\x95\xE5\xA6\x9E\xE5\xA6\x9E\xE4\xB8\x8D\xE8\x80\x81\xE5\xAE\x9E\xEF\xBC\x8C\xE7\x89\xB9\xE5\x9C\xB0\xE8\xBF\x87\xE6\x9D\xA5\xE8\xA7\x86\xE5\xAF\x9F\xE4\xB8\x80\xE4\xB8\x8B\x0D\x0A".decode('utf-8')
 ```
 
+---
 ### nginx问题: default配置未设置
 nginx 未设置default时, 如果直接访问服务器外网ip, 会去请求到第一个匹配的server段, 有可能会请求到后端的服务器的内容, 这很有可能暴露我们不想暴露的服务
 一般来说开头添加如下配置
