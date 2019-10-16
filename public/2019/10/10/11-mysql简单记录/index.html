@@ -109,7 +109,7 @@
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
 <meta property="og:description" content="简单记录一些mysql知识点">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-10T02:49:12.000Z">
+<meta property="og:updated_time" content="2019-10-16T09:51:28.902Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql简单记录">
 <meta name="twitter:description" content="简单记录一些mysql知识点">
@@ -389,12 +389,24 @@
                 
               
 
-              <time title="创建时间：2019-10-10 10:40:20 / 修改时间：10:49:12" itemprop="dateCreated datePublished" datetime="2019-10-10T10:40:20+08:00">2019-10-10</time>
+              <time title="创建时间：2019-10-10 10:40:20" itemprop="dateCreated datePublished" datetime="2019-10-10T10:40:20+08:00">2019-10-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-16 17:51:28" itemprop="dateModified" datetime="2019-10-16T17:51:28+08:00">2019-10-16</time>
               
             
           </span>
@@ -467,7 +479,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">3.7k</span>
+                <span title="本文字数">4.3k</span>
               
 
               
@@ -481,7 +493,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">3 分钟</span>
+                <span title="阅读时长">4 分钟</span>
               
             </div>
           
@@ -508,7 +520,7 @@
 
 <h4 id="2-备份"><a href="#2-备份" class="headerlink" title="2. 备份"></a>2. 备份</h4><figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全量锁表备份(不可写)</span></span><br><span class="line"><span class="string">mysqldump </span><span class="built_in">--lock-all-tables</span> <span class="built_in">--all-databases</span> &gt; <span class="string">ALLDB.</span><span class="string">sql</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#</span> 仅导出所有表的结构</span><br><span class="line"><span class="string">mysqldump </span><span class="built_in">--opt</span> -d 数据库名 -u <span class="string">root </span>-p &gt; <span class="string">xxx.</span><span class="string">sql</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="3-slave-中修改master-host"><a href="#3-slave-中修改master-host" class="headerlink" title="3. slave 中修改master_host"></a>3. slave 中修改master_host</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 master.info中信息</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 show slave status\G 中 Master_Host </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改的步骤需要先停止slave</span></span><br><span class="line">1 <span class="keyword">stop</span> <span class="keyword">slave</span> ;</span><br><span class="line">2 <span class="keyword">change</span> <span class="keyword">master</span> <span class="keyword">to</span> master_host=<span class="string">'xxx.xxx.xxx'</span>;</span><br><span class="line">3 <span class="keyword">start</span> <span class="keyword">slave</span> ;</span><br></pre></td></tr></table></figure>
+<h4 id="3-slave-中修改master-host"><a href="#3-slave-中修改master-host" class="headerlink" title="3. slave 中修改master_host"></a>3. slave 中修改master_host</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看 master.info中信息</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 show slave status\G 中 Master_Host </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改的步骤需要先停止slave</span></span><br><span class="line">1 <span class="keyword">stop</span> <span class="keyword">slave</span> ;</span><br><span class="line">2 <span class="keyword">change</span> <span class="keyword">master</span> <span class="keyword">to</span> master_host=<span class="string">'xxx.xxx.xxx'</span>;</span><br><span class="line">  首次配置主库:</span><br><span class="line">  <span class="keyword">CHANGE</span> <span class="keyword">MASTER</span> <span class="keyword">TO</span> MASTER_HOST=<span class="string">'a_master.b.com'</span>,MASTER_PORT=<span class="number">3306</span>,MASTER_USER=<span class="string">'repl_user'</span>,MASTER_PASSWORD=<span class="string">'xxxx'</span>,MASTER_LOG_FILE=<span class="string">'m1-master-bin.000001'</span>,MASTER_LOG_POS=<span class="number">88</span>;</span><br><span class="line">3 <span class="keyword">start</span> <span class="keyword">slave</span> ;</span><br></pre></td></tr></table></figure>
 
 
       
@@ -532,7 +544,7 @@
   <p><span>本文标题:</span><a href="/2019/10/10/11-mysql简单记录/">mysql简单记录</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2019年10月10日 - 10:10</p>
-  <p><span>最后更新:</span>2019年10月10日 - 10:10</p>
+  <p><span>最后更新:</span>2019年10月16日 - 17:10</p>
   <p><span>原始链接:</span><a href="/2019/10/10/11-mysql简单记录/" title="mysql简单记录">http://zhangzw001.github.io/2019/10/10/11-mysql简单记录/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2019/10/10/11-mysql简单记录/" aria-label="复制成功！"></i></span>
   </p>

@@ -47,5 +47,7 @@ mysqldump --opt -d 数据库名 -u root -p > xxx.sql
 # 修改的步骤需要先停止slave
 1 stop slave ;
 2 change master to master_host='xxx.xxx.xxx';
+  首次配置主库:
+  CHANGE MASTER TO MASTER_HOST='a_master.b.com',MASTER_PORT=3306,MASTER_USER='repl_user',MASTER_PASSWORD='xxxx',MASTER_LOG_FILE='m1-master-bin.000001',MASTER_LOG_POS=88;
 3 start slave ;
 ```

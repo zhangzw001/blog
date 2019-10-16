@@ -8,13 +8,16 @@ categories:
   - [docker,Dockerfile]
 ---
 
-Dockerfile 是用于build 一个docker image, 写的好的dockerfile 会让image 更精简 build更快捷
-<!-- more -->
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font face="黑体" size=30> Dockerfile </font>
+<font  face="黑体" size=5> Dockerfile </font>
 </center>
+
+<!-- more -->
+
+本文摘录于: [如何快速将容器云镜像大小精简98%？](https://mp.weixin.qq.com/s/LOXNMYtZbnYeDR2lBI56fw)
+
 
 ### Dockerfile 文件有自己的书写格式和支持的命令，常用的Dockerfile 指令有：
 
@@ -32,21 +35,22 @@ Dockerfile 是用于build 一个docker image, 写的好的dockerfile 会让image
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font face="黑体" size=30> 容器的原理 </font>
+<font  face="黑体" size=5> 容器的原理 </font>
 </center>
 
 
 容器镜像中最重要的概念就是layers，即镜像层。
 
-<img src="http://zhangzw001.github.io/images/16/容器的原理-1.png" style="border: 0"/>
+> 容器的原理
+
+![容器的原理](/images/16/容器的原理-1.png)
 
 镜像层依赖于一系列的底层技术，比如文件系统(filesystems)、写时复制(copy-on-write)、联合挂载(union mounts)等技术
 查看Docker 官方文档[https://docs.docker.com/storage/storagedriver/](https://docs.docker.com/storage/storagedriver/)进行学习。
 
-
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<p><font face="黑体" size=18> 每条指令都创建一个镜像层，会增加镜像的大小 </font></p>
+<font  face="黑体" size=5> 每条指令都创建一个镜像层，会增加镜像的大小 </font>
 </center>
 
 ### 下面看个例子
@@ -107,7 +111,7 @@ docker run -ti busybox-test ls /tmp/dir
 
 喔,,, 因为"在Dockerfile中，每条指令都会创建一个镜像层，继而会增加镜像整体的大小", 在看我们写的Dockerfile,
 我们第一个run 执行的时候, 这里假装叫 (run1层), 我们生成了file1文件
-当执行第二个run的时候, 我们处在了 (run2层), (run1层)已经是父层,是个只读层了,  虽然我们在 (run2层)删除了这个文件,但删除的仅仅是份拷贝而已, 这就是写时复制.
+当执行第二个run的时候, 我们处在了 (run2层), (run1层)已经是父层,是个只读层了,只有当前层可写, 虽然我们在 (run2层)删除了这个文件,但删除的仅仅是份拷贝而已, 这就是写时复制.
 
 所以以上的优化应该是: 写成一条run
 ```
@@ -137,7 +141,7 @@ busybox                 latest              19485c79a9bb        5 weeks ago     
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font face="黑体" size=25> 一些小的镜像介绍 </font>
+<font face="黑体" size=5> 一些小的镜像 </font>
 </center>
 
 - 1 scratch: 一个空的镜像, 无法pull -.-!!! , 写在Dockerfile是可以的

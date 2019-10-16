@@ -16,7 +16,7 @@ categories:
 ```
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font face="黑体" size=30> Dockerfile </font>
+<font color="blue" face="黑体" size=5> Dockerfile </font>
 </center>
 ```
 [效果点击查看](https://zhangzw001.github.io/2019/10/16/16-dockerfile介绍/)
