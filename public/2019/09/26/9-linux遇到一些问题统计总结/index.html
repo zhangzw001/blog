@@ -109,13 +109,13 @@
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
 <meta property="og:description" content="记录一些Linux,nginx或其他服务一些问题">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://zhangzw001.github.io/2019/09/26/9-linux遇到一些问题统计总结/images/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%BE.png">
-<meta property="og:image" content="http://zhangzw001.github.io/2019/09/26/9-linux遇到一些问题统计总结/images/tcp%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%E5%9B%BE.png">
-<meta property="og:updated_time" content="2019-10-16T03:58:10.000Z">
+<meta property="og:image" content="http://zhangzw001.github.io/images/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%BE.png">
+<meta property="og:image" content="http://zhangzw001.github.io/images/tcp%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%E5%9B%BE.png">
+<meta property="og:updated_time" content="2019-10-16T06:02:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux遇到一些问题统计总结">
 <meta name="twitter:description" content="记录一些Linux,nginx或其他服务一些问题">
-<meta name="twitter:image" content="http://zhangzw001.github.io/2019/09/26/9-linux遇到一些问题统计总结/images/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%BE.png">
+<meta name="twitter:image" content="http://zhangzw001.github.io/images/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%BE.png">
 
 
 
@@ -409,7 +409,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-16 11:58:10" itemprop="dateModified" datetime="2019-10-16T11:58:10+08:00">2019-10-16</time>
+                <time title="修改时间：2019-10-16 14:02:06" itemprop="dateModified" datetime="2019-10-16T14:02:06+08:00">2019-10-16</time>
               
             
           </span>
@@ -544,9 +544,9 @@
 </li>
 </ul>
 <hr>
-<p>三次握手图<br><img src="images/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%BE.png" alt="三次握手图"></p>
+<p>三次握手图<br><img src="/images/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%BE.png" alt="三次握手图"></p>
 <hr>
-<p>四次挥手图<br><img src="images/tcp%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%E5%9B%BE.png" alt="四次挥手图"></p>
+<p>四次挥手图<br><img src="/images/tcp%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%E5%9B%BE.png" alt="四次挥手图"></p>
 <hr>
 <h3 id="linux问题-禁ping"><a href="#linux问题-禁ping" class="headerlink" title="linux问题: 禁ping"></a>linux问题: 禁ping</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一次性修改</span></span><br><span class="line"><span class="keyword">echo</span> 1 &gt; <span class="string">/proc/sys/net/ipv4/icmp_echo_ignore_all</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开机自动修改</span></span><br><span class="line"><span class="keyword">echo</span> 1 &gt; <span class="string">/proc/sys/net/ipv4/icmp_echo_ignore_all</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 永久禁用,加入到/etc/sysctl.conf</span></span><br><span class="line">net.ipv4.icmp_<span class="keyword">echo</span>_ignore_all=1</span><br></pre></td></tr></table></figure>
 
@@ -623,7 +623,7 @@
   <p><span>本文标题:</span><a href="/2019/09/26/9-linux遇到一些问题统计总结/">linux遇到一些问题统计总结</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2019年09月26日 - 17:09</p>
-  <p><span>最后更新:</span>2019年10月16日 - 11:10</p>
+  <p><span>最后更新:</span>2019年10月16日 - 14:10</p>
   <p><span>原始链接:</span><a href="/2019/09/26/9-linux遇到一些问题统计总结/" title="linux遇到一些问题统计总结">http://zhangzw001.github.io/2019/09/26/9-linux遇到一些问题统计总结/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2019/09/26/9-linux遇到一些问题统计总结/" aria-label="复制成功！"></i></span>
   </p>

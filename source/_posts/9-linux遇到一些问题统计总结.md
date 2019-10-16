@@ -44,11 +44,11 @@ listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 ---
 三次握手图
-![三次握手图](images/tcp三次握手图.png)
+![三次握手图](/images/tcp三次握手图.png)
 
 ---
 四次挥手图
-![四次挥手图](images/tcp四次挥手图.png)
+![四次挥手图](/images/tcp四次挥手图.png)
 
 ---
 
