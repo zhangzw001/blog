@@ -6,8 +6,7 @@ tags:
   - linux
   - awk 
 categories:
-  - [linux]
-  - [awk]
+  - [linux,awk]
 ---
 
 记录一些简单使用
