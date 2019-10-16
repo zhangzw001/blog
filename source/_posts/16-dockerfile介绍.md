@@ -41,4 +41,114 @@ Dockerfile 是用于build 一个docker image, 写的好的dockerfile 会让image
 <img src="http://zhangzw001.github.io/images/16/容器的原理-1.png" style="border: 0"/>
 
 镜像层依赖于一系列的底层技术，比如文件系统(filesystems)、写时复制(copy-on-write)、联合挂载(union mounts)等技术
-查看Docker 官方文档![https://docs.docker.com/storage/storagedriver/](https://docs.docker.com/storage/storagedriver/)进行学习。
+查看Docker 官方文档[https://docs.docker.com/storage/storagedriver/](https://docs.docker.com/storage/storagedriver/)进行学习。
+
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<p><font face="黑体" size=18> 每条指令都创建一个镜像层，会增加镜像的大小 </font></p>
+</center>
+
+### 下面看个例子
+
+这里我有一个1.2M的镜像
+```
+docker images|grep busybox
+busybox                 latest              19485c79a9bb        5 weeks ago         1.22MB
+```
+
+我们基于busybox写一个Dockerfile来build
+```
+#cat Dockerfile
+from busybox:latest
+
+run mkdir /tmp/dir \
+    && dd if=/dev/zero of=/tmp/dir/file1 bs=1M count=10
+
+run rm -f /tmp/dir/file1
+
+```
+
+执行build
+```
+docker build -t busybox-test .
+Sending build context to Docker daemon  2.048kB
+Step 1/3 : from busybox:latest
+ ---> 19485c79a9bb
+Step 2/3 : run mkdir /tmp/dir     && dd if=/dev/zero of=/tmp/dir/file1 bs=1M count=10
+ ---> Running in 0426f92c77ed
+10+0 records in
+10+0 records out
+10485760 bytes (10.0MB) copied, 0.003785 seconds, 2.6GB/s
+Removing intermediate container 0426f92c77ed
+ ---> 5ec75db090c9
+Step 3/3 : run rm -f /tmp/dir/file1
+ ---> Running in 540e7d0a5aea
+Removing intermediate container 540e7d0a5aea
+ ---> 00041489cc0e
+Successfully built 00041489cc0e
+Successfully tagged busybox-test:latest
+```
+
+查看image大小
+```
+docker images|grep busybox
+busybox-test            latest              00041489cc0e        10 minutes ago      11.7MB
+busybox                 latest              19485c79a9bb        5 weeks ago         1.22MB
+```
+
+??? 我不是rm删除了创建的/tmp/dir/file1 文件吗? 难道它还在? 来,我们测试一下
+```
+# 查看目录下是否有文件
+docker run -ti busybox-test ls /tmp/dir
+```
+
+结果显然是空...
+
+喔,,, 因为"在Dockerfile中，每条指令都会创建一个镜像层，继而会增加镜像整体的大小", 在看我们写的Dockerfile,
+我们第一个run 执行的时候, 这里假装叫 (run1层), 我们生成了file1文件
+当执行第二个run的时候, 我们处在了 (run2层), (run1层)已经是父层,是个只读层了,  虽然我们在 (run2层)删除了这个文件,但删除的仅仅是份拷贝而已, 这就是写时复制.
+
+所以以上的优化应该是: 写成一条run
+```
+#cat Dockerfile
+from busybox:latest
+
+run mkdir /tmp/dir \
+    && dd if=/dev/zero of=/tmp/dir/file1 bs=1M count=10 \
+    && rm -f /tmp/dir/file1
+```
+
+结果显然
+```
+docker images|grep busybox
+busybox-test2           latest              faf8b7d4f140        3 seconds ago       1.22MB
+busybox-test            latest              00041489cc0e        10 minutes ago      11.7MB
+busybox                 latest              19485c79a9bb        5 weeks ago         1.22MB
+```
+
+虽然说这里的测试没有干任何事情, 但我们在写Dockerfile的时候需要注意, 两个run之间是两个不同的 可写层!
+
+简单总结精简镜像大小的方法:
+```
+1 使用更小的基础镜像,注意一些很小的镜像可能缺少很多依赖库,例如查看redis依赖库 ldd /usr/bin/redis-cli
+2 合并Dockerfilec指令精简(可以的话写成一条run)
+```
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<font face="黑体" size=25> 一些小的镜像介绍 </font>
+</center>
+
+- 1 scratch: 一个空的镜像, 无法pull -.-!!! , 写在Dockerfile是可以的
+
+- 2 alpine: 5M的linux镜像,有包管理工具apk
+```
+FROM scratch
+ADD alpine-minirootfs-3.10.2-x86_64.tar.gz /
+CMD ["/bin/sh"]
+```
+
+- 3 busybox: 1M多的镜像,称为嵌入式linux的瑞士军刀, Linux和unix一些常用的命令
+
+

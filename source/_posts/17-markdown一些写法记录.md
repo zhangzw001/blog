@@ -1,5 +1,5 @@
 ---
-title: 17-markdown一些写法记录
+title: markdown一些写法记录
 copyright: true
 date: 2019-10-16 15:56:27
 tags:
@@ -19,5 +19,5 @@ categories:
 <font face="黑体" size=30> Dockerfile </font>
 </center>
 ```
-![效果点击查看](https://zhangzw001.github.io/2019/10/16/16-dockerfile介绍/)
+[效果点击查看](https://zhangzw001.github.io/2019/10/16/16-dockerfile介绍/)
 
