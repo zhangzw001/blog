@@ -13,6 +13,10 @@ top: 20
 
 <!-- more -->
 
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
 ### linux问题: tcpdump抓包tcp第三次握手ack为1
 - 执行命令监听: tcpdump -n port 80 (想要详细信息加 -vv)
 
@@ -42,15 +46,16 @@ listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
 11:16:54.807576 IP 172.16.54.141.53516 > 172.16.53.106.http: Flags [.], ack 1113466642, win 4106, options [nop,nop,TS val 458692792 ecr 4208133357], length 0
 ```
 
----
 三次握手图
 ![三次握手图](/images/tcp三次握手图.png)
 
----
 四次挥手图
 ![四次挥手图](/images/tcp四次挥手图.png)
 
----
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
 
 ### linux问题: 禁ping
 ```
@@ -66,6 +71,10 @@ net.ipv4.icmp_echo_ignore_all=1
 
 ---
 
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
 ### linux问题: 文件锁问题
 ```
 问题描述: php slowlog 出现session_start() 慢
@@ -78,6 +87,10 @@ net.ipv4.icmp_echo_ignore_all=1
 ```
 
 ---
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
 ### linux问题: 内存释放问题
 ```
 问题描述: 开发这边写了个统计脚本, 占用49G内存, 从日志发现脚本已经全部执行完成, 但是php脚本依然存在
@@ -88,6 +101,10 @@ net.ipv4.icmp_echo_ignore_all=1
 2. 等待一段时间内存会释放完成(测试80分钟释放完毕)
 ```
 ---
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
 
 ### nginx问题: 静态文件分离
 
@@ -109,6 +126,10 @@ net.ipv4.icmp_echo_ignore_all=1
 
 
 ---
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
 ### nginx问题: root 和alias
 在配置文件映射的时候，如果使用了正则表达式，那么可能会出现无法访问文件，nginx可能会将所有的
 文件都映射成为文件夹，导致文件映射失败的情况出现；
@@ -133,6 +154,10 @@ location /a/ {
 
 
 ---
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
 ### nginx问题: 隐藏版本信息
 ```
 Syntax:  server_tokens on | off | build | string;
@@ -141,6 +166,10 @@ Context:  http, server, location
 ```
 
 ---
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
 ### nginx问题: 日志出现encode内容如何查看
 ```
 # python2 执行decode
@@ -148,6 +177,10 @@ Context:  http, server, location
 ```
 
 ---
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
 ### nginx问题: default配置未设置
 nginx 未设置default时, 如果直接访问服务器外网ip, 会去请求到第一个匹配的server段, 有可能会请求到后端的服务器的内容, 这很有可能暴露我们不想暴露的服务
 一般来说开头添加如下配置
@@ -188,6 +221,10 @@ if ($host != a.example.com) {
 
 
 
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
 ### mysql问题: navicat连接数据库很慢
 ```
 报错: 2013-Lost connection to MYSQL server at 'reading for initial communication packet'
@@ -200,6 +237,10 @@ skip-name-resolve
 
 
 ---
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
 
 ### mysql问题: mysql5.7 错误总结-ERROR 1067 (42000): Invalid default value for TIMESTAMP
 ```
