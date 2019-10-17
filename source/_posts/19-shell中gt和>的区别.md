@@ -8,17 +8,15 @@ tags:
 categories:
   - [linux,shell]
 ---
+shell中 gt 和 > 的一些相关问题介绍和测试
+<!-- more-->
 
-<center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font color="blue" face="黑体" size=5> bash </font>
-</center>
 
 > 以下是bash的测试, 注意如果你是zsh可能会不同喔😯
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font color="blue" face="黑体" size=4> [[]] , [] 和test比较 </font>
+<font  face="黑体" size=4> [[]] , [] 和test比较 </font>
 </center>
 
 [] 和test:	两者是一样的，在命令行里test expr和[ expr ]的效果相同。test中可用的比较运算符只有==和!=，两者都是用于字符串比较的，不可用于整数比较，整数比较只能使用-eq, -gt这种形式。
@@ -49,7 +47,7 @@ categories:
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font color="blue" face="黑体" size=4> 纯数字比较 </font>
+<font  face="黑体" size=4> 纯数字比较 </font>
 </center>
 
 ### > 通过比较ASCII值,gt仅能比较数字
@@ -71,10 +69,10 @@ categories:
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font color="blue" face="黑体" size=4> 字符串比较 </font>
+<font  face="黑体" size=4> 字符串比较 </font>
 </center>
 
-### 单括号中如果要比较符号"<" ">", 需要转义, 否则判断结果错误
+### 单括号中如果要比较符号 "<" ">", 需要转义, 否则判断结果错误
 
 ```
 [root@dk-centos6 ~]# [ "b" > "a" ]

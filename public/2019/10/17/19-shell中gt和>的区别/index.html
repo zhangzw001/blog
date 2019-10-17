@@ -101,22 +101,21 @@
 
 
 
-  <meta name="description" content="bash     以下是bash的测试, 注意如果你是zsh可能会不同喔😯     [[]] , [] 和test比较    [] 和test:    两者是一样的，在命令行里test expr和[ expr ]的效果相同。test中可用的比较运算符只有==和!=，两者都是用于字符串比较的，不可用于整数比较，整数比较只能使用-eq, -gt这种形式。  [] 和test 例子  12345">
+  <meta name="description" content="shell中 gt 和 &amp;gt; 的一些相关问题介绍和测试">
 <meta name="keywords" content="linux,shell">
 <meta property="og:type" content="article">
 <meta property="og:title" content="shell中gt和&gt;的区别">
 <meta property="og:url" content="http://zhangzw001.github.io/2019/10/17/19-shell中gt和>的区别/index.html">
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
-<meta property="og:description" content="bash     以下是bash的测试, 注意如果你是zsh可能会不同喔😯     [[]] , [] 和test比较    [] 和test:    两者是一样的，在命令行里test expr和[ expr ]的效果相同。test中可用的比较运算符只有==和!=，两者都是用于字符串比较的，不可用于整数比较，整数比较只能使用-eq, -gt这种形式。  [] 和test 例子  12345">
+<meta property="og:description" content="shell中 gt 和 &amp;gt; 的一些相关问题介绍和测试">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
-<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
-<meta property="og:updated_time" content="2019-10-17T06:11:08.653Z">
+<meta property="og:updated_time" content="2019-10-17T06:20:05.929Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="shell中gt和&gt;的区别">
-<meta name="twitter:description" content="bash     以下是bash的测试, 注意如果你是zsh可能会不同喔😯     [[]] , [] 和test比较    [] 和test:    两者是一样的，在命令行里test expr和[ expr ]的效果相同。test中可用的比较运算符只有==和!=，两者都是用于字符串比较的，不可用于整数比较，整数比较只能使用-eq, -gt这种形式。  [] 和test 例子  12345">
+<meta name="twitter:description" content="shell中 gt 和 &amp;gt; 的一些相关问题介绍和测试">
 <meta name="twitter:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 
 
@@ -390,7 +389,7 @@
                 
               
 
-              <time title="创建时间：2019-10-17 11:48:22 / 修改时间：14:11:08" itemprop="dateCreated datePublished" datetime="2019-10-17T11:48:22+08:00">2019-10-17</time>
+              <time title="创建时间：2019-10-17 11:48:22 / 修改时间：14:20:05" itemprop="dateCreated datePublished" datetime="2019-10-17T11:48:22+08:00">2019-10-17</time>
             
 
             
@@ -468,7 +467,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">7.5k</span>
+                <span title="本文字数">7.3k</span>
               
 
               
@@ -502,17 +501,16 @@
       
 
       
-        <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
-<font color="blue" face="黑体" size="5"> bash </font>
-</center>
+        <p>shell中 gt 和 &gt; 的一些相关问题介绍和测试</p>
+<a id="more"></a>
+
 
 <blockquote>
 <p>以下是bash的测试, 注意如果你是zsh可能会不同喔😯</p>
 </blockquote>
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
-<font color="blue" face="黑体" size="4"> [[]] , [] 和test比较 </font>
+<font face="黑体" size="4"> [[]] , [] 和test比较 </font>
 </center>
 
 <p>[] 和test:    两者是一样的，在命令行里test expr和[ expr ]的效果相同。test中可用的比较运算符只有==和!=，两者都是用于字符串比较的，不可用于整数比较，整数比较只能使用-eq, -gt这种形式。</p>
@@ -533,17 +531,17 @@
 <hr>
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
-<font color="blue" face="黑体" size="4"> 纯数字比较 </font>
+<font face="黑体" size="4"> 纯数字比较 </font>
 </center>
 
 <h3 id="gt-通过比较ASCII值-gt仅能比较数字"><a href="#gt-通过比较ASCII值-gt仅能比较数字" class="headerlink" title="&gt; 通过比较ASCII值,gt仅能比较数字"></a>&gt; 通过比较ASCII值,gt仅能比较数字</h3><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@dk-ce<span class="symbol">ntos6</span> ~]<span class="attr"># [ 2</span> \&gt; <span class="number">1</span> ]</span><br><span class="line">[root@dk-ce<span class="symbol">ntos6</span> ~]<span class="attr"># echo $?</span></span><br><span class="line"><span class="attr">0</span></span><br><span class="line">[root@dk-ce<span class="symbol">ntos6</span> ~]<span class="attr"># [ 2</span> -<span class="keyword">gt</span> <span class="number">1</span> ]</span><br><span class="line">[root@dk-ce<span class="symbol">ntos6</span> ~]<span class="attr"># echo $?</span></span><br><span class="line"><span class="attr">0</span></span><br><span class="line">[root@dk-ce<span class="symbol">ntos6</span> ~]<span class="attr"># [[ 2</span> &gt; <span class="number">1</span> ]]</span><br><span class="line">[root@dk-ce<span class="symbol">ntos6</span> ~]<span class="attr"># echo $?</span></span><br><span class="line"><span class="attr">0</span></span><br><span class="line">[root@dk-ce<span class="symbol">ntos6</span> ~]<span class="attr"># [[ 2</span> -<span class="keyword">gt</span> <span class="number">1</span> ]]</span><br><span class="line">[root@dk-ce<span class="symbol">ntos6</span> ~]<span class="attr"># echo $?</span></span><br><span class="line"><span class="attr">0</span></span><br></pre></td></tr></table></figure>
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
-<font color="blue" face="黑体" size="4"> 字符串比较 </font>
+<font face="黑体" size="4"> 字符串比较 </font>
 </center>
 
-<h3 id="单括号中如果要比较符号”-lt-”-“-gt-”-需要转义-否则判断结果错误"><a href="#单括号中如果要比较符号”-lt-”-“-gt-”-需要转义-否则判断结果错误" class="headerlink" title="单括号中如果要比较符号”&lt;” “&gt;”, 需要转义, 否则判断结果错误"></a>单括号中如果要比较符号”&lt;” “&gt;”, 需要转义, 否则判断结果错误</h3><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># [ <span class="string">"b"</span> &gt; <span class="string">"a"</span> ]</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># echo $?</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># [ <span class="string">"b"</span> &lt; <span class="string">"a"</span> ]</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># echo $?</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># [ <span class="string">"b"</span> \&lt; <span class="string">"a"</span> ]</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># echo $?</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="单括号中如果要比较符号-“-lt-”-“-gt-”-需要转义-否则判断结果错误"><a href="#单括号中如果要比较符号-“-lt-”-“-gt-”-需要转义-否则判断结果错误" class="headerlink" title="单括号中如果要比较符号 “&lt;” “&gt;”, 需要转义, 否则判断结果错误"></a>单括号中如果要比较符号 “&lt;” “&gt;”, 需要转义, 否则判断结果错误</h3><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># [ <span class="string">"b"</span> &gt; <span class="string">"a"</span> ]</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># echo $?</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># [ <span class="string">"b"</span> &lt; <span class="string">"a"</span> ]</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># echo $?</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># [ <span class="string">"b"</span> \&lt; <span class="string">"a"</span> ]</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># echo $?</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="双括号不用转义-直接执行即可"><a href="#双括号不用转义-直接执行即可" class="headerlink" title="双括号不用转义 , 直接执行即可"></a>双括号不用转义 , 直接执行即可</h3><figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># [[ <span class="string">"b"</span> &gt; <span class="string">"a"</span> ]]</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># echo $?</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># [[ <span class="string">"b"</span> &lt; <span class="string">"a"</span> ]]</span></span><br><span class="line">[root<span class="symbol">@dk</span>-centos6 ~]<span class="meta"># echo $?</span></span><br><span class="line"><span class="number">1</span></span><br></pre></td></tr></table></figure>
 
@@ -878,7 +876,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#gt-通过比较ASCII值-gt仅能比较数字"><span class="nav-number">1.</span> <span class="nav-text">&gt; 通过比较ASCII值,gt仅能比较数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单括号中如果要比较符号”-lt-”-“-gt-”-需要转义-否则判断结果错误"><span class="nav-number">2.</span> <span class="nav-text">单括号中如果要比较符号”&lt;” “&gt;”, 需要转义, 否则判断结果错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双括号不用转义-直接执行即可"><span class="nav-number">3.</span> <span class="nav-text">双括号不用转义 , 直接执行即可</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#gt-通过比较ASCII值-gt仅能比较数字"><span class="nav-number">1.</span> <span class="nav-text">&gt; 通过比较ASCII值,gt仅能比较数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单括号中如果要比较符号-“-lt-”-“-gt-”-需要转义-否则判断结果错误"><span class="nav-number">2.</span> <span class="nav-text">单括号中如果要比较符号 “&lt;” “&gt;”, 需要转义, 否则判断结果错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双括号不用转义-直接执行即可"><span class="nav-number">3.</span> <span class="nav-text">双括号不用转义 , 直接执行即可</span></a></li></ol></div>
             
 
           </div>
