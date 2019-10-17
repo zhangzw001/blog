@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[18-收藏链接]]></title>
+    <title><![CDATA[收藏链接]]></title>
     <url>%2F2019%2F10%2F17%2F18-%E6%94%B6%E8%97%8F%E9%93%BE%E6%8E%A5%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[记录一些好的网址 云原生 云原生图书编年史 云原生大佬博客汇总]]></content>
+      <categories>
+        <category>网址</category>
+        <category>收藏</category>
+      </categories>
+      <tags>
+        <tag>收藏</tag>
+        <tag>网址</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[markdown一些写法记录]]></title>
@@ -54,7 +62,7 @@
   <entry>
     <title><![CDATA[云原生博客汇总]]></title>
     <url>%2F2019%2F10%2F12%2F13-%E4%BA%91%E5%8E%9F%E7%94%9F%E5%8D%9A%E5%AE%A2%E6%B1%87%E6%80%BB%2F</url>
-    <content type="text"><![CDATA[记录一些云原生技术博客 来自ServiceMesher[8] 群KaiRen’s Blog Zlatan Eevee 国南之境 博客 | 高策 Kakashi’s Blog Alex Wu’s blog | THINK BIG, START SMALL, DELIVER VALUE TO THE BUSINESS 开元DevOps知识库 - 知识管理，时间管理，自我管理 起风了 茶歇驿站 - Gopher, OpenSource Fans, 成长之路有我相伴。 Polar Snow Documentation 云原生实验室 - 米开朗基杨的博客 Jimmy Song - 宋净超的博客|Cloud Native|云原生布道师 漠然的博客 | mritd Blog DevOps – 成长之路 birdben 浮生若梦 CNCF Cloud Native Interactive Landscape 杜屹东的博客 | 学无止境 梦旭随想 ictfox blog CloudNative 架构 我爱西红柿 Doublemine Bingo Huang Arthur Chunqi Li’s Blog Archive | Arthur Chunqi Li’s Blog IT技术工作学习折腾笔记 李佶澳的博客 墨荷琼林官网-编程日志 Archive - Nolla Tomoya’s Blog 君无止境 Jamin Zhang roc - imroc.io|roc的博客|Cloud Native|Kubernetes|Go|Golang Blog | Sysdig sleele的博客 TauCeti blog · TauCeti blog 水晶命匣 | 生命在于折腾，折腾万岁！ 苏洋博客 LinuxTOY Infvie’s Blog | 运维SRE社区博客 Solar MoeLove Hwchiu Learning Notekubernetes/SDN/DevOps]]></content>
+    <content type="text"><![CDATA[记录一些云原生技术博客 来自ServiceMesher[8] 群KaiRen’s Blog Zlatan Eevee 国南之境 博客 | 高策 Kakashi’s Blog Alex Wu’s blog | THINK BIG, START SMALL, DELIVER VALUE TO THE BUSINESS 开元DevOps知识库 - 知识管理，时间管理，自我管理 起风了 茶歇驿站 - Gopher, OpenSource Fans, 成长之路有我相伴。 Polar Snow Documentation 云原生实验室 - 米开朗基杨的博客 Jimmy Song - 宋净超的博客|Cloud Native|云原生布道师 漠然的博客 | mritd Blog DevOps – 成长之路 birdben 浮生若梦 CNCF Cloud Native Interactive Landscape 杜屹东的博客 | 学无止境 梦旭随想 ictfox blog CloudNative 架构 我爱西红柿 Doublemine Bingo Huang Arthur Chunqi Li’s Blog Archive | Arthur Chunqi Li’s Blog IT技术工作学习折腾笔记 李佶澳的博客 墨荷琼林官网-编程日志 Archive - Nolla Tomoya’s Blog 君无止境 Jamin Zhang roc - imroc.io|roc的博客|Cloud Native|Kubernetes|Go|Golang Blog | Sysdig sleele的博客 TauCeti blog · TauCeti blog 水晶命匣 | 生命在于折腾，折腾万岁！ 苏洋博客 LinuxTOY Infvie’s Blog | 运维SRE社区博客 Solar MoeLove Hwchiu Learning Notekubernetes/SDN/DevOps 存储领域 yangguanjun]]></content>
       <categories>
         <category>技术文档</category>
         <category>网址</category>
