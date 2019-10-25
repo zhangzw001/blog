@@ -104,14 +104,14 @@
   <meta name="description" content="k8s上简单部署mysql5.7.24主从">
 <meta name="keywords" content="mysql,k8s">
 <meta property="og:type" content="article">
-<meta property="og:title" content="20-k8s搭建mysql5.7.24主从">
+<meta property="og:title" content="k8s搭建mysql5.7.24主从">
 <meta property="og:url" content="http://zhangzw001.github.io/2019/10/24/20-k8s搭建mysql5-7-24主从/index.html">
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
 <meta property="og:description" content="k8s上简单部署mysql5.7.24主从">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-25T05:36:47.203Z">
+<meta property="og:updated_time" content="2019-10-25T05:59:04.057Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20-k8s搭建mysql5.7.24主从">
+<meta name="twitter:title" content="k8s搭建mysql5.7.24主从">
 <meta name="twitter:description" content="k8s上简单部署mysql5.7.24主从">
 
 
@@ -129,7 +129,7 @@
   };
 </script>
 
-  <title>20-k8s搭建mysql5.7.24主从 | Zhangzw's Blog</title>
+  <title>k8s搭建mysql5.7.24主从 | Zhangzw's Blog</title>
   
 
 
@@ -358,7 +358,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">20-k8s搭建mysql5.7.24主从
+          <h1 class="post-title" itemprop="name headline">k8s搭建mysql5.7.24主从
 
               
             
@@ -402,7 +402,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-25 13:36:47" itemprop="dateModified" datetime="2019-10-25T13:36:47+08:00">2019-10-25</time>
+                <time title="修改时间：2019-10-25 13:59:04" itemprop="dateModified" datetime="2019-10-25T13:59:04+08:00">2019-10-25</time>
               
             
           </span>
@@ -457,7 +457,7 @@
 
           
           
-             <span id="/2019/10/24/20-k8s搭建mysql5-7-24主从/" class="leancloud_visitors" data-flag-title="20-k8s搭建mysql5.7.24主从">
+             <span id="/2019/10/24/20-k8s搭建mysql5-7-24主从/" class="leancloud_visitors" data-flag-title="k8s搭建mysql5.7.24主从">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -520,7 +520,7 @@
 <a id="more"></a>
 
 <h1 id="k8s搭建mysql5-7-24主从"><a href="#k8s搭建mysql5-7-24主从" class="headerlink" title="k8s搭建mysql5.7.24主从"></a>k8s搭建mysql5.7.24主从</h1><p>参考文档<br><a href="https://www.jianshu.com/p/509b65e9a4f5" target="_blank" rel="noopener">利用Kubernetes搭建mysql主从复制集群</a><br><a href="https://github.com/docker-library/mysql" target="_blank" rel="noopener">官方dockerfile</a></p>
-<h3 id="从hub-docker-com拉取官方镜像"><a href="#从hub-docker-com拉取官方镜像" class="headerlink" title="从hub.docker.com拉取官方镜像"></a>从hub.docker.com拉取官方镜像</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">docker</span> <span class="selector-tag">pull</span> <span class="selector-tag">mysql</span><span class="selector-pseudo">:5.7.16</span></span><br></pre></td></tr></table></figure>
+<h3 id="从hub-docker-com拉取官方镜像"><a href="#从hub-docker-com拉取官方镜像" class="headerlink" title="从hub.docker.com拉取官方镜像"></a>从hub.docker.com拉取官方镜像</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">docker</span> <span class="selector-tag">pull</span> <span class="selector-tag">mysql</span><span class="selector-pseudo">:5.7.24</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="主库master的Dockerfile"><a href="#主库master的Dockerfile" class="headerlink" title="主库master的Dockerfile"></a>主库master的Dockerfile</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from mysql:<span class="number">5.7</span>.<span class="number">24</span></span><br><span class="line"></span><br><span class="line">run sed -<span class="selector-tag">i</span> <span class="string">'/\[mysqld\]/a server-id=1\nlog-bin'</span> /etc/mysql/mysql<span class="selector-class">.conf</span><span class="selector-class">.d</span>/mysqld.cnf</span><br><span class="line"></span><br><span class="line">COPY docker-entrypoint<span class="selector-class">.sh</span> /usr/local/bin/</span><br></pre></td></tr></table></figure>
 
@@ -590,11 +590,11 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2019/10/24/20-k8s搭建mysql5-7-24主从/">20-k8s搭建mysql5.7.24主从</a></p>
+  <p><span>本文标题:</span><a href="/2019/10/24/20-k8s搭建mysql5-7-24主从/">k8s搭建mysql5.7.24主从</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2019年10月24日 - 18:10</p>
   <p><span>最后更新:</span>2019年10月25日 - 13:10</p>
-  <p><span>原始链接:</span><a href="/2019/10/24/20-k8s搭建mysql5-7-24主从/" title="20-k8s搭建mysql5.7.24主从">http://zhangzw001.github.io/2019/10/24/20-k8s搭建mysql5-7-24主从/</a>
+  <p><span>原始链接:</span><a href="/2019/10/24/20-k8s搭建mysql5-7-24主从/" title="k8s搭建mysql5.7.24主从">http://zhangzw001.github.io/2019/10/24/20-k8s搭建mysql5-7-24主从/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2019/10/24/20-k8s搭建mysql5-7-24主从/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
