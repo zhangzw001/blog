@@ -51,3 +51,25 @@ mysqldump --opt -d 数据库名 -u root -p > xxx.sql
   CHANGE MASTER TO MASTER_HOST='a_master.b.com',MASTER_PORT=3306,MASTER_USER='repl_user',MASTER_PASSWORD='xxxx',MASTER_LOG_FILE='m1-master-bin.000001',MASTER_LOG_POS=88;
 3 start slave ;
 ```
+
+
+### 4. mysql5.7 错误总结-ERROR 1067 (42000): Invalid default value for TIMESTAMP
+```
+show variables like 'sql_mode';
++---------------+-------------------------------------------------------------------------------------------------------------------------------------------+
+| Variable_name | Value                                                                                                                                     |
++---------------+-------------------------------------------------------------------------------------------------------------------------------------------+
+| sql_mode      | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION |
++---------------+-------------------------------------------------------------------------------------------------------------------------------------------+
+```
+这是因为sql_mode中的NO_ZEROR_DATE导制的，在strict mode中不允许'0000-00-00'作为合法日期
+
+将上面的NO_ZERO_DATE改为下面的 ALLOW_INVALID_DATES
+```
+set sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+set session  sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+
+```
+上面的设置是临时设置，在重新登陆后，该设置又恢复为NO_ZERO_DATE
+
+
