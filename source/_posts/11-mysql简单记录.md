@@ -115,3 +115,28 @@ ERROR 1794 (HY000): Slave is not configured or failed to initialize properly. Yo
 server_uuid是5.6的gtid特性引入的一个配置，
 把mysql5.7的 rpl_slave.cc文件中get_master_uuid函数换成5.6对应的函数就可以了。
 ```
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+### mysql一些info信息统计
+```
+#tbl_size.sql
+use information_schema;
+SELECT
+    TABLE_NAME,
+ ENGINE,
+    ROUND((DATA_LENGTH/1024/1024),2) as DataM ,
+    ROUND((INDEX_LENGTH/1024/1024),2) as IndexM,
+    ROUND(((DATA_LENGTH+INDEX_LENGTH)/1024/1024),2) as AllM,
+    TABLE_ROWS,
+ TABLE_COMMENT
+FROM
+    TABLES
+WHERE
+    TABLE_SCHEMA = 'hzkj_zh'
+ORDER BY AllM DESC;
+
+# 生成excel表格
+mysql test <tbl_size.sql >tbl_info_20191028.txt
+```
