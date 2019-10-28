@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[21-流量复制工具gor]]></title>
+    <title><![CDATA[流量复制工具gor]]></title>
     <url>%2F2019%2F10%2F28%2F21-%E6%B5%81%E9%87%8F%E5%A4%8D%E5%88%B6%E5%B7%A5%E5%85%B7gor%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[Gor 是一款go语言实现的简单的http流量复制工具，它的主要目的是使你的生产环境HTTP真实流量在测试环境和预发布环境重现 流量复制工具 下载安装github下载地址: https://github.com/buger/goreplay/releases 1234tar -xvf gor_1.0.0_x64.tar.gzmv gor /usr/bin/which gor 命令123456789101112131415161718192021222324252627282930311 保存请求到文件# 将本机所有80请求保存到gor-20171120_0.log文件(注意会生成很多文件)gor --input-raw :80 --output-file gor-%Y%m%d.log# --output-file-append 会生成gor-20171120.log文件gor --input-raw :80 --output-file gor-%Y%m%d.log --output-file-append2 根据文件回放请求# 镜像qps回放gor --input-file gor-aaaa-20171120.log --output-http aaaa-dev.test.com# 两倍镜像qps回放gor --input-file "gor-aaaa-20171120.log|200%" --output-http aaaa-dev.test.com3 过滤url后保存请求到文件# 排除s.test.com的请求gor --input-raw :80 --output-file gor-%Y%m%d.log --output-file-append --http-disallow-header "Host: s.test.com" --http-disallow-header "Host: www.test.com" --http-disallow-header "Host: bbs.test.com"# 只存储aaaa.test.com的请求gor --input-raw :80 --output-file gor-aaaa-%Y%m%d.log --output-file-append --http-allow-header "Host: aaaa.test.com"# https的不能抓包gor --input-raw :443 --output-file gor-ssl-aaaa-%Y%m%d.log --output-file-append --http-allow-header "Host: aaaa.test.com"4 在线镜像复制请求# 将生产aaaa.test.com的请求复制到 aaaa-dev.test.com 环境!gor --input-raw :80 --output-http "aaaa-dev.test.com" --http-allow-header "Host: aaaa.test.com" 离线文件编辑123456文件的每个请求通过 如下字符串分割!ð&lt;9f&gt;&lt;90&gt;µð&lt;9f&gt;&lt;99&gt;&lt;88&gt;ð&lt;9f&gt;&lt;99&gt;&lt;89&gt;并且第一行是 请求的唯一码? 和时间戳!1 9b366a8eab8d6cb8e557cb3bf43f69c36612cffb 1511165572419843000所以可录制比如半小时的然后窃取需要的时间段! 问题 https 不能抓包! 通过添加代理, gor抓取8000端口 1234567891011121314151617181920212223# SSL terminationserver &#123; listen 443 ssl; server_name aaaa.test.com; ssl_certificate /etc/ssl/nginx/server.crt; ssl_certificate_key /etc/ssl/nginx/server.key; location / &#123; proxy_set_header Host $host; proxy_pass http://localhost:8000; &#125;&#125;server &#123; listen 8000; server_name aaaa.test.com; location / &#123; proxy_set_header Host $host; proxy_pass http://production_shop_api_site; &#125;&#125;]]></content>
+      <categories>
+        <category>流量复制工具</category>
+        <category>gor</category>
+      </categories>
+      <tags>
+        <tag>gor</tag>
+        <tag>http流量复制工具</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[k8s搭建mysql5.7.24主从]]></title>

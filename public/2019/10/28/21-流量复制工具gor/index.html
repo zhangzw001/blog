@@ -101,14 +101,20 @@
 
 
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="21-流量复制工具gor">
+  <meta name="description" content="Gor 是一款go语言实现的简单的http流量复制工具，它的主要目的是使你的生产环境HTTP真实流量在测试环境和预发布环境重现">
+<meta name="keywords" content="gor,http流量复制工具">
+<meta property="og:type" content="article">
+<meta property="og:title" content="流量复制工具gor">
 <meta property="og:url" content="http://zhangzw001.github.io/2019/10/28/21-流量复制工具gor/index.html">
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
+<meta property="og:description" content="Gor 是一款go语言实现的简单的http流量复制工具，它的主要目的是使你的生产环境HTTP真实流量在测试环境和预发布环境重现">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-28T06:04:37.271Z">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:updated_time" content="2019-10-28T06:14:51.184Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="21-流量复制工具gor">
+<meta name="twitter:title" content="流量复制工具gor">
+<meta name="twitter:description" content="Gor 是一款go语言实现的简单的http流量复制工具，它的主要目的是使你的生产环境HTTP真实流量在测试环境和预发布环境重现">
+<meta name="twitter:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 
 
 
@@ -125,7 +131,7 @@
   };
 </script>
 
-  <title>21-流量复制工具gor | Zhangzw's Blog</title>
+  <title>流量复制工具gor | Zhangzw's Blog</title>
   
 
 
@@ -354,7 +360,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">21-流量复制工具gor
+          <h1 class="post-title" itemprop="name headline">流量复制工具gor
 
               
             
@@ -381,12 +387,41 @@
                 
               
 
-              <time title="创建时间：2019-10-28 14:04:37" itemprop="dateCreated datePublished" datetime="2019-10-28T14:04:37+08:00">2019-10-28</time>
+              <time title="创建时间：2019-10-28 14:04:37 / 修改时间：14:14:51" itemprop="dateCreated datePublished" datetime="2019-10-28T14:04:37+08:00">2019-10-28</time>
             
 
+            
+              
+
+              
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/流量复制工具/" itemprop="url" rel="index"><span itemprop="name">流量复制工具</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/流量复制工具/gor/" itemprop="url" rel="index"><span itemprop="name">gor</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -405,7 +440,7 @@
 
           
           
-             <span id="/2019/10/28/21-流量复制工具gor/" class="leancloud_visitors" data-flag-title="21-流量复制工具gor">
+             <span id="/2019/10/28/21-流量复制工具gor/" class="leancloud_visitors" data-flag-title="流量复制工具gor">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -430,7 +465,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">0</span>
+                <span title="本文字数">9.7k</span>
               
 
               
@@ -444,7 +479,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">9 分钟</span>
               
             </div>
           
@@ -464,7 +499,29 @@
       
 
       
-        
+        <p>Gor 是一款go语言实现的简单的http流量复制工具，它的主要目的是使你的生产环境HTTP真实流量在测试环境和预发布环境重现</p>
+<a id="more"></a>
+
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5"> 流量复制工具 </font>
+</center>
+
+
+<h3 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h3><p>github下载地址: <a href="https://github.com/buger/goreplay/releases" target="_blank" rel="noopener">https://github.com/buger/goreplay/releases</a></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf gor_1.<span class="number">0.0</span>_x64<span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br><span class="line">mv gor /usr/bin/</span><br><span class="line"></span><br><span class="line">which gor</span><br></pre></td></tr></table></figure>
+
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">1   保存请求到文件</span><br><span class="line"># 将本机所有80请求保存到gor-20171120_0.<span class="keyword">log</span>文件(注意会生成很多文件)</span><br><span class="line">gor --<span class="keyword">input</span>-raw :80 --output-<span class="keyword">file</span> gor-%Y%<span class="keyword">m</span>%<span class="keyword">d</span>.<span class="built_in">log</span></span><br><span class="line"></span><br><span class="line"># --output-<span class="keyword">file</span>-<span class="keyword">append</span> 会生成gor-20171120.<span class="keyword">log</span>文件</span><br><span class="line">gor --<span class="keyword">input</span>-raw :80 --output-<span class="keyword">file</span> gor-%Y%<span class="keyword">m</span>%<span class="keyword">d</span>.<span class="keyword">log</span> --output-<span class="keyword">file</span>-<span class="keyword">append</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2   根据文件回放请求</span><br><span class="line"># 镜像qps回放</span><br><span class="line">gor --<span class="keyword">input</span>-<span class="keyword">file</span> gor-aaaa-20171120.<span class="keyword">log</span> --output-http aaaa-dev.<span class="keyword">test</span>.com</span><br><span class="line"># 两倍镜像qps回放</span><br><span class="line">gor --<span class="keyword">input</span>-<span class="keyword">file</span> <span class="string">"gor-aaaa-20171120.log|200%"</span> --output-http aaaa-dev.<span class="keyword">test</span>.com</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3   过滤url后保存请求到文件</span><br><span class="line"># 排除s.<span class="keyword">test</span>.com的请求</span><br><span class="line">gor --<span class="keyword">input</span>-raw :80 --output-<span class="keyword">file</span> gor-%Y%<span class="keyword">m</span>%<span class="keyword">d</span>.<span class="keyword">log</span> --output-<span class="keyword">file</span>-<span class="keyword">append</span> --http-disallow-header <span class="string">"Host: s.test.com"</span> --http-disallow-header <span class="string">"Host: www.test.com"</span>  --http-disallow-header <span class="string">"Host: bbs.test.com"</span></span><br><span class="line"># 只存储aaaa.<span class="keyword">test</span>.com的请求</span><br><span class="line">gor --<span class="keyword">input</span>-raw :80 --output-<span class="keyword">file</span> gor-aaaa-%Y%<span class="keyword">m</span>%<span class="keyword">d</span>.<span class="keyword">log</span> --output-<span class="keyword">file</span>-<span class="keyword">append</span> --http-allow-header <span class="string">"Host: aaaa.test.com"</span></span><br><span class="line"></span><br><span class="line"># https的不能抓包</span><br><span class="line">gor --<span class="keyword">input</span>-raw :443 --output-<span class="keyword">file</span> gor-ssl-aaaa-%Y%<span class="keyword">m</span>%<span class="keyword">d</span>.<span class="keyword">log</span> --output-<span class="keyword">file</span>-<span class="keyword">append</span> --http-allow-header <span class="string">"Host: aaaa.test.com"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">4   在线镜像复制请求</span><br><span class="line"># 将生产aaaa.<span class="keyword">test</span>.com的请求复制到 aaaa-dev.<span class="keyword">test</span>.com 环境!</span><br><span class="line">gor --<span class="keyword">input</span>-raw :80 --output-http <span class="string">"aaaa-dev.test.com"</span> --http-allow-header <span class="string">"Host: aaaa.test.com"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="离线文件编辑"><a href="#离线文件编辑" class="headerlink" title="离线文件编辑"></a>离线文件编辑</h3><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">文件的每个请求通过 如下字符串分割!</span><br><span class="line">ð&lt;<span class="number">9</span>f&gt;&lt;<span class="number">90</span>&gt;µð&lt;<span class="number">9</span>f&gt;&lt;<span class="number">99</span>&gt;&lt;<span class="number">88</span>&gt;ð&lt;<span class="number">9</span>f&gt;&lt;<span class="number">99</span>&gt;&lt;<span class="number">89</span>&gt;</span><br><span class="line">并且第一行是 请求的唯一码? 和时间戳!</span><br><span class="line"><span class="number">1</span> <span class="number">9</span>b366a8eab8d6cb8e557cb3bf43f69c36612cffb <span class="number">1511165572419843000</span></span><br><span class="line"></span><br><span class="line">所以可录制比如半小时的然后窃取需要的时间段!</span><br></pre></td></tr></table></figure>
+
+<h3 id="问题-https-不能抓包"><a href="#问题-https-不能抓包" class="headerlink" title="问题  https 不能抓包!"></a>问题  https 不能抓包!</h3><blockquote>
+<p>通过添加代理, gor抓取8000端口</p>
+</blockquote>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># SSL termination</span></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span> ssl;</span><br><span class="line">  <span class="attribute">server_name</span> aaaa.test.com;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">ssl_certificate</span> /etc/ssl/nginx/server.crt;</span><br><span class="line">  <span class="attribute">ssl_certificate_key</span> /etc/ssl/nginx/server.key;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://localhost:8000;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">8000</span>;</span><br><span class="line">  <span class="attribute">server_name</span> aaaa.test.com;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://production_shop_api_site;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
 
@@ -483,11 +540,11 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2019/10/28/21-流量复制工具gor/">21-流量复制工具gor</a></p>
+  <p><span>本文标题:</span><a href="/2019/10/28/21-流量复制工具gor/">流量复制工具gor</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2019年10月28日 - 14:10</p>
   <p><span>最后更新:</span>2019年10月28日 - 14:10</p>
-  <p><span>原始链接:</span><a href="/2019/10/28/21-流量复制工具gor/" title="21-流量复制工具gor">http://zhangzw001.github.io/2019/10/28/21-流量复制工具gor/</a>
+  <p><span>原始链接:</span><a href="/2019/10/28/21-流量复制工具gor/" title="流量复制工具gor">http://zhangzw001.github.io/2019/10/28/21-流量复制工具gor/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2019/10/28/21-流量复制工具gor/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
@@ -521,6 +578,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/gor/" rel="tag"># gor</a>
+          
+            <a href="/tags/http流量复制工具/" rel="tag"># http流量复制工具</a>
+          
+        </div>
       
 
       
@@ -588,8 +653,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -667,7 +741,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">25</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -730,7 +808,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">25</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -769,6 +851,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载安装"><span class="nav-number">1.</span> <span class="nav-text">下载安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令"><span class="nav-number">2.</span> <span class="nav-text">命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#离线文件编辑"><span class="nav-number">3.</span> <span class="nav-text">离线文件编辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题-https-不能抓包"><span class="nav-number">4.</span> <span class="nav-text">问题  https 不能抓包!</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
