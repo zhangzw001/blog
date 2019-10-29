@@ -119,6 +119,7 @@ server_uuid是5.6的gtid特性引入的一个配置，
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
+
 ### mysql一些info信息统计
 ```
 #tbl_size.sql
