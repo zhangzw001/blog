@@ -1,5 +1,5 @@
 ---
-title: 23-mysql5.5主与mysql5.7从部署配置
+title: mysql5.5主与mysql5.7从部署配置
 copyright: true
 date: 2019-10-29 14:56:55
 tags:
@@ -27,7 +27,7 @@ categories:
 1 从mysql5.5的从库 copy /data数据
 2 修改新的mysql5.7配置文件 my.cnf，添加datadir，指向5.5数据目录
 3 新安装数据库执行(本次不需要执行)
-  /usr/local/mysql57/bin/mysqld --defaults-file=/etc/my57-order.cnf --initialize-insecure --user=mysql --basedir=/usr/local/mysql --datadir=/disk/u01
+  /usr/local/mysql57/bin/mysqld --defaults-file=/etc/my57.cnf --initialize-insecure --user=mysql --basedir=/usr/local/mysql --datadir=/disk/u01
 4 启动mysql
 5 此时数据目录还是5.5的，需要执行mysql_upgrade进行升级，在执行表修复前，需要确认一个参数innodb_file_per_table，mysql官网对该参数的解释如下
  该参数在5.5版本默认为OFF，所有表和索引都导入一个共享文件中，名为ibdata1,但在5.6.7及以后版本，改参数被默认设置为ON，即每张表都有对应的表和索引存储文件，每个schema下，每个frm文件都有对应的ibd文件。
@@ -72,7 +72,7 @@ create table tutorials_tbl(
 <font color="blue" face="黑体" size=5> 修改mysql5.7库名 </font>
 </center>
 
-### 没问题之后,我们需要将mysql5.7的hzkj_zh库改成boqii_shop_order库名, 断开mysql5.5 和mysql5.7主从同步(最好设置mysql5.5只读,防止数据差异), 在mysql5.7上执行改库名, 以下有触发器的表会修改失败
+### 没问题之后,我们需要将mysql5.7的mydatabase库改成mydatabasenew库名, 断开mysql5.5 和mysql5.7主从同步(最好设置mysql5.5只读,防止数据差异), 在mysql5.7上执行改库名, 以下有触发器的表会修改失败
 
 > 测试执行时间在15s左右
 
@@ -123,7 +123,7 @@ SET GLOBAL GTID_MODE = 'OFF';
 start slave;
 ```
 
-### 
+### mysql5.7 sql_mode
 ```
 sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
 
@@ -131,7 +131,20 @@ sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVIS
 
 ---
 
-### /usr/local/mysql57/bin/mysql_upgrade -S /disk/u01/mysql.sock 的所有记录
+### 注意一台机器多个mysql启动脚本修改问题
+```
+#以下两处修改 /etc/init.d/mysqld57 
+parse_server_arguments `$print_defaults -c /etc/my57.cnf mysqld server mysql_server mysql.server`
+$bindir/mysqld_safe --defaults-file=/etc/my57.cnf --pid-file="$mysqld_pid_file_path" $other_args >/dev/null &
+```
+
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<font color="blue" face="黑体" size=5> 一些info信息 </font>
+</center>
+
+### /usr/local/mysql57/bin/mysql_upgrade -S /disk/u01/mysql.sock 的部分记录
 
 ```
 # /usr/local/mysql57/bin/mysql_upgrade -S /disk/u01/mysql.sock
@@ -167,4 +180,191 @@ mysql.slave_worker_info                            OK
 mysql.slow_log                                     OK
 ...
 
+```
+
+### 附录 my57.cnf
+```
+[client]
+port = 3308
+socket = /disk/u01/mysql.sock
+
+[mysql]
+prompt="\u@m1_618_u [\d]> "
+no-auto-rehash
+
+[mysqld]
+sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+replicate-wild-do-table=mydatabase.%
+
+binlog-ignore-db=information_schema
+binlog-ignore-db=mysql
+binlog-ignore-db=performance_schema
+binlog-ignore-db=test
+
+binlog-do-db=mydatabase
+
+user = mysql
+port = 3308
+basedir = /usr/local/mysql57
+datadir = /disk/u01
+socket = /disk/u01/mysql.sock
+pid-file = /disk/u01/dbm1_u.pid
+tmpdir = /disk/u02
+server-id = 123
+character-set-server = utf8
+skip_name_resolve = 1
+innodb_file_per_table = 1
+explicit_defaults_for_timestamp = 0
+read_only = 1
+
+# buffer&cache
+table_open_cache = 100
+table_definition_cache = 400
+table_open_cache_instances = 64
+sort_buffer_size = 4M
+join_buffer_size = 4M
+read_buffer_size = 8M
+read_rnd_buffer_size = 4M
+
+# thread&connection
+thread_stack = 256K
+thread_cache_size = 768
+back_log = 1024
+max_connections = 3000
+max_connect_errors = 1000000
+
+# temptable
+tmp_table_size = 32M
+max_heap_table_size = 32M
+
+# network
+max_allowed_packet = 32M
+#lock_wait_timeout = 3600
+#interactive_timeout = 600
+#wait_timeout = 600
+
+# query cache
+query_cache_size = 0
+query_cache_type = 0
+
+# 设置errorlog、slowlog和generallog的时区，默认UTC
+log_timestamps = SYSTEM
+
+# error-log
+log_error = /disk/u02/mysqld.log
+
+# slow-log
+slow_query_log = 1
+slow_query_log_file = /disk/u02/slow.log
+long_query_time = 0.1
+log_queries_not_using_indexes =1
+log_throttle_queries_not_using_indexes = 60
+min_examined_row_limit = 100
+log_slow_admin_statements = 1
+log_slow_slave_statements = 1
+
+# general log
+#general-log = 1
+general_log_file=/disk/u02/query.log
+
+# binlog
+binlog_format = row
+binlog_checksum = 1
+log-bin = /disk/u02/m1-bin
+log-bin-index = /disk/u02/m1-bin.index
+sync_binlog = 0
+binlog_cache_size = 4M
+max_binlog_cache_size = 1G
+max_binlog_size = 512M
+expire_logs_days = 15
+
+# GTID
+gtid_mode = off
+enforce_gtid_consistency = 1
+log_slave_updates
+
+# Replication
+master_info_repository = TABLE
+relay_log_info_repository = TABLE
+slave-rows-search-algorithms = 'INDEX_SCAN,HASH_SCAN'
+relay_log_recovery = 1
+relay_log_purge = 1
+relay-log=/disk/u02/m1-relay-bin
+relay-log-index=/disk/u02/m1-relay-bin.index
+
+# innodb-buffer&cache
+innodb_buffer_pool_size = 1G
+innodb_buffer_pool_instances = 4
+#innodb_additional_mem_pool_size = 16M
+innodb_max_dirty_pages_pct = 50
+
+# innodb log
+innodb_data_file_path = ibdata1:256M:autoextend
+innodb_log_file_size = 256M
+innodb_log_files_in_group = 2
+innodb_flush_log_at_trx_commit = 2
+innodb_log_buffer_size = 32M
+#innodb_max_undo_log_size = 4G
+#innodb_undo_directory = undolog
+innodb_undo_tablespaces = 0
+
+# innodb-io
+innodb_flush_method = O_DIRECT
+innodb_io_capacity = 600
+innodb_io_capacity_max = 2000
+innodb_flush_sync = 0
+innodb_flush_neighbors = 0
+#innodb_lru_scan_depth = 4000
+innodb_write_io_threads = 8
+innodb_read_io_threads = 8
+innodb_purge_threads = 4
+innodb_page_cleaners = 4
+
+# transaction,lock
+#innodb_sync_spin_loops = 100
+#innodb_spin_wait_delay = 30
+innodb_lock_wait_timeout = 10
+innodb_print_all_deadlocks = 1
+innodb_rollback_on_timeout = 1
+
+innodb_open_files = 65535
+
+innodb_online_alter_log_max_size = 1G
+
+# innodb status
+innodb_status_file = 1
+# 注意: 开启 innodb_status_output & innodb_status_output_locks 后, 可能会导致log-error文件增长较快
+innodb_status_output = 0
+innodb_status_output_locks = 0
+
+#performance_schema
+performance_schema = 1
+performance_schema_instrument = '%=on'
+
+#innodb monitor
+innodb_monitor_enable="module_innodb"
+innodb_monitor_enable="module_server"
+innodb_monitor_enable="module_dml"
+innodb_monitor_enable="module_ddl"
+innodb_monitor_enable="module_trx"
+innodb_monitor_enable="module_os"
+innodb_monitor_enable="module_purge"
+innodb_monitor_enable="module_log"
+innodb_monitor_enable="module_lock"
+innodb_monitor_enable="module_buffer"
+innodb_monitor_enable="module_index"
+innodb_monitor_enable="module_ibuf_system"
+innodb_monitor_enable="module_buffer_page"
+innodb_monitor_enable="module_adaptive_hash"
+
+# MyISAM
+key_buffer_size = 1024M
+bulk_insert_buffer_size = 64M
+myisam_sort_buffer_size = 128M
+myisam_repair_threads = 1
+
+
+[mysqldump]
+quick
+max_allowed_packet = 32M
 ```
