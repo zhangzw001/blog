@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[23-mysql5.5主与mysql5.7从部署配置]]></title>
+    <url>%2F2019%2F10%2F29%2F23-mysql5-5%E4%B8%BB%E4%B8%8Emysql5-7%E4%BB%8E%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
     <title><![CDATA[es5集群磁盘扩容]]></title>
     <url>%2F2019%2F10%2F28%2F22-es%E9%9B%86%E7%BE%A4%E7%A3%81%E7%9B%98%E6%89%A9%E5%AE%B9%2F</url>
     <content type="text"><![CDATA[es集群磁盘不足,对磁盘扩容遇到一些的问题 重启集群前，先设置集群停止分片移动：12345curl -XPUT http://localhost:9200/_cluster/settings -d '&#123;"transient" : &#123;"cluster.routing.allocation.enable" : "none"&#125;&#125;' 对磁盘进行扩容,每次操作一个节点123456789101112131415# 直接扩容磁盘到2T//针对ext4文件格式的操作系统（如CentOS6）：//umount /dev/vdbe2fsck -f /dev/vdbresize2fs /dev/vdbmount /dev/vdb /data# 或者新增 2T云盘/dev/vdcumount /data/mkdir /data2mount /dev/vdb /data2mkfs.ext4 /dev/vdcmount /dev/vdc /datacp -ra /data2/* /data/ 重启之后，恢复分片自动分配：12345curl -XPUT http://localhost:9200/_cluster/settings -d '&#123;"transient" : &#123;"cluster.routing.allocation.enable" : "all"&#125;&#125;' 如果需要下线其中的节点, 先将分片都转义到其他节点123456# 执行以下命令会自动将10.10.0.1 节点上的分片全部迁移到其他机器, 等待迁移完成, 将改空机器下线即可curl -XPUT 127.0.0.1:9200/_cluster/settings -d '&#123;"transient" :&#123;"cluster.routing.allocation.exclude._ip" : "10.10.0.1"&#125;&#125;' 另外对于 path.data 配置多快盘的问题1234比如es8配置了三块盘:/disk4/data -&gt; sde, /disk5/data -&gt; sdf, disk6/data -&gt; sdg这里注意 es node的data path尽量保证盘的大小差别不要太大, sde,sdf,sdg的大小保障差不多, 否则由于es shard 均衡的时候可能会优先分配到磁盘大的目录, 可能会导致sde(假如这个磁盘最大)的IO高, 而sdf等IO低 简单的配置信息elasticsearch512345678910111213cluster.name: es-devnode.name: es1-upath.data: /data/es/datapath.logs: /data/es/logsnetwork.host: 0.0.0.0discovery.zen.ping.unicast.hosts: ["10.10.0.1:9300","10.10.0.2:9300","10.10.0.3:9300","10.10.0.4:9300"]http.cors.enabled: truehttp.cors.allow-origin: "*"xpack.security.enabled: falsebootstrap.system_call_filter: falsethread_pool.bulk.queue_size: 3000# 防止脑裂discovery.zen.minimum_master_nodes: 2]]></content>
@@ -232,8 +237,8 @@
     <content type="text"><![CDATA[hexo6 左下角添加看板娘 github地址: 张书樵大神 下载大神项目 (会说话,换人物,小游戏等功能)12cd themes/nextv6/sourcegit clone https://github.com/stevenjoezhang/live2d-widget.git github说明比较详细, 这里简单说明 由于这里是克隆到了source目录, hexo d -g的时候会生成到public目录, 相当于站点根目录了 123456# 直接开启autoload.js注释const live2d_path = "/live2d-widget/";# 修改 themes/nextv6/layout/_layout.swig, 最后一行添加如下&lt;!-- 看板娘 --&gt;&lt;script src="/live2d-widget/autoload.js"&gt;&lt;/script&gt; 一般小白简单教程(只有看鼠标方向功能) hexo 官方支持版 需要安装模板1npm install --save hexo-helper-live2d 修改主题配置文件各种宠物预览 12345678910111213141516171819202122232425# Live2D## https://github.com/EYHN/hexo-helper-live2dlive2d: enable: true # enable: false scriptFrom: local # 默认 pluginRootPath: live2dw/ # 插件在站点上的根目录(相对路径) pluginJsPath: lib/ # 脚本文件相对与插件根目录路径 pluginModelPath: assets/ # 模型文件相对与插件根目录路径 # scriptFrom: jsdelivr # jsdelivr CDN # scriptFrom: unpkg # unpkg CDN # scriptFrom: https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js # 你的自定义 url tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中 debug: false # 调试, 是否在控制台输出日志 model: use: live2d-widget-model-haruto # npm-module package name # use: wanko # 博客根目录/live2d_models/ 下的目录名 # use: ./wives/wanko # 相对于博客根目录的路径 # use: https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json # 你的自定义 url display: position: left width: 150 height: 300 mobile: show: true # 手机中是否展示]]></content>
       <categories>
         <category>有趣</category>
-        <category>博客</category>
         <category>二次元</category>
+        <category>博客</category>
         <category>美化</category>
       </categories>
       <tags>
