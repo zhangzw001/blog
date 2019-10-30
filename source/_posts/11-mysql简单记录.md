@@ -141,3 +141,17 @@ ORDER BY AllM DESC;
 # 生成excel表格
 mysql test <tbl_size.sql >tbl_info_20191028.txt
 ```
+
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
+### 跳过主从同步错误
+```
+stop slave;
+SET GLOBAL sql_slave_skip_counter =1;
+start slave;
+show slave status\G; 
+```
+
