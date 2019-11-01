@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[一些脚本汇总]]></title>
     <url>%2F2019%2F11%2F01%2F25-%E4%B8%80%E4%BA%9B%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB%2F</url>
-    <content type="text"><![CDATA[记录一些shell脚本 1 清理es几天前的索引脚本]]></content>
+    <content type="text"><![CDATA[记录一些shell脚本 1 清理es几天前的索引脚本2 从mysql导出表到clickhouse脚本]]></content>
       <categories>
         <category>linux</category>
         <category>shell</category>
