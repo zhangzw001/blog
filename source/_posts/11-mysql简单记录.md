@@ -155,3 +155,39 @@ start slave;
 show slave status\G; 
 ```
 
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
+### mysql information_schema.TABLES表中的table_rows 字段值与'count(*)' 值不同
+
+> 查看information_schema
+```
+use information_schema;
+SELECT
+    TABLE_NAME,
+    TABLE_ROWS
+FROM
+    TABLES
+WHERE
+    TABLE_SCHEMA = 'zz' and TABLE_NAME = 'zzz';
+
+
++---------------------+------------+
+| TABLE_NAME          | TABLE_ROWS |
++---------------------+------------+
+|      zzz            |   42411396 |
++---------------------+------------+
+```
+
+但是会发现和
+```
+" select count(*) from 某张表; "
+```
+
+执行得到的值是不相同的！那是因为：
+
+- 1: 默认情况下 mysql 对表进行增删操作时，是不会自动更新 information_schema 库中 tables 表的 table_rows 字段的，在网上搜索一下发现说：只有10%的行数发生变化才会自动收集（没有亲自验证过！）；
+- 2: 执行 Analyze table tableName; 会统计所有表数据（在生产环境中不建议使用，因为会锁表！）；
+原文链接：[mysql information_schema.TABLES表中的table_rows 字段值与count值不同](https://blog.csdn.net/David_jiahuan/article/details/98478740)
