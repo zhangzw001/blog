@@ -241,8 +241,8 @@
         <category>技术文档</category>
         <category>k8s</category>
         <category>存储</category>
-        <category>ceph</category>
         <category>storageclass</category>
+        <category>ceph</category>
         <category>nfs</category>
       </categories>
       <tags>
