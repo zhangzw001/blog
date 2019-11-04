@@ -218,3 +218,52 @@ if ($host != a.example.com) {
 
 ---
 
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
+
+### nginx1.11以前trace_id 生成问题
+- 如果是前端(upstream)
+```
+# 一定要写到location中, 因为proxy_pass
+location / {
+	set $request_trace_id trace-id-$pid-$connection-$bytes_sent-$msec;
+                # 如果请求头中已有该参数,则获取即可;如果没有,则使用$request_id进行填充
+                set $temp_request_id $http_x_request_id;
+                if ($temp_request_id = "") {
+                    set $temp_request_id $request_trace_id;
+                }
+                # 屏蔽掉原来的请求头参数
+                # proxy_set_header  x_request_id        "";
+                proxy_set_header  X-Request-Id "";
+                # 设置向后转发的请求头参数
+                proxy_set_header  X-Request-Id        $temp_request_id;
+
+		proxy_pass http://xxxx;
+
+}
+```
+
+- 如果是后端节点
+```
+# 一定要写到server段, 否则后端可能报404错误
+server {
+	listen 80;
+    	server_name  openapi-community-alpha.boqii.com ;
+        set $request_trace_id trace-id-$pid-$connection-$bytes_sent-$msec;
+                # 如果请求头中已有该参数,则获取即可;如果没有,则使用$request_id进行填充
+                set $temp_request_id $http_x_request_id;
+                if ($temp_request_id = "") {
+                    set $temp_request_id $request_trace_id;
+                }
+                # 屏蔽掉原来的请求头参数
+                # proxy_set_header  x_request_id        "";
+                proxy_set_header  X-Request-Id "";
+                # 设置向后转发的请求头参数
+                proxy_set_header  X-Request-Id        $temp_request_id;
+	location / {
+		try_files $uri $uri/ /index.php?$query_string;
+	}
+}
+```
