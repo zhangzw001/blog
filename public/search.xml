@@ -19,8 +19,8 @@
       <categories>
         <category>k8s</category>
         <category>elk7</category>
-        <category>elk7</category>
         <category>filebeat7</category>
+        <category>elk7</category>
       </categories>
       <tags>
         <tag>k8s</tag>
