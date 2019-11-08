@@ -101,14 +101,18 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="记录一些logstash的配置问题">
+<meta name="keywords" content="logstash">
+<meta property="og:type" content="article">
 <meta property="og:title" content="26-logstash配置">
 <meta property="og:url" content="http://zhangzw001.github.io/2019/11/08/26-logstash配置/index.html">
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
+<meta property="og:description" content="记录一些logstash的配置问题">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-08T09:28:26.534Z">
+<meta property="og:updated_time" content="2019-11-08T09:33:52.479Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="26-logstash配置">
+<meta name="twitter:description" content="记录一些logstash的配置问题">
 
 
 
@@ -381,12 +385,41 @@
                 
               
 
-              <time title="创建时间：2019-11-08 17:28:26" itemprop="dateCreated datePublished" datetime="2019-11-08T17:28:26+08:00">2019-11-08</time>
+              <time title="创建时间：2019-11-08 17:28:26 / 修改时间：17:33:52" itemprop="dateCreated datePublished" datetime="2019-11-08T17:28:26+08:00">2019-11-08</time>
             
 
+            
+              
+
+              
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/elk/" itemprop="url" rel="index"><span itemprop="name">elk</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/elk/logstash/" itemprop="url" rel="index"><span itemprop="name">logstash</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -430,7 +463,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">0</span>
+                <span title="本文字数">820</span>
               
 
               
@@ -464,7 +497,12 @@
       
 
       
-        
+        <p>记录一些logstash的配置问题</p>
+<a id="more"></a>
+
+<h3 id="logstash排除一些信息"><a href="#logstash排除一些信息" class="headerlink" title="logstash排除一些信息"></a>logstash排除一些信息</h3><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># 排除sqlDuring = 0 (数字,如果是字符需要引号) 的整条json数据</span></span><br><span class="line"><span class="keyword">if</span> [sqlDuring] == <span class="number">0</span> &#123;</span><br><span class="line">    <span class="built_in">drop</span> &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
 
@@ -521,6 +559,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/logstash/" rel="tag"># logstash</a>
+          
+        </div>
       
 
       
@@ -588,8 +632,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -683,7 +736,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">33</span>
+                      
+                    
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -756,7 +811,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">30</span>
+                      
+                    
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -795,6 +852,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#logstash排除一些信息"><span class="nav-number">1.</span> <span class="nav-text">logstash排除一些信息</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
