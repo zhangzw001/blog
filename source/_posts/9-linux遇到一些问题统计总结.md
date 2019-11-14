@@ -226,22 +226,23 @@ if ($host != a.example.com) {
 ### nginx1.11以前trace_id 生成问题
 - 如果是前端(upstream)
 ```
-# 一定要写到location中, 因为proxy_pass
-location / {
-	set $request_trace_id trace-id-$pid-$connection-$bytes_sent-$msec;
-                # 如果请求头中已有该参数,则获取即可;如果没有,则使用$request_id进行填充
-                set $temp_request_id $http_x_request_id;
-                if ($temp_request_id = "") {
-                    set $temp_request_id $request_trace_id;
+log_format  server_name_main '"$request_trace_id" [ $host $request_time ] ' '[ $upstream_addr $upstream_response_time ] ' '$status ' '$remote_addr - $remote_user [$time_local] "$request" '  '$body_bytes_sent "$http_referer" '
+                     '"$http_user_agent" "$http_x_forwarded_for" "$bytes_sent"'    '{$request_body}' ;
+...
+
+server {
+        set $request_trace_id $pid$connection$bytes_sent$msec;
+            if ( $http_x_request_id != "" ){
+                        set $request_trace_id $http_x_request_id;
                 }
-                # 屏蔽掉原来的请求头参数
-                # proxy_set_header  x_request_id        "";
-                proxy_set_header  X-Request-Id "";
-                # 设置向后转发的请求头参数
-                proxy_set_header  X-Request-Id        $temp_request_id;
+        add_header  Bq_F_Traceid $request_trace_id;
+	# 一定要写到location中, 因为proxy_pass
+	location / {
 
 		proxy_pass http://xxxx;
+                proxy_set_header  X-Request-Id        $request_trace_id;
 
+	}
 }
 ```
 
