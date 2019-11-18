@@ -268,3 +268,17 @@ server {
 	}
 }
 ```
+
+
+### 修改swap
+```
+dd if=/dev/zero of=/data/swapfilenew bs=4096 count=4096000
+
+swapoff -a 
+
+/sbin/mkswap  /data/swapfilenew
+/sbin/swapon  /data/swapfilenew
+
+vim /etc/fstab
+/data/swapfilenew none swap defaults 0 0
+```
