@@ -89,9 +89,9 @@ search:
   limit: 10000
 
 archive_generator:
-  per_page: 0  
-  yearly: false
-  monthly: false
+  per_page: 20 
+  yearly: true
+  monthly: true
   daily: false
 
 symbols_count_time:
