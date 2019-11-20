@@ -95,11 +95,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[19-shell中gt和>的区别]]></title>
-    <url>%2F2019%2F10%2F17%2F19-shell%E4%B8%ADgt%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
     <title><![CDATA[shell中gt和>的区别]]></title>
     <url>%2F2019%2F10%2F17%2F19-shell%E4%B8%ADgt%E5%92%8C%3E%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
     <content type="text"><![CDATA[shell中 gt 和 &gt; 的一些相关问题介绍和测试 以下是bash的测试, 注意如果你是zsh可能会不同喔😯 [[]] , [] 和test比较 [] 和test: 两者是一样的，在命令行里test expr和[ expr ]的效果相同。test中可用的比较运算符只有==和!=，两者都是用于字符串比较的，不可用于整数比较，整数比较只能使用-eq, -gt这种形式。通过which [ 和which test 可以看到是命令 [] 和test 例子 1234567[root@dk-centos6 ~]# a="abcdef"[root@dk-centos6 ~]# test "$a" = "abcdef"[root@dk-centos6 ~]# echo $?0[root@dk-centos6 ~]# [ "$a" = "abcdef" ][root@dk-centos6 ~]# echo $?0 [[ ]]具体功能: [[是 bash 程序语言的关键字。并不是一个命令，[[ ]] 结构比[ ]结构更加通用。在[[和]]之间所有的字符都不会发生文件名扩展或者单词分割，但是会发生参数扩展和命令替换。 支持字符串的模式匹配（使用=~操作符时甚至支持shell的正则表达 式）,右边的字符串不加双引号的情况,可以把右边作为模式. 比如[[ hello == hell? ]]，结果为真。当然加引号就是文本字符串比较. 使用[[ … ]]条件判断结构，而不是[ … ]，能够防止脚本中的许多逻辑错误。比如，&amp;&amp;、||、&lt;和&gt; 操作符能够正常存在于[[ ]]条件判断结构中，但是如果出现在[ ]结构中的话，会报错。比如可以直接使用if [[ $a != 1 &amp;&amp; $a != 2 ]], 如果不适用双括号, 则为if [ $a -ne 1] &amp;&amp; [ $a != 2 ]或者if [ $a -ne 1 -a $a != 2 ]。 纯数字比较 &gt; 通过比较ASCII值,gt仅能比较数字123456789101112[root@dk-centos6 ~]# [ 2 \&gt; 1 ][root@dk-centos6 ~]# echo $?0[root@dk-centos6 ~]# [ 2 -gt 1 ][root@dk-centos6 ~]# echo $?0[root@dk-centos6 ~]# [[ 2 &gt; 1 ]][root@dk-centos6 ~]# echo $?0[root@dk-centos6 ~]# [[ 2 -gt 1 ]][root@dk-centos6 ~]# echo $?0 字符串比较 单括号中如果要比较符号 “&lt;” “&gt;”, 需要转义, 否则判断结果错误123456789[root@dk-centos6 ~]# [ "b" &gt; "a" ][root@dk-centos6 ~]# echo $?0[root@dk-centos6 ~]# [ "b" &lt; "a" ][root@dk-centos6 ~]# echo $?0[root@dk-centos6 ~]# [ "b" \&lt; "a" ][root@dk-centos6 ~]# echo $?1 双括号不用转义 , 直接执行即可123456[root@dk-centos6 ~]# [[ "b" &gt; "a" ]][root@dk-centos6 ~]# echo $?0[root@dk-centos6 ~]# [[ "b" &lt; "a" ]][root@dk-centos6 ~]# echo $?1]]></content>
@@ -111,6 +106,11 @@
         <tag>linux</tag>
         <tag>shell</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[19-shell中gt和>的区别]]></title>
+    <url>%2F2019%2F10%2F17%2F19-shell%E4%B8%ADgt%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
+    <content type="text"></content>
   </entry>
   <entry>
     <title><![CDATA[收藏链接]]></title>
@@ -292,8 +292,8 @@
     <content type="text"><![CDATA[hexo6 左下角添加看板娘 github地址: 张书樵大神 下载大神项目 (会说话,换人物,小游戏等功能)12cd themes/nextv6/sourcegit clone https://github.com/stevenjoezhang/live2d-widget.git github说明比较详细, 这里简单说明 由于这里是克隆到了source目录, hexo d -g的时候会生成到public目录, 相当于站点根目录了 123456# 直接开启autoload.js注释const live2d_path = "/live2d-widget/";# 修改 themes/nextv6/layout/_layout.swig, 最后一行添加如下&lt;!-- 看板娘 --&gt;&lt;script src="/live2d-widget/autoload.js"&gt;&lt;/script&gt; 一般小白简单教程(只有看鼠标方向功能) hexo 官方支持版 需要安装模板1npm install --save hexo-helper-live2d 修改主题配置文件各种宠物预览 12345678910111213141516171819202122232425# Live2D## https://github.com/EYHN/hexo-helper-live2dlive2d: enable: true # enable: false scriptFrom: local # 默认 pluginRootPath: live2dw/ # 插件在站点上的根目录(相对路径) pluginJsPath: lib/ # 脚本文件相对与插件根目录路径 pluginModelPath: assets/ # 模型文件相对与插件根目录路径 # scriptFrom: jsdelivr # jsdelivr CDN # scriptFrom: unpkg # unpkg CDN # scriptFrom: https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js # 你的自定义 url tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中 debug: false # 调试, 是否在控制台输出日志 model: use: live2d-widget-model-haruto # npm-module package name # use: wanko # 博客根目录/live2d_models/ 下的目录名 # use: ./wives/wanko # 相对于博客根目录的路径 # use: https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json # 你的自定义 url display: position: left width: 150 height: 300 mobile: show: true # 手机中是否展示]]></content>
       <categories>
         <category>有趣</category>
-        <category>二次元</category>
         <category>博客</category>
+        <category>二次元</category>
         <category>美化</category>
       </categories>
       <tags>
