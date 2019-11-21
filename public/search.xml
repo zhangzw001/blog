@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[27-k8s一条命令部署es5.2.0集群]]></title>
+    <url>%2F2019%2F11%2F21%2F27-k8s%E4%B8%80%E6%9D%A1%E5%91%BD%E4%BB%A4%E9%83%A8%E7%BD%B2es5-2-0%E9%9B%86%E7%BE%A4%2F</url>
+    <content type="text"></content>
+  </entry>
+  <entry>
     <title><![CDATA[logstash配置]]></title>
     <url>%2F2019%2F11%2F08%2F26-logstash%E9%85%8D%E7%BD%AE%2F</url>
     <content type="text"><![CDATA[记录一些logstash的配置问题 logstash排除一些信息123456789101112131415# 排除sqlDuring = 0 (数字,如果是字符需要引号) 的整条json数据if [sqlDuring] == 0 &#123; drop &#123;&#125; &#125; &#125;# logstash5.5 可以使用&lt;if [sqlDuring] &lt; 5 &#123; drop &#123;&#125; &#125; &#125;# 在logstash7.1 测试发现会报错:[2019-11-14T15:43:03,001][FATAL][logstash.runner ] An unexpected error occurred! &#123;:error=&gt;java.lang.IllegalStateException: java.lang.NullPointerException, :backtrace=&gt;["org.logstash.execution.WorkerLoop.run(org/logstash/execution/WorkerLoop.java:85)", "java.lang.reflect.Method.invoke(java/lang/reflect/Method.java:498)", "org.jruby.javasupport.JavaMethod.invokeDirectWithExceptionHandling(org/jruby/javasupport/JavaMethod.java:440)", "org.jruby.javasupport.JavaMethod.invokeDirect(org/jruby/javasupport/JavaMethod.java:304)", "usr.local.logstash_minus_7_dot_1_dot_1.logstash_minus_core.lib.logstash.java_pipeline.start_workers(/usr/local/logstash-7.1.1/logstash-core/lib/logstash/java_pipeline.rb:235)", "org.jruby.RubyProc.call(org/jruby/RubyProc.java:295)", "org.jruby.RubyProc.call(org/jruby/RubyProc.java:274)", "org.jruby.RubyProc.call(org/jruby/RubyProc.java:270)", "java.lang.Thread.run(java/lang/Thread.java:748)"]&#125;[2019-11-14T15:43:03,063][ERROR][org.logstash.Logstash ] java.lang.IllegalStateException: Logstash stopped processing because of an error: (SystemExit) exit]]></content>
