@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[27-k8s一条命令部署es5.2.0集群]]></title>
+    <title><![CDATA[k8s一条命令部署es5.2.0集群]]></title>
     <url>%2F2019%2F11%2F21%2F27-k8s%E4%B8%80%E6%9D%A1%E5%91%BD%E4%BB%A4%E9%83%A8%E7%BD%B2es5-2-0%E9%9B%86%E7%BE%A4%2F</url>
-    <content type="text"></content>
+    <content type="text"><![CDATA[由于老项目是基于es5.2.0, 所以准备在k8s基于nfs存储搭建一套,下面简单介绍 准备好环境和官方镜像1231 镜像: elasticsearch:5.2.02 k8s环境: k8s.1.103 存储: nfs storageclass 存储 部署命令1kubectl apply -f k8s-StatefulSet-es520-nfs.yml 配置文件 k8s-StatefulSet-es520-nfs.yml123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143apiVersion: apps/v1beta1kind: StatefulSetmetadata: name: es520-2-dev namespace: ns-elastic5spec: serviceName: "es520-2-dev" replicas: 2 volumeClaimTemplates: - metadata: name: es520-2-dev-nfs annotations: volume.beta.kubernetes.io/storage-class: "nfs-retain" # 这里配置 上面创建的 storageclass 的名称 spec: accessModes: [ "ReadWriteOnce" ] resources: requests: storage: 2Gi template: metadata: labels: app: es520-2-dev spec: containers: - name: es520-2-dev image: elasticsearch:5.2.0 ports: - containerPort: 9200 name: es520-2-9200 protocol: TCP - containerPort: 9300 name: es520-2-9300 protocol: TCP resources: requests: cpu: "50m" limits: cpu: "500m" volumeMounts: - name: es520-2-dev-nfs mountPath: /usr/share/elasticsearch/data/ - name: es520-2-dev-cfg mountPath: /usr/share/elasticsearch/config/elasticsearch.yml subPath: elasticsearch.yml - name: es520-2-dev-jvm mountPath: /usr/share/elasticsearch/config/jvm.options subPath: jvm.options volumes: - name: es520-2-dev-cfg configMap: name: es520-2-dev-cfg items: - key: elasticsearch.yml path: elasticsearch.yml - name: es520-2-dev-jvm configMap: name: es520-2-dev-jvm items: - key: jvm.options path: jvm.options---kind: ServiceapiVersion: v1metadata: labels: app: es520-2-dev name: es520-2-dev namespace: ns-elastic5spec: type: NodePort ports: - name: es520-2-9200 port: 9200 targetPort: 9200 nodePort: 31201 protocol: TCP - name: es520-2-9300 port: 9300 targetPort: 9300 nodePort: 31301 protocol: TCP selector: app: es520-2-dev---apiVersion: v1kind: Servicemetadata: name: es520-2-dev-hlspec: clusterIP: None selector: app: es520-2-dev ports: - name: es520-2-9200 port: 9200 - name: es520-2-9300 port: 9300---apiVersion: v1kind: ConfigMapmetadata: name: es520-2-dev-cfg namespace: ns-elastic5data: elasticsearch.yml: | cluster.name: k8s-test-nfs network.host: 0.0.0.0 bootstrap.system_call_filter: false discovery.zen.ping.unicast.hosts: ["es520-2-dev-0.es520-2-dev:9300","es520-2-dev-1.es520-2-dev:9300","es520-2-dev-2.es520-2-dev:9300"] http.cors.enabled: true http.cors.allow-origin: "*" thread_pool.bulk.queue_size: 3000---apiVersion: v1kind: ConfigMapmetadata: name: es520-2-dev-jvm namespace: ns-elastic5data: jvm.options: | -Xms512m -Xmx512m -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -server -Xss1m -Djava.awt.headless=true -Dfile.encoding=UTF-8 -Djna.nosys=true -Djdk.io.permissionsUseCanonicalPath=true -Dio.netty.noUnsafe=true -Dio.netty.noKeySetOptimization=true -Dio.netty.recycler.maxCapacityPerThread=0 -Dlog4j.shutdownHookEnabled=false -Dlog4j2.disable.jmx=true -Dlog4j.skipJansi=true -XX:+HeapDumpOnOutOfMemoryError]]></content>
+      <categories>
+        <category>技术文档</category>
+        <category>k8s</category>
+        <category>elk</category>
+        <category>elasticsearch5</category>
+        <category>elk5</category>
+      </categories>
+      <tags>
+        <tag>k8s</tag>
+        <tag>elasticsearch5</tag>
+        <tag>elk</tag>
+        <tag>elk5</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[logstash配置]]></title>
