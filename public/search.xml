@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[29-k3s安装配置]]></title>
+    <url>%2F2019%2F11%2F25%2F29-k3s%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%2F</url>
+    <content type="text"><![CDATA[体验轻量级k8s集群,适用于低配个人开发测试使用 k3s, 5 less than k8s 详情参考官方: k3s github地址 Step 1: 安装K3S集群1234567891011121314# 下载k3s 二进制文件wget https://github.com/rancher/k3s/releases/download/v1.0.0/k3smv k3s /usr/local/bin/k3schmod +x /usr/local/bin/k3s#k3s --versionk3s version v1.0.0 (18bd921c)# 下载pause镜像(这里举1,其他国内地址参考官方)docker pull registry.cn-beijing.aliyuncs.com/ilemonrain/pause-amd64:3.1docker tag registry.cn-beijing.aliyuncs.com/ilemonrain/pause-amd64:3.1 k8s.gcr.io/pause:3.1# 验证一下docker images | grep "k8s.gcr.io/pause" Step 2: 安装k3s server12345678910111213141516# centos官方安装curl -sfL https://get.k3s.io | sh -# 至此server已经安装完了,但由于k8s默认是用Containerd, 并非docker, 所以需要手工修改配置(当然如果你熟悉ctr 操作Containerd也没问题)# 修改ExecStart内容# 1: --docker 表示k3s server使用docker引擎# 2: --no-deploy traefik 表示不安装traefikvim /etc/systemd/system/multi-user.target.wants/k3s.serviceExecStart=/usr/local/bin/k3s server --docker --no-deploy traefik# 启动服务systemctl daemon-reloadservice k3s restart# 验证k3s kubectl get node 想去掉k3s命令? kubectl命令管理k3s 12345678# 简单做一个aliasalias kubectl='k3s kubectl'# 或者yum install kubectlmkdir -p ~/.kubecp /etc/rancher/k3s/k3s.yaml ~/.kube/config Step 3: 客户端安装参考官方文档 安装和配置选项 1234# 同样下载二进制包wget https://github.com/rancher/k3s/releases/download/v1.0.0/k3smv k3s /usr/local/bin/k3schmod +x /usr/local/bin/k3s 加入到server有两种 手动加入 (其实上面我们已经拉取了image, 并且tag成官方地址了,所以这里也可以不用指定) 12nohup k3s agent --docker --pause-image registry.cn-beijing.aliyuncs.com/ilemonrain/pause-amd64:3.1 --server https://k3s-server:6443 --token $&#123;NODE_TOKEN&#125; &amp;nohup k3s agent --docker --server https://k3s-server:6443 --token $&#123;NODE_TOKEN&#125; &amp; 脚本加入 12345curl -sfL https://get.k3s.io | K3S_URL=https://k3s-server:6443 K3S_TOKEN=$&#123;NODE_TOKEN&#125; INSTALL_K3S_EXEC="agent --docker --pause-image registry.cn-beijing.aliyuncs.com/ilemonrain/pause-amd64:3.1" sh -s -curl -sfL https://get.k3s.io | K3S_URL=https://k3s-server:6443 K3S_TOKEN=$&#123;NODE_TOKEN&#125; INSTALL_K3S_EXEC="agent --docker" sh -s -# ps aux|grep k3s/usr/local/bin/k3s agent --docker --pause-image registry.cn-beijing.aliyuncs.com/ilemonrain/pause-amd64:3.1 当然如下差别不大, 都是会启动一个k3s的进程 卸载1sh /usr/local/bin/k3s-uninstall.sh]]></content>
+      <categories>
+        <category>技术文档</category>
+        <category>k3s</category>
+      </categories>
+      <tags>
+        <tag>k3s</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[k8s1.16使用旧yml部署配置问题]]></title>
     <url>%2F2019%2F11%2F25%2F28-k8s1-16%E4%BD%BF%E7%94%A8%E6%97%A7yml%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%2F</url>
     <content type="text"><![CDATA[1 appversion的改变12no matches for kind "StatefulSet" in version "apps/v1beta1"no matches for kind "Deployment" in version "extensions/v1beta1" 123456789101112# Deployment(extensions/v1beta1 舍弃)apiVersion: extensions/v1beta1 -&gt; apiVersion: apps/v1# StatefulSetapiVersion: apps/v1beta1 -&gt; apiVersion: apps/v1# 然后根据提示在spec 下添加selector.matchLabelsspec: replicas: 3 selector: matchLabels: app: test1]]></content>
@@ -318,8 +330,8 @@
     <content type="text"><![CDATA[hexo6 左下角添加看板娘 github地址: 张书樵大神 下载大神项目 (会说话,换人物,小游戏等功能)12cd themes/nextv6/sourcegit clone https://github.com/stevenjoezhang/live2d-widget.git github说明比较详细, 这里简单说明 由于这里是克隆到了source目录, hexo d -g的时候会生成到public目录, 相当于站点根目录了 123456# 直接开启autoload.js注释const live2d_path = "/live2d-widget/";# 修改 themes/nextv6/layout/_layout.swig, 最后一行添加如下&lt;!-- 看板娘 --&gt;&lt;script src="/live2d-widget/autoload.js"&gt;&lt;/script&gt; 一般小白简单教程(只有看鼠标方向功能) hexo 官方支持版 需要安装模板1npm install --save hexo-helper-live2d 修改主题配置文件各种宠物预览 12345678910111213141516171819202122232425# Live2D## https://github.com/EYHN/hexo-helper-live2dlive2d: enable: true # enable: false scriptFrom: local # 默认 pluginRootPath: live2dw/ # 插件在站点上的根目录(相对路径) pluginJsPath: lib/ # 脚本文件相对与插件根目录路径 pluginModelPath: assets/ # 模型文件相对与插件根目录路径 # scriptFrom: jsdelivr # jsdelivr CDN # scriptFrom: unpkg # unpkg CDN # scriptFrom: https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js # 你的自定义 url tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中 debug: false # 调试, 是否在控制台输出日志 model: use: live2d-widget-model-haruto # npm-module package name # use: wanko # 博客根目录/live2d_models/ 下的目录名 # use: ./wives/wanko # 相对于博客根目录的路径 # use: https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json # 你的自定义 url display: position: left width: 150 height: 300 mobile: show: true # 手机中是否展示]]></content>
       <categories>
         <category>有趣</category>
-        <category>博客</category>
         <category>二次元</category>
+        <category>博客</category>
         <category>美化</category>
       </categories>
       <tags>
