@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[systemd一些命令]]></title>
+    <url>%2F2019%2F11%2F26%2F31-systemd%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[记录一些需要systemd命令 systemd命令 systemctl cat k3s]]></content>
+      <categories>
+        <category>linux</category>
+        <category>systemd</category>
+        <category>shell</category>
+        <category>systemd</category>
+      </categories>
+      <tags>
+        <tag>systemd</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[k3s集群部署项目报挂载nfs错误]]></title>
     <url>%2F2019%2F11%2F25%2F30-k3s%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE%E6%8A%A5%E6%8C%82%E8%BD%BDnfs%E9%94%99%E8%AF%AF%2F</url>
     <content type="text"><![CDATA[体验轻量级k8s集群遇到一些nfs问题 部署服务器查看describe信息如下:1234567Mounting command: systemd-runMounting arguments: --description=Kubernetes transient mount for /var/lib/kubelet/pods/369daaef-1e90-446b-92ce-3d562f94b429/volumes/kubernetes.io~nfs/pvc-f462c606-5796-4c48-8928-7822f3fa0605 --scope -- mount -t nfs 172.16.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-es520-2-dev-1-pvc-f462c606-5796-4c48-8928-7822f3fa0605 /var/lib/kubelet/pods/369daaef-1e90-446b-92ce-3d562f94b429/volumes/kubernetes.io~nfs/pvc-f462c606-5796-4c48-8928-7822f3fa0605Output: Running scope as unit run-14829.scope.mount: 文件系统类型错误、选项错误、172.16.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-es520-2-dev-1-pvc-f462c606-5796-4c48-8928-7822f3fa0605 上有坏超级块、 缺少代码页或助手程序，或其他错误 (对某些文件系统(如 nfs、cifs) 您可能需要 一款 /sbin/mount.&lt;类型&gt; 助手程序) 分析 猜测1 可能是nfs的系统格式和集群node节点文件格式不同 1234# 查看发现nfs是ext4, 然后集群中其他的磁盘都是xfsdf -T|egrep -v "contai|var|overl"所以新挂了块磁盘,格式化为xfs然后再次实验,发现错误同样... 猜测2 可能是客户端无法识别nfs格式 12345678910111213# 做个测试mkdir /tmp/abcmount -t nfs 172.16.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-es520-2-dev-1-pvc-f462c606-5796-4c48-8928-7822f3fa0605 /tmp/abc# 果然报错mount: wrong fs type, bad option, bad superblock on 172.16.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-plugins, missing codepage or helper program, or other error (for several filesystems (e.g. nfs, cifs) you might need a /sbin/mount.&lt;type&gt; helper program) In some cases useful info is found in syslog - try dmesg | tail or so. 所以安装了nfs即可 1yum install nfs]]></content>
@@ -28,7 +42,7 @@
   <entry>
     <title><![CDATA[k8s1.16使用旧yml部署配置问题]]></title>
     <url>%2F2019%2F11%2F25%2F28-k8s1-16%E4%BD%BF%E7%94%A8%E6%97%A7yml%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[1 appversion的改变12no matches for kind "StatefulSet" in version "apps/v1beta1"no matches for kind "Deployment" in version "extensions/v1beta1" 123456789101112# Deployment(extensions/v1beta1 舍弃)apiVersion: extensions/v1beta1 -&gt; apiVersion: apps/v1# StatefulSetapiVersion: apps/v1beta1 -&gt; apiVersion: apps/v1# 然后根据提示在spec 下添加selector.matchLabelsspec: replicas: 3 selector: matchLabels: app: test1]]></content>
+    <content type="text"><![CDATA[使用k8s 1.16遇到的问题 1 appversion的改变12no matches for kind "StatefulSet" in version "apps/v1beta1"no matches for kind "Deployment" in version "extensions/v1beta1" 123456789101112# Deployment(extensions/v1beta1 舍弃)apiVersion: extensions/v1beta1 -&gt; apiVersion: apps/v1# StatefulSetapiVersion: apps/v1beta1 -&gt; apiVersion: apps/v1# 然后根据提示在spec 下添加selector.matchLabelsspec: replicas: 3 selector: matchLabels: app: test1]]></content>
       <categories>
         <category>技术文档</category>
         <category>k8s</category>
@@ -202,7 +216,7 @@
   <entry>
     <title><![CDATA[docker简介和使用]]></title>
     <url>%2F2019%2F10%2F16%2F15-docker%E7%AE%80%E4%BB%8B%E5%92%8C%E4%BD%BF%E7%94%A8%2F</url>
-    <content type="text"><![CDATA[简单介绍docker docker]]></content>
+    <content type="text"><![CDATA[简单介绍docker dockerk8s支持的docker 版本查看这里我们使用年份命名版本的docker-ce，假设我们要安装v1.16.3的k8s，我们去 https://github.com/kubernetes/kubernetes 里进对应版本的CHANGELOG-1.16.md里搜The list of validated docker versions remain查找支持的docker版本，docker版本不一定得在支持列表里，实际上19.03也能使用，这里我们使用docker官方的安装脚本安装docker(该脚本支持centos和ubuntu) 12export VERSION=19.03curl -fsSL "https://get.docker.com/" | bash -s -- --mirror Aliyun]]></content>
       <categories>
         <category>docker</category>
       </categories>
@@ -343,8 +357,8 @@
     <content type="text"><![CDATA[hexo6 左下角添加看板娘 github地址: 张书樵大神 下载大神项目 (会说话,换人物,小游戏等功能)12cd themes/nextv6/sourcegit clone https://github.com/stevenjoezhang/live2d-widget.git github说明比较详细, 这里简单说明 由于这里是克隆到了source目录, hexo d -g的时候会生成到public目录, 相当于站点根目录了 123456# 直接开启autoload.js注释const live2d_path = "/live2d-widget/";# 修改 themes/nextv6/layout/_layout.swig, 最后一行添加如下&lt;!-- 看板娘 --&gt;&lt;script src="/live2d-widget/autoload.js"&gt;&lt;/script&gt; 一般小白简单教程(只有看鼠标方向功能) hexo 官方支持版 需要安装模板1npm install --save hexo-helper-live2d 修改主题配置文件各种宠物预览 12345678910111213141516171819202122232425# Live2D## https://github.com/EYHN/hexo-helper-live2dlive2d: enable: true # enable: false scriptFrom: local # 默认 pluginRootPath: live2dw/ # 插件在站点上的根目录(相对路径) pluginJsPath: lib/ # 脚本文件相对与插件根目录路径 pluginModelPath: assets/ # 模型文件相对与插件根目录路径 # scriptFrom: jsdelivr # jsdelivr CDN # scriptFrom: unpkg # unpkg CDN # scriptFrom: https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js # 你的自定义 url tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中 debug: false # 调试, 是否在控制台输出日志 model: use: live2d-widget-model-haruto # npm-module package name # use: wanko # 博客根目录/live2d_models/ 下的目录名 # use: ./wives/wanko # 相对于博客根目录的路径 # use: https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json # 你的自定义 url display: position: left width: 150 height: 300 mobile: show: true # 手机中是否展示]]></content>
       <categories>
         <category>有趣</category>
-        <category>二次元</category>
         <category>博客</category>
+        <category>二次元</category>
         <category>美化</category>
       </categories>
       <tags>
