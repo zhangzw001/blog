@@ -28,7 +28,7 @@
   <entry>
     <title><![CDATA[k8s1.16使用旧yml部署配置问题]]></title>
     <url>%2F2019%2F11%2F25%2F28-k8s1-16%E4%BD%BF%E7%94%A8%E6%97%A7yml%E9%83%A8%E7%BD%B2%E9%85%8D%E7%BD%AE%E9%97%AE%E9%A2%98%2F</url>
-    <content type="text"><![CDATA[1 appversion的改变12no matches for kind "StatefulSet" in version "apps/v1beta1"no matches for kind "Deployment" in version "extensions/v1beta1" 123456789101112# Deployment(extensions/v1beta1 舍弃)apiVersion: extensions/v1beta1 -&gt; apiVersion: apps/v1# StatefulSetapiVersion: apps/v1beta1 -&gt; apiVersion: apps/v1# 然后根据提示在spec 下添加selector.matchLabelsspec: replicas: 3 selector: matchLabels: app: test1]]></content>
+    <content type="text"><![CDATA[使用k8s 1.16遇到的问题 1 appversion的改变12no matches for kind "StatefulSet" in version "apps/v1beta1"no matches for kind "Deployment" in version "extensions/v1beta1" 123456789101112# Deployment(extensions/v1beta1 舍弃)apiVersion: extensions/v1beta1 -&gt; apiVersion: apps/v1# StatefulSetapiVersion: apps/v1beta1 -&gt; apiVersion: apps/v1# 然后根据提示在spec 下添加selector.matchLabelsspec: replicas: 3 selector: matchLabels: app: test1]]></content>
       <categories>
         <category>技术文档</category>
         <category>k8s</category>
