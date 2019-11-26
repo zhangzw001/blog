@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+<<<<<<< HEAD
     <title><![CDATA[systemd一些命令]]></title>
     <url>%2F2019%2F11%2F26%2F31-systemd%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4%2F</url>
     <content type="text"><![CDATA[记录一些需要systemd命令 systemd命令 systemctl cat k3s]]></content>
@@ -15,6 +16,9 @@
       </tags>
   </entry>
   <entry>
+=======
+<<<<<<< HEAD
+>>>>>>> 23553a613ae8b897235ef1d4b09c3a28c8fd6815
     <title><![CDATA[k3s集群部署项目报挂载nfs错误]]></title>
     <url>%2F2019%2F11%2F25%2F30-k3s%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE%E6%8A%A5%E6%8C%82%E8%BD%BDnfs%E9%94%99%E8%AF%AF%2F</url>
     <content type="text"><![CDATA[体验轻量级k8s集群遇到一些nfs问题 部署服务器查看describe信息如下:1234567Mounting command: systemd-runMounting arguments: --description=Kubernetes transient mount for /var/lib/kubelet/pods/369daaef-1e90-446b-92ce-3d562f94b429/volumes/kubernetes.io~nfs/pvc-f462c606-5796-4c48-8928-7822f3fa0605 --scope -- mount -t nfs 172.16.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-es520-2-dev-1-pvc-f462c606-5796-4c48-8928-7822f3fa0605 /var/lib/kubelet/pods/369daaef-1e90-446b-92ce-3d562f94b429/volumes/kubernetes.io~nfs/pvc-f462c606-5796-4c48-8928-7822f3fa0605Output: Running scope as unit run-14829.scope.mount: 文件系统类型错误、选项错误、172.16.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-es520-2-dev-1-pvc-f462c606-5796-4c48-8928-7822f3fa0605 上有坏超级块、 缺少代码页或助手程序，或其他错误 (对某些文件系统(如 nfs、cifs) 您可能需要 一款 /sbin/mount.&lt;类型&gt; 助手程序) 分析 猜测1 可能是nfs的系统格式和集群node节点文件格式不同 1234# 查看发现nfs是ext4, 然后集群中其他的磁盘都是xfsdf -T|egrep -v "contai|var|overl"所以新挂了块磁盘,格式化为xfs然后再次实验,发现错误同样... 猜测2 可能是客户端无法识别nfs格式 12345678910111213# 做个测试mkdir /tmp/abcmount -t nfs 172.16.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-es520-2-dev-1-pvc-f462c606-5796-4c48-8928-7822f3fa0605 /tmp/abc# 果然报错mount: wrong fs type, bad option, bad superblock on 172.16.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-plugins, missing codepage or helper program, or other error (for several filesystems (e.g. nfs, cifs) you might need a /sbin/mount.&lt;type&gt; helper program) In some cases useful info is found in syslog - try dmesg | tail or so. 所以安装了nfs即可 1yum install nfs]]></content>
@@ -29,6 +33,9 @@
   </entry>
   <entry>
     <title><![CDATA[k3s安装配置]]></title>
+=======
+    <title><![CDATA[29-k3s安装配置]]></title>
+>>>>>>> 856fa2f8ced0e7e06a184d3ff6dcc802e7ba05d3
     <url>%2F2019%2F11%2F25%2F29-k3s%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%2F</url>
     <content type="text"><![CDATA[体验轻量级k8s集群,适用于低配个人开发测试使用 k3s, 5 less than k8s 详情参考官方: k3s github地址 Step 1: 安装K3S集群1234567891011121314# 下载k3s 二进制文件wget https://github.com/rancher/k3s/releases/download/v1.0.0/k3smv k3s /usr/local/bin/k3schmod +x /usr/local/bin/k3s#k3s --versionk3s version v1.0.0 (18bd921c)# 下载pause镜像(这里举1,其他国内地址参考官方)docker pull registry.cn-beijing.aliyuncs.com/ilemonrain/pause-amd64:3.1docker tag registry.cn-beijing.aliyuncs.com/ilemonrain/pause-amd64:3.1 k8s.gcr.io/pause:3.1# 验证一下docker images | grep "k8s.gcr.io/pause" Step 2: 安装k3s server12345678910111213141516# centos官方安装curl -sfL https://get.k3s.io | sh -# 至此server已经安装完了,但由于k8s默认是用Containerd, 并非docker, 所以需要手工修改配置(当然如果你熟悉ctr 操作Containerd也没问题)# 修改ExecStart内容# 1: --docker 表示k3s server使用docker引擎# 2: --no-deploy traefik 表示不安装traefikvim /etc/systemd/system/multi-user.target.wants/k3s.serviceExecStart=/usr/local/bin/k3s server --docker --no-deploy traefik# 启动服务systemctl daemon-reloadservice k3s restart# 验证k3s kubectl get node 想去掉k3s命令? kubectl命令管理k3s 12345678# 简单做一个aliasalias kubectl='k3s kubectl'# 或者yum install kubectlmkdir -p ~/.kubecp /etc/rancher/k3s/k3s.yaml ~/.kube/config Step 3: 客户端安装参考官方文档 安装和配置选项 1234# 同样下载二进制包wget https://github.com/rancher/k3s/releases/download/v1.0.0/k3smv k3s /usr/local/bin/k3schmod +x /usr/local/bin/k3s 加入到server有两种 手动加入 (其实上面我们已经拉取了image, 并且tag成官方地址了,所以这里也可以不用指定) 12nohup k3s agent --docker --pause-image registry.cn-beijing.aliyuncs.com/ilemonrain/pause-amd64:3.1 --server https://k3s-server:6443 --token $&#123;NODE_TOKEN&#125; &amp;nohup k3s agent --docker --server https://k3s-server:6443 --token $&#123;NODE_TOKEN&#125; &amp; 脚本加入 12345curl -sfL https://get.k3s.io | K3S_URL=https://k3s-server:6443 K3S_TOKEN=$&#123;NODE_TOKEN&#125; INSTALL_K3S_EXEC="agent --docker --pause-image registry.cn-beijing.aliyuncs.com/ilemonrain/pause-amd64:3.1" sh -s -curl -sfL https://get.k3s.io | K3S_URL=https://k3s-server:6443 K3S_TOKEN=$&#123;NODE_TOKEN&#125; INSTALL_K3S_EXEC="agent --docker" sh -s -# ps aux|grep k3s/usr/local/bin/k3s agent --docker --pause-image registry.cn-beijing.aliyuncs.com/ilemonrain/pause-amd64:3.1 当然如下差别不大, 都是会启动一个k3s的进程 卸载1sh /usr/local/bin/k3s-uninstall.sh]]></content>
       <categories>
