@@ -6,7 +6,6 @@ tags:
   - systemd
 categories:
   - [linux,systemd]
-  - [shell,systemd]
 
 top: 20
 ---
@@ -21,14 +20,14 @@ top: 20
 
 
 ### systemd命令
-- 查看服务启动配置: systemctl cat k3s
-- 查看开机启动的服务列表：systemctl list-unit-files|grep enabled
-- 查看启动失败的服务列表：systemctl --failed
+- 查看服务启动配置: `systemctl cat k3s`
+- 查看开机启动的服务列表：`systemctl list-unit-files|grep enabled`
+- 查看启动失败的服务列表：`systemctl --failed`
 
-- 重启服务：systemctl restart firewalld.service
-- 显示状态：systemctl status firewalld.service
-- 开机启用服务：systemctl enable firewalld.service
-- 开机禁用服务：systemctl disable firewalld.service
-- 查看开机启动：systemctl is-enabled firewalld.service
+- 重启服务：`systemctl restart firewalld.service`
+- 显示状态：`systemctl status firewalld.service`
+- 开机启用服务：`systemctl enable firewalld.service`
+- 开机禁用服务：`systemctl disable firewalld.service`
+- 查看开机启动：`systemctl is-enabled firewalld.service`
 
 
