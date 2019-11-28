@@ -17,6 +17,26 @@ top: 20
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
+### Linux问题: 升级内核
+
+```
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+
+# 查看可升级的内核
+yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
+yum --enablerepo=elrepo-kernel install kernel-ml
+
+# 查看已经安装的内核
+cat /boot/grub2/grub.cfg |grep menuentry
+
+# 设置5.3的为默认
+grub2-set-default 'CentOS Linux (5.3.13-1.el7.elrepo.x86_64) 7 (Core)'
+
+# grub2-editenv list
+saved_entry=CentOS Linux (5.3.13-1.el7.elrepo.x86_64) 7 (Core)
+```
+
 ### linux问题: tcpdump抓包tcp第三次握手ack为1
 - 执行命令监听: tcpdump -n port 80 (想要详细信息加 -vv)
 
