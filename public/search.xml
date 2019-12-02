@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[php错误502问题总结]]></title>
+    <url>%2F2019%2F12%2F02%2F32-php%E9%94%99%E8%AF%AF502%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>技术文档</category>
+        <category>php</category>
+        <category>问题总结</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[systemd一些命令]]></title>
     <url>%2F2019%2F11%2F26%2F31-systemd%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4%2F</url>
     <content type="text"><![CDATA[记录一些需要systemd命令 systemd命令 查看服务启动配置: systemctl cat k3s 查看开机启动的服务列表：systemctl list-unit-files|grep enabled 查看启动失败的服务列表：systemctl --failed 重启服务：systemctl restart firewalld.service 显示状态：systemctl status firewalld.service 开机启用服务：systemctl enable firewalld.service 开机禁用服务：systemctl disable firewalld.service 查看开机启动：systemctl is-enabled firewalld.service]]></content>
