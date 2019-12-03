@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="二进制方式部署mysql5.7">
+<meta name="keywords" content="mysql,mysql5.7">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql5.7二进制部署">
+<meta property="og:url" content="http://zhangzw001.github.io/2019/09/26/8-mysql5-7二进制部署/index.html">
+<meta property="og:site_name" content="Zhangzw&#39;s Blog">
+<meta property="og:description" content="二进制方式部署mysql5.7">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-16T09:15:27.840Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql5.7二进制部署">
+<meta name="twitter:description" content="二进制方式部署mysql5.7">
+
+
+
+
+
+
+  <link rel="canonical" href="http://zhangzw001.github.io/2019/09/26/8-mysql5-7二进制部署/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>mysql5.7二进制部署 | Zhangzw's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zhangzw's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangzw001.github.io/2019/09/26/8-mysql5-7二进制部署/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zhangzw">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhangzw's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mysql5.7二进制部署
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+	
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-26 15:11:05" itemprop="dateCreated datePublished" datetime="2019-09-26T15:11:05+08:00">2019-09-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-10-16 17:15:27" itemprop="dateModified" datetime="2019-10-16T17:15:27+08:00">2019-10-16</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术文档/" itemprop="url" rel="index"><span itemprop="name">技术文档</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/09/26/8-mysql5-7二进制部署/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2019/09/26/8-mysql5-7二进制部署/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2019/09/26/8-mysql5-7二进制部署/" class="leancloud_visitors" data-flag-title="mysql5.7二进制部署">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">22k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">20 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>二进制方式部署mysql5.7</p>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="下载glibc二进制包"><a href="#下载glibc二进制包" class="headerlink" title="下载glibc二进制包"></a>下载glibc二进制包</h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#打开下载页面, 可能会有小版本更新(注意：选择操作系统时选Linux-Generic）</span></span><br><span class="line"><span class="symbol">https:</span>/<span class="regexp">/dev.mysql.com/downloads</span><span class="regexp">/mysql/</span><span class="number">5.7</span>.html<span class="comment">#downloads</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 最新的可能有小版本变化</span></span><br><span class="line">wget <span class="symbol">https:</span>/<span class="regexp">/cdn.mysql.com/</span>Downloads/MySQL-<span class="number">5.7</span>/mysql-<span class="number">5.7</span>.<span class="number">24</span>-linux-glibc2.<span class="number">12</span>-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h3><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz</span><br><span class="line">mv mysql-5.7.24-linux-glibc2.12-x86_64 <span class="string">/usr/local/</span></span><br><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 我的镜像是安装过5.5mysql, 所以需要mv一下</span></span><br><span class="line">mv mysql mysql-5.5.37</span><br><span class="line"></span><br><span class="line"><span class="comment"># 由于以前安装过php指定了该mysq目录, 这可能导致以前安装的php缺少libmysqlclient.so.18</span></span><br><span class="line">ln -s <span class="string">/usr/local/mysql-5.5.37/lib/libmysqlclient.so.18</span> <span class="string">/usr/local/mysql-5.7.24-linux-glibc2.12-x86_64/lib/libmysqlclient.so.18</span></span><br><span class="line">ln -s mysql-5.7.24-linux-glibc2.12-x86_64 mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加启动文件</span></span><br><span class="line">\cp mysql/support-files/mysql.server <span class="string">/etc/init.d/mysqld</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"PATH=$PATH:/usr/local/mysql/bin/"</span> &gt;&gt;~<span class="string">/.bashrc</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 可选</span></span><br><span class="line">wget http:<span class="string">//centos.mirrors.ucloud.cn/centos/6/os/x86_64/Packages/numactl-2.0.9-2.el6.x86_64.rpm</span></span><br><span class="line">yum localinstall numactl-2.0.9-2.el6.x86_64.rpm</span><br><span class="line">\rm numactl-2.0.9-2.el6.x86_64.rpm</span><br><span class="line"></span><br><span class="line">useradd mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置下mysql的数据目录</span></span><br><span class="line"><span class="keyword">cd</span> <span class="string">/data/</span></span><br><span class="line">mkdir u01</span><br><span class="line">mkdir u02</span><br><span class="line">chown -R mysql.mysql u01</span><br><span class="line">chown -R mysql.mysql u02</span><br><span class="line">chmod 750 u01</span><br><span class="line">chmod 750 u02</span><br><span class="line"><span class="keyword">cd</span> <span class="string">/data/u01/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化</span></span><br><span class="line"><span class="string">/usr/local/mysql/bin/mysqld</span> <span class="params">--initialize-insecure</span> <span class="params">--user=mysql</span> <span class="params">--basedir=/usr/local/mysql</span> <span class="params">--datadir=/data/u01</span></span><br><span class="line">cat auto.cnf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动服务 (在这之前准备好 /etc/my.cnf)</span></span><br><span class="line"><span class="string">/etc/init.d/mysqld</span> start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 记录下variables</span></span><br><span class="line">mysql -e <span class="string">"show global variables"</span> &gt;mysql_option_default.log</span><br></pre></td></tr></table></figure>
+
+<h3 id="my-cnf"><a href="#my-cnf" class="headerlink" title="my.cnf"></a>my.cnf</h3><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">port = 3306</span><br><span class="line">socket = /data/u01/mysql.sock</span><br><span class="line"></span><br><span class="line">[mysql]</span><br><span class="line">prompt=<span class="string">"\u@m1-u [\d]&gt; "</span></span><br><span class="line">no-auto-rehash</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">user = mysql</span><br><span class="line">port = 3306</span><br><span class="line">basedir = /usr/local/mysql</span><br><span class="line">datadir = /data/u01</span><br><span class="line">socket = /data/u01/mysql.sock</span><br><span class="line">pid-file = /data/u01/m1-u.pid</span><br><span class="line">tmpdir = /data/u02</span><br><span class="line">server-id = 1001</span><br><span class="line">character-set-server = utf8</span><br><span class="line">skip_name_resolve = 1</span><br><span class="line">innodb_file_per_table = 1</span><br><span class="line">explicit_defaults_for_timestamp = 0</span><br><span class="line"></span><br><span class="line"><span class="comment"># buffer&amp;cache</span></span><br><span class="line">table_open_cache = 100</span><br><span class="line">table_definition_cache = 400</span><br><span class="line">table_open_cache_instances = 64</span><br><span class="line">sort_buffer_size = 4M</span><br><span class="line">join_buffer_size = 4M</span><br><span class="line">read_buffer_size = 8M</span><br><span class="line">read_rnd_buffer_size = 4M</span><br><span class="line"></span><br><span class="line"><span class="comment"># thread&amp;connection</span></span><br><span class="line">thread_stack = 256K</span><br><span class="line">thread_cache_size = 768</span><br><span class="line">back_log = 1024</span><br><span class="line">max_connections = 3000</span><br><span class="line">max_connect_errors = 1000000</span><br><span class="line"></span><br><span class="line"><span class="comment"># temptable</span></span><br><span class="line">tmp_table_size = 32M</span><br><span class="line">max_heap_table_size = 32M</span><br><span class="line"></span><br><span class="line"><span class="comment"># network</span></span><br><span class="line">max_allowed_packet = 32M</span><br><span class="line"><span class="comment">#lock_wait_timeout = 3600</span></span><br><span class="line"><span class="comment">#interactive_timeout = 600</span></span><br><span class="line"><span class="comment">#wait_timeout = 600</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># query cache</span></span><br><span class="line">query_cache_size = 0</span><br><span class="line">query_cache_type = 0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置errorlog、slowlog和generallog的时区，默认UTC</span></span><br><span class="line">log_timestamps = SYSTEM</span><br><span class="line"></span><br><span class="line"><span class="comment"># error-log</span></span><br><span class="line">log_error = /data/u02/mysqld.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># slow-log</span></span><br><span class="line">slow_query_log = 1</span><br><span class="line">slow_query_log_file = /data/u02/slow.log</span><br><span class="line">long_query_time = 0.1</span><br><span class="line">log_queries_not_using_indexes =1</span><br><span class="line">log_throttle_queries_not_using_indexes = 60</span><br><span class="line">min_examined_row_limit = 100</span><br><span class="line">log_slow_admin_statements = 1</span><br><span class="line">log_slow_slave_statements = 1</span><br><span class="line"></span><br><span class="line"><span class="comment"># general log</span></span><br><span class="line"><span class="comment">#general-log = 1</span></span><br><span class="line">general_log_file=/data/u02/query.log</span><br><span class="line"></span><br><span class="line"><span class="comment"># binlog</span></span><br><span class="line">binlog_format = row</span><br><span class="line">binlog_checksum = 1</span><br><span class="line">log-bin = /data/u02/bdm1-bin</span><br><span class="line">log-bin-index = /data/u02/bdm1-bin.index</span><br><span class="line">sync_binlog = 0</span><br><span class="line">binlog_cache_size = 4M</span><br><span class="line">max_binlog_cache_size = 2G</span><br><span class="line">max_binlog_size = 512M</span><br><span class="line">expire_logs_days = 15</span><br><span class="line"></span><br><span class="line"><span class="comment"># GTID</span></span><br><span class="line">gtid_mode = on</span><br><span class="line">enforce_gtid_consistency = 1</span><br><span class="line">log_slave_updates</span><br><span class="line"></span><br><span class="line"><span class="comment"># Replication</span></span><br><span class="line">master_info_repository = TABLE</span><br><span class="line">relay_log_info_repository = TABLE</span><br><span class="line">slave-rows-search-algorithms = 'INDEX_SCAN,HASH_SCAN'</span><br><span class="line">relay_log_recovery = 1</span><br><span class="line">relay_log_purge = 1</span><br><span class="line">relay-log=/data/u02/bdm1-relay-bin</span><br><span class="line">relay-log-index=/data/u02/bdm1-relay-bin.index</span><br><span class="line"></span><br><span class="line"><span class="comment"># innodb-buffer&amp;cache</span></span><br><span class="line">innodb_buffer_pool_size = 2G</span><br><span class="line">innodb_buffer_pool_instances = 4</span><br><span class="line"><span class="comment">#innodb_additional_mem_pool_size = 16M</span></span><br><span class="line">innodb_max_dirty_pages_pct = 50</span><br><span class="line"></span><br><span class="line"><span class="comment"># innodb log</span></span><br><span class="line">innodb_data_file_path = ibdata1:1G:autoextend</span><br><span class="line">innodb_log_file_size = 1G</span><br><span class="line">innodb_log_files_in_group = 2</span><br><span class="line">innodb_flush_log_at_trx_commit = 2</span><br><span class="line">innodb_log_buffer_size = 32M</span><br><span class="line"><span class="comment">#innodb_max_undo_log_size = 4G</span></span><br><span class="line"><span class="comment">#innodb_undo_directory = undolog</span></span><br><span class="line">innodb_undo_tablespaces = 4</span><br><span class="line"></span><br><span class="line"><span class="comment"># innodb-io</span></span><br><span class="line">innodb_flush_method = O_DIRECT</span><br><span class="line">innodb_io_capacity = 600</span><br><span class="line">innodb_io_capacity_max = 2000</span><br><span class="line">innodb_flush_sync = 0</span><br><span class="line">innodb_flush_neighbors = 0</span><br><span class="line"><span class="comment">#innodb_lru_scan_depth = 4000</span></span><br><span class="line">innodb_write_io_threads = 8</span><br><span class="line">innodb_read_io_threads = 8</span><br><span class="line">innodb_purge_threads = 4</span><br><span class="line">innodb_page_cleaners = 4</span><br><span class="line"></span><br><span class="line"><span class="comment"># transaction,lock</span></span><br><span class="line"><span class="comment">#innodb_sync_spin_loops = 100</span></span><br><span class="line"><span class="comment">#innodb_spin_wait_delay = 30</span></span><br><span class="line">innodb_lock_wait_timeout = 10</span><br><span class="line">innodb_print_all_deadlocks = 1</span><br><span class="line">innodb_rollback_on_timeout = 1</span><br><span class="line"></span><br><span class="line">innodb_open_files = 65535</span><br><span class="line"></span><br><span class="line">innodb_online_alter_log_max_size = 2G</span><br><span class="line"></span><br><span class="line"><span class="comment"># innodb status</span></span><br><span class="line">innodb_status_file = 1</span><br><span class="line"><span class="comment"># 注意: 开启 innodb_status_output &amp; innodb_status_output_locks 后, 可能会导致log-error文件增长较快</span></span><br><span class="line">innodb_status_output = 0</span><br><span class="line">innodb_status_output_locks = 0</span><br><span class="line"></span><br><span class="line"><span class="comment">#performance_schema</span></span><br><span class="line">performance_schema = 1</span><br><span class="line">performance_schema_instrument = '%=on'</span><br><span class="line"></span><br><span class="line"><span class="comment">#innodb monitor</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_innodb"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_server"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_dml"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_ddl"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_trx"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_os"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_purge"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_log"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_lock"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_buffer"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_index"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_ibuf_system"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_buffer_page"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_adaptive_hash"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># MyISAM</span></span><br><span class="line">key_buffer_size = 1024M</span><br><span class="line">bulk_insert_buffer_size = 64M</span><br><span class="line">myisam_sort_buffer_size = 128M</span><br><span class="line">myisam_repair_threads = 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[mysqldump]</span><br><span class="line">quick</span><br><span class="line">max_allowed_packet = 32M</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+
+    
+    
+    
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2019/09/26/8-mysql5-7二进制部署/">mysql5.7二进制部署</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
+  <p><span>发布时间:</span>2019年09月26日 - 15:09</p>
+  <p><span>最后更新:</span>2019年10月16日 - 17:10</p>
+  <p><span>原始链接:</span><a href="/2019/09/26/8-mysql5-7二进制部署/" title="mysql5.7二进制部署">http://zhangzw001.github.io/2019/09/26/8-mysql5-7二进制部署/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2019/09/26/8-mysql5-7二进制部署/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+
+      </div>
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+            <a href="/tags/mysql5-7/" rel="tag"># mysql5.7</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/26/7-k8s部署storageclass动态创建pv-nfs-rbd/" rel="next" title="k8s部署storageclass动态创建pv(nfs&rbd)">
+                <i class="fa fa-chevron-left"></i> k8s部署storageclass动态创建pv(nfs&rbd)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/26/9-linux遇到一些问题统计总结/" rel="prev" title="linux遇到一些问题统计总结">
+                linux遇到一些问题统计总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zhangzw</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友链
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://johnnywl.github.io/" title="https://johnnywl.github.io/" rel="noopener" target="_blank">johnny</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载glibc二进制包"><span class="nav-number">1.</span> <span class="nav-text">下载glibc二进制包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装配置"><span class="nav-number">2.</span> <span class="nav-text">安装配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#my-cnf"><span class="nav-number">3.</span> <span class="nav-text">my.cnf</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhangzw</span>
+
+  
+
+  
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+
+-->
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="96,96,96" opacity="0.5" zindex="-1" count="229" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 'Q7DcnSqtpo3sXcnqbvDv7PkE-gzGzoHsz',
+      appKey: 'OLwBbxGhnrwtyHRU3bJynspO',
+      placeholder: 'ヾﾉ≧∀≦)o 来呀！快活呀！~啦啦啦~ 啦啦啦啦~',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: true
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<!-- 预加载 -->
+<script type="text/javascript" src="/js/src/instantclick.js" data-no-instant></script>
+<script data-no-instant>InstantClick.init();</script>
+
+</body>
+</html>
+
+<!-- 鼠标桃心动画 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<!-- 鼠标移动星星特效 -->
+<!--<script type="text/javascript" src="/js/src/love2.js"></script>-->
+<!-- 看板娘 -->
+<!--<script src="/live2d-widget/autoload.js"></script> -->
