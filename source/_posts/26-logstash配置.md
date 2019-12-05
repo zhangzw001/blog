@@ -11,23 +11,24 @@ categories:
 记录一些logstash的配置问题
 <!-- more -->
 
-### logstash排除一些信息
+
+### 想要排除某些信息
+[官方文档](https://www.elastic.co/guide/en/logstash/5.4/event-dependent-configuration.html#conditionals)
+
+
 ```
-# 排除sqlDuring = 0 (数字,如果是字符需要引号) 的整条json数据
-if [sqlDuring] == 0 {
-    drop {}
-    }
-   }
+if "_grokparsefailure" not in [tags] {
+        if [sqlDuring] < 5 {
+                 drop {}
+         }
+}
+else {
+        drop {}
+}
+```
 
-# logstash5.5 可以使用<
-if [sqlDuring] < 5 {
-    drop {}
-    }
-   }
+> 请务必注意 如果failure 可能会导致找不到 sqlDuring变量 而报错
 
-# 在logstash7.1 测试发现会报错:
-[2019-11-14T15:43:03,001][FATAL][logstash.runner          ] An unexpected error occurred! {:error=>java.lang.IllegalStateException: java.lang.NullPointerException, :backtrace=>["org.logstash.execution.WorkerLoop.run(org/logstash/execution/WorkerLoop.java:85)", "java.lang.reflect.Method.invoke(java/lang/reflect/Method.java:498)", "org.jruby.javasupport.JavaMethod.invokeDirectWithExceptionHandling(org/jruby/javasupport/JavaMethod.java:440)", "org.jruby.javasupport.JavaMethod.invokeDirect(org/jruby/javasupport/JavaMethod.java:304)", "usr.local.logstash_minus_7_dot_1_dot_1.logstash_minus_core.lib.logstash.java_pipeline.start_workers(/usr/local/logstash-7.1.1/logstash-core/lib/logstash/java_pipeline.rb:235)", "org.jruby.RubyProc.call(org/jruby/RubyProc.java:295)", "org.jruby.RubyProc.call(org/jruby/RubyProc.java:274)", "org.jruby.RubyProc.call(org/jruby/RubyProc.java:270)", "java.lang.Thread.run(java/lang/Thread.java:748)"]}
-[2019-11-14T15:43:03,063][ERROR][org.logstash.Logstash    ] java.lang.IllegalStateException: Logstash stopped processing because of an error: (SystemExit) exit
-
-
+```
+[2019-12-05T17:53:03,017][FATAL][logstash.runner          ] An unexpected error occurred! {:error=>#<NoMethodError: undefined method `<' for nil:NilClass>, :backtrace=>["(eval):139:in `initialize'", "org/jruby/RubyArray.java:1613:in `each'", "(eval):137:in `initialize'", "org/jruby/RubyProc.java:281:in `call'", "(eval):96:in `filter_func'", "/usr/local/logstash-5.0.2/logstash-core/lib/logstash/pipeline.rb:260:in `filter_batch'", "org/jruby/RubyProc.java:281:in `call'", "/usr/local/logstash-5.0.2/logstash-core/lib/logstash/util/wrapped_synchronous_queue.rb:186:in `each'", "org/jruby/RubyHash.java:1342:in `each'", "/usr/local/logstash-5.0.2/logstash-core/lib/logstash/util/wrapped_synchronous_queue.rb:185:in `each'", "/usr/local/logstash-5.0.2/logstash-core/lib/logstash/pipeline.rb:258:in `filter_batch'", "/usr/local/logstash-5.0.2/logstash-core/lib/logstash/pipeline.rb:246:in `worker_loop'", "/usr/local/logstash-5.0.2/logstash-core/lib/logstash/pipeline.rb:225:in `start_workers'"]}
 ```
