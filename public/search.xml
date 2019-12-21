@@ -35,9 +35,9 @@
         <category>lnmp</category>
       </categories>
       <tags>
+        <tag>nginx</tag>
         <tag>k8s</tag>
         <tag>k3s</tag>
-        <tag>nginx</tag>
         <tag>php5</tag>
       </tags>
   </entry>
