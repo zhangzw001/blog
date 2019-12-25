@@ -141,14 +141,14 @@
       <categories>
         <category>k8s</category>
         <category>elk7</category>
-        <category>filebeat7</category>
         <category>elk7</category>
+        <category>filebeat7</category>
       </categories>
       <tags>
         <tag>k8s</tag>
+        <tag>elk</tag>
         <tag>filebeat7</tag>
         <tag>elk7</tag>
-        <tag>elk</tag>
       </tags>
   </entry>
   <entry>
@@ -446,8 +446,8 @@
       </categories>
       <tags>
         <tag>k8s</tag>
-        <tag>elk7</tag>
         <tag>elk</tag>
+        <tag>elk7</tag>
         <tag>elasticsearch7</tag>
       </tags>
   </entry>
