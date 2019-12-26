@@ -362,16 +362,16 @@
       <categories>
         <category>技术文档</category>
         <category>k8s</category>
+        <category>storageclass</category>
         <category>存储</category>
         <category>ceph</category>
-        <category>storageclass</category>
         <category>nfs</category>
       </categories>
       <tags>
         <tag>k8s</tag>
         <tag>ceph</tag>
-        <tag>k8s存储</tag>
         <tag>nfs</tag>
+        <tag>k8s存储</tag>
         <tag>storageclass</tag>
       </tags>
   </entry>
@@ -387,8 +387,8 @@
       <tags>
         <tag>k8s</tag>
         <tag>ceph</tag>
-        <tag>cephfs</tag>
         <tag>k8s存储</tag>
+        <tag>cephfs</tag>
       </tags>
   </entry>
   <entry>
