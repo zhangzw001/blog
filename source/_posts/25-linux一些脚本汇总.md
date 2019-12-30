@@ -1,5 +1,5 @@
 ---
-title: 一些脚本汇总
+title: Linux一些脚本汇总
 copyright: true
 date: 2019-11-01 17:50:26
 tags:
@@ -13,3 +13,11 @@ categories:
 1 [清理es几天前的索引脚本](http://zhangzw001.github.io/sh/clean_es_data.sh.sh)
 2 [从mysql导出表到clickhouse脚本](http://zhangzw001.github.io/sh/clickhouse_from_mysql.sh)
 
+
+---
+###命令汇总
+#### 1. 生成字符串
+```
+tr -dc A-Za-z0-9_@$\%\^\/\+ < /dev/urandom|head -c 16|xargs
+
+```
