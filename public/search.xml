@@ -126,14 +126,14 @@
         <category>技术文档</category>
         <category>k8s</category>
         <category>elk</category>
-        <category>elk5</category>
         <category>elasticsearch5</category>
+        <category>elk5</category>
       </categories>
       <tags>
         <tag>k8s</tag>
+        <tag>elasticsearch5</tag>
         <tag>elk</tag>
         <tag>elk5</tag>
-        <tag>elasticsearch5</tag>
       </tags>
   </entry>
   <entry>
