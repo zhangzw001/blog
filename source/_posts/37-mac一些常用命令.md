@@ -8,9 +8,10 @@ categories:
   - [技术文档]
   - [mac]
   - [item2]
+top: 30
 ---
 记录一些常用的mac工具和方法
-
+<-- more-->
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
