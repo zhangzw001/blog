@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[mac一些常用命令]]></title>
+    <url>%2F2020%2F03%2F10%2F37-mac%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[记录一些常用的mac工具和方法 1. Item2 同时按住 option(alt) 键，可以以列选中，类似于 sublime3中 按住 alt的列选中 。 1Command + option(alt) 剪贴板历史记录 1Command + Shift + h 将文本内容复制到剪切板 1pbcopy &lt; a.txt]]></content>
+      <categories>
+        <category>技术文档</category>
+        <category>mac</category>
+        <category>item2</category>
+      </categories>
+      <tags>
+        <tag>mac</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[centos单网卡配置多ip的几种方法]]></title>
     <url>%2F2020%2F02%2F27%2F36-centos%E5%8D%95%E7%BD%91%E5%8D%A1%E9%85%8D%E7%BD%AE%E5%A4%9Aip%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95%2F</url>
     <content type="text"><![CDATA[centos单网卡配置多ip的几种方法 方法一 新建IP别名 临时设置, 不需要重启 12ifconfig enp0s3:1 172.16.53.109/24ifconfig enp0s3:1 down 配置文件设置, 需要重启 12345678910#cat ifcfg-enp0s3:1DEVICE=enp0s3IPADDR=172.16.53.109NETMASK=255.255.255.0# 重启网络service network restart# 查看(ifconfig 也可以查看)ip a 或ifconfig 方法二 临时设置, 不需要重启1ip addr add 172.16.53.110/24 dev enp0s3 label enp0s3:2 方法三 临时设置, 不需要重启1ifconfig enp0s3:3 172.16.53.111 netmask 255.255.255.0 方法四 同一个配置文件设置, 需要重启。IP地址没有别名不好进行管理。1234567891011121314#cat ifcfg-enp0s3DEVICE=enp0s3IPADDR=172.16.53.106IPADDR1=172.16.53.112IPADDR2=172.16.53.113PREFIX=24PREFIX1=24PREFIX2=24# 重启网络service network restart# 查看(ifconfig 不可以查看)ip a 注:这里奇怪的是, 实际配置中,出现个别ip使用方法二,三时仅部分内网可以联通,例如10.10.76.1 通过方法二配置, 从10.10.76.2上可以ping通, 但是从10.10.53.1上无法ping通(10.10.53.1和10.10.76.2是可以ping通)但是通过方法四配置就正常… 目前没有找到原因… 或与公司路由器有关]]></content>
@@ -423,8 +436,8 @@
     <content type="text"><![CDATA[hexo6 左下角添加看板娘 github地址: 张书樵大神 下载大神项目 (会说话,换人物,小游戏等功能)12cd themes/nextv6/sourcegit clone https://github.com/stevenjoezhang/live2d-widget.git github说明比较详细, 这里简单说明 由于这里是克隆到了source目录, hexo d -g的时候会生成到public目录, 相当于站点根目录了 123456# 直接开启autoload.js注释const live2d_path = "/live2d-widget/";# 修改 themes/nextv6/layout/_layout.swig, 最后一行添加如下&lt;!-- 看板娘 --&gt;&lt;script src="/live2d-widget/autoload.js"&gt;&lt;/script&gt; 一般小白简单教程(只有看鼠标方向功能) hexo 官方支持版 需要安装模板1npm install --save hexo-helper-live2d 修改主题配置文件各种宠物预览 12345678910111213141516171819202122232425# Live2D## https://github.com/EYHN/hexo-helper-live2dlive2d: enable: true # enable: false scriptFrom: local # 默认 pluginRootPath: live2dw/ # 插件在站点上的根目录(相对路径) pluginJsPath: lib/ # 脚本文件相对与插件根目录路径 pluginModelPath: assets/ # 模型文件相对与插件根目录路径 # scriptFrom: jsdelivr # jsdelivr CDN # scriptFrom: unpkg # unpkg CDN # scriptFrom: https://cdn.jsdelivr.net/npm/live2d-widget@3.x/lib/L2Dwidget.min.js # 你的自定义 url tagMode: false # 标签模式, 是否仅替换 live2d tag标签而非插入到所有页面中 debug: false # 调试, 是否在控制台输出日志 model: use: live2d-widget-model-haruto # npm-module package name # use: wanko # 博客根目录/live2d_models/ 下的目录名 # use: ./wives/wanko # 相对于博客根目录的路径 # use: https://cdn.jsdelivr.net/npm/live2d-widget-model-wanko@1.0.5/assets/wanko.model.json # 你的自定义 url display: position: left width: 150 height: 300 mobile: show: true # 手机中是否展示]]></content>
       <categories>
         <category>有趣</category>
-        <category>博客</category>
         <category>二次元</category>
+        <category>博客</category>
         <category>美化</category>
       </categories>
       <tags>
