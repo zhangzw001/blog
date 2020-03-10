@@ -18,17 +18,11 @@ top: 30
 <font color="blue" face="黑体" size=5> 1. Item2 </font>
 </center>
 
-- 同时按住 option(alt) 键，可以以列选中，类似于 sublime3中 按住 alt的列选中 。
-```
-Command + option(alt) 
-```
+- 1.1 同时按住 option(alt) 键，可以以列选中，类似于 sublime3中 按住 alt的列选中 。
+`Command + option(alt) `
 
-- 剪贴板历史记录
-```
-Command + Shift + h
-```
+- 1.2 剪贴板历史记录
+`Command + Shift + h`
 
-- 将文本内容复制到剪切板
-```
-pbcopy < a.txt
-```
+- 1.3 将文本内容复制到剪切板
+`pbcopy < a.txt`

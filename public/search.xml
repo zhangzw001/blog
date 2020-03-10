@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[mac一些常用命令]]></title>
     <url>%2F2020%2F03%2F10%2F37-mac%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
-    <content type="text"><![CDATA[记录一些常用的mac工具和方法 1. Item2 同时按住 option(alt) 键，可以以列选中，类似于 sublime3中 按住 alt的列选中 。 1Command + option(alt) 剪贴板历史记录 1Command + Shift + h 将文本内容复制到剪切板 1pbcopy &lt; a.txt]]></content>
+    <content type="text"><![CDATA[记录一些常用的mac工具和方法 1. Item2 1.1 同时按住 option(alt) 键，可以以列选中，类似于 sublime3中 按住 alt的列选中 。Command + option(alt) 1.2 剪贴板历史记录Command + Shift + h 1.3 将文本内容复制到剪切板pbcopy &lt; a.txt]]></content>
       <categories>
         <category>技术文档</category>
         <category>mac</category>
