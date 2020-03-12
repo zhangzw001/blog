@@ -101,20 +101,35 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Zhangzw&#39;s Blog">
-<meta property="og:url" content="http://zhangzw001.github.io/categories/k8s/index.html">
+  <meta name="description" content="elasticsearch 日志提示 overhead, 导致集群出现问题">
+<meta name="keywords" content="elasticsearch5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="es集群节点出现overhead脱机的问题">
+<meta property="og:url" content="http://zhangzw001.github.io/2020/03/12/38-es集群节点出现overhead脱机的问题/index.html">
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
+<meta property="og:description" content="elasticsearch 日志提示 overhead, 导致集群出现问题">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/38/gc1.jpg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/38/gc2.jpg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/38/gc3.jpg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/38/gc4.jpg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/38/gc5.jpg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:updated_time" content="2020-03-12T07:55:44.736Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zhangzw&#39;s Blog">
+<meta name="twitter:title" content="es集群节点出现overhead脱机的问题">
+<meta name="twitter:description" content="elasticsearch 日志提示 overhead, 导致集群出现问题">
+<meta name="twitter:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 
 
 
 
 
 
-  <link rel="canonical" href="http://zhangzw001.github.io/categories/k8s/">
+  <link rel="canonical" href="http://zhangzw001.github.io/2020/03/12/38-es集群节点出现overhead脱机的问题/">
 
 
 
@@ -124,7 +139,7 @@
   };
 </script>
 
-  <title>分类: k8s | Zhangzw's Blog</title>
+  <title>es集群节点出现overhead脱机的问题 | Zhangzw's Blog</title>
   
 
 
@@ -172,7 +187,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
 
@@ -228,7 +243,7 @@
         
         
           
-          <li class="menu-item menu-item-categories menu-item-active">
+          <li class="menu-item menu-item-categories">
 
     
     
@@ -275,22 +290,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -336,239 +335,357 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>k8s<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangzw001.github.io/2020/03/12/38-es集群节点出现overhead脱机的问题/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zhangzw">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhangzw's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-          <a class="post-title-link" href="/2019/12/05/34-k8s一些命令总结/" itemprop="url">
-            
-              <span itemprop="name">k8s一些命令总结</span>
-            
-          </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">es集群节点出现overhead脱机的问题
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-12-05T09:25:59+08:00" content="2019-12-05">
-          12-05
-        </time>
-      </div>
+              
+            
+          </h1>
+        
 
-    </header>
-  </article>
+        <div class="post-meta">
+	
+          <span class="post-time">
 
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-12 15:23:35 / 修改时间：15:55:44" itemprop="dateCreated datePublished" datetime="2020-03-12T15:23:35+08:00">2020-03-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/elk/" itemprop="url" rel="index"><span itemprop="name">elk</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/elk/elasticsearch5/" itemprop="url" rel="index"><span itemprop="name">elasticsearch5</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/12/38-es集群节点出现overhead脱机的问题/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2020/03/12/38-es集群节点出现overhead脱机的问题/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/12/38-es集群节点出现overhead脱机的问题/" class="leancloud_visitors" data-flag-title="es集群节点出现overhead脱机的问题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">9.7k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">9 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/11/25/28-k8s1-16使用旧yml部署配置问题/" itemprop="url">
-            
-              <span itemprop="name">k8s1.16使用旧yml部署配置问题</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-11-25T15:41:48+08:00" content="2019-11-25">
-          11-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/11/21/27-k8s一条命令部署es5-2-0集群/" itemprop="url">
-            
-              <span itemprop="name">k8s一条命令部署es5.2.0集群</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-11-21T18:13:35+08:00" content="2019-11-21">
-          11-21
-        </time>
-      </div>
-
-    </header>
-  </article>
+        <p>elasticsearch 日志提示 overhead, 导致集群出现问题</p>
+<a id="more"></a>
 
 
-      
-        
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5">  问题说明 </font>
+</center>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+<h3 id="elasticsearch-日志提示-overhead"><a href="#elasticsearch-日志提示-overhead" class="headerlink" title="elasticsearch 日志提示 overhead"></a>elasticsearch 日志提示 overhead</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">2020-03-12T14:38:03,565</span>][<span class="symbol">WARN </span>][<span class="string">o.e.m.j.JvmGcMonitorService</span>] [<span class="string">es7-u</span>] [<span class="string">gc</span>][<span class="symbol">old</span>][<span class="string">3008939</span>][<span class="symbol">256208</span>] duration [18.4s], collections [1]/[18.9s], total [18.4s]/[5.7h], memory [7.3gb]-&gt;[7.3gb]/[7.9gb], all_pools &#123;[young] [17.5mb]-&gt;[3.3mb]/[532.5mb]&#125;&#123;[survivor] [0b]-&gt;[0b]/[66.5mb]&#125;&#123;[old] [7.3gb]-&gt;[7.3gb]/[7.3gb]&#125;</span><br><span class="line">[<span class="string">2020-03-12T14:38:03,593</span>][<span class="symbol">WARN </span>][<span class="string">o.e.m.j.JvmGcMonitorService</span>] [<span class="string">es7-u</span>] [<span class="string">gc</span>][<span class="symbol">3008939</span>] overhead, spent [18.4s] collecting in the last [18.9s]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[<span class="string">2020-03-12T14:37:44,632</span>][<span class="symbol">WARN </span>][<span class="string">o.e.m.j.JvmGcMonitorService</span>] [<span class="string">es7-u</span>] [<span class="string">gc</span>][<span class="symbol">old</span>][<span class="string">3008938</span>][<span class="symbol">256207</span>] duration [24.8s], collections [1]/[25.5s], total [24.8s]/[5.7h], memory [7.3gb]-&gt;[7.3gb]/[7.9gb], all_pools &#123;[young] [8.5mb]-&gt;[17.5mb]/[532.5mb]&#125;&#123;[survivor] [0b]-&gt;[0b]/[66.5mb]&#125;&#123;[old] [7.3gb]-&gt;[7.3gb]/[7.3gb]&#125;</span><br><span class="line">[<span class="string">2020-03-12T14:37:44,632</span>][<span class="symbol">WARN </span>][<span class="string">o.e.m.j.JvmGcMonitorService</span>] [<span class="string">es7-u</span>] [<span class="string">gc</span>][<span class="symbol">3008938</span>] overhead, spent [24.8s] collecting in the last [25.5s]</span><br></pre></td></tr></table></figure>
 
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/10/30/24-filebeat7收集mysql慢日志到es/" itemprop="url">
-            
-              <span itemprop="name">filebeat7收集mysql慢日志到es</span>
-            
-          </a>
-        
-      </h2>
+<p>查看elasticsearch 配置 heap size 是8G</p>
+<p>ES 内存使用和GC指标——默认情况下，主节点每30秒会去检查其他节点的状态，如果任何节点的垃圾回收时间超过30秒（Garbage collection duration），则会导致主节点任务该节点脱离集群。</p>
+<p>设置过大的heap会导致GC时间过长，这些长时间的停顿（stop-the-world）会让集群错误的认为该节点已经脱离。</p>
+<p>所以通过增加ping_timeout的时间，和增加ping_retries的次数来防止节点错误的脱离集群，可以使节点有充足的时间进行full GC。</p>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5">  问题解决 </font>
+</center>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-10-30T16:56:37+08:00" content="2019-10-30">
-          10-30
-        </time>
-      </div>
+<h3 id="这里将默认的超时时间增加-增加重试次数-增加间隔时间"><a href="#这里将默认的超时时间增加-增加重试次数-增加间隔时间" class="headerlink" title="这里将默认的超时时间增加, 增加重试次数, 增加间隔时间"></a>这里将默认的超时时间增加, 增加重试次数, 增加间隔时间</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#超时时间设为<span class="number">5</span>分钟，超过<span class="number">6</span>次心跳没有回应，则认为该节点脱离master，每隔<span class="number">60s</span>发送一次心跳。</span><br><span class="line"> discovery<span class="selector-class">.zen</span><span class="selector-class">.fd</span><span class="selector-class">.ping_timeout</span>: <span class="number">300s</span></span><br><span class="line"> discovery<span class="selector-class">.zen</span><span class="selector-class">.fd</span><span class="selector-class">.ping_retries</span>: <span class="number">6</span></span><br><span class="line"> discovery<span class="selector-class">.zen</span><span class="selector-class">.fd</span><span class="selector-class">.ping_interval</span>: <span class="number">60s</span></span><br></pre></td></tr></table></figure>
 
-    </header>
-  </article>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5">  gc 垃圾回收算法 </font>
+</center>
 
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/10/24/20-k8s搭建mysql5-7-24主从/" itemprop="url">
-            
-              <span itemprop="name">k8s搭建mysql5.7.24主从</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-10-24T18:35:00+08:00" content="2019-10-24">
-          10-24
-        </time>
-      </div>
-
-    </header>
-  </article>
+<h3 id="标记-清除-算法-Mark-Sweep"><a href="#标记-清除-算法-Mark-Sweep" class="headerlink" title="标记-清除 算法(Mark Sweep)"></a>标记-清除 算法(Mark Sweep)</h3><p>该算法很简单，使用通过可达性分析分析方法标记出垃圾，然后直接回收掉垃圾区域。它的一个显著问题是一段时间后，内存会出现大量碎片，导致虽然碎片总和很大，但无法满足一个大对象的内存申请，从而导致 OOM，而过多的内存碎片（需要类似链表的数据结构维护），也会导致标记和清除的操作成本高，效率低下，如下图所示：</p>
+<center>
+<img src="http://zhangzw001.github.io/images/38/gc1.jpg">
+</center>
 
 
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/09/26/7-k8s部署storageclass动态创建pv-nfs-rbd/" itemprop="url">
-            
-              <span itemprop="name">k8s部署storageclass动态创建pv(nfs&rbd)</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-26T14:12:49+08:00" content="2019-09-26">
-          09-26
-        </time>
-      </div>
-
-    </header>
-  </article>
+<h3 id="复制算法-Copying"><a href="#复制算法-Copying" class="headerlink" title="复制算法(Copying)"></a>复制算法(Copying)</h3><p>有人提出了复制算法。它将可用内存一分为二，每次只用一块，当这一块内存不够用时，便触发 GC，将当前存活对象复制(Copy)到另一块上，以此往复。这种算法高效的原因在于分配内存时只需要将指针后移，不需要维护链表等。但它最大的问题是对内存的浪费，使用率只有 50%</p>
+<center>
+<img src="http://zhangzw001.github.io/images/38/gc2.jpg">
+</center>
 
 
-      
-        
+<h3 id="标记-整理算法-Mark-Compact"><a href="#标记-整理算法-Mark-Compact" class="headerlink" title="标记-整理算法(Mark Compact)"></a>标记-整理算法(Mark Compact)</h3><p>该算法解决了第1中算法的内存碎片问题，它会在回收阶段将所有内存做整理</p>
+<center>
+<img src="http://zhangzw001.github.io/images/38/gc3.jpg">
+</center>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+<h3 id="分代收集算法-Generation-Collection"><a href="#分代收集算法-Generation-Collection" class="headerlink" title="分代收集算法(Generation Collection)"></a>分代收集算法(Generation Collection)</h3><p>既然大部分 Java 对象是朝生夕死的，那么我们将内存按照 Java 生存时间分为 新生代(Young) 和 老年代(Old)，前者存放短命僧，后者存放长寿佛，当然长寿佛也是由短命僧升级上来的。然后针对两者可以采用不同的回收算法，比如对于新生代采用复制算法会比较高效，而对老年代可以采用标记-清除或者标记-整理算法。这种算法也是最常用的。JVM Heap 分代后的划分一般如下所示，新生代一般会分为 Eden、Survivor0、Survivor1区，便于使用复制算法。</p>
+<center>
+<img src="http://zhangzw001.github.io/images/38/gc4.jpg">
+</center>
 
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/09/20/3-k8s遇到的一些问题统计总结/" itemprop="url">
-            
-              <span itemprop="name">k8s遇到的一些问题统计总结</span>
-            
-          </a>
-        
-      </h2>
+<p>将内存分代后的 GC 过程一般类似下图所示：</p>
+<center>
+<img src="http://zhangzw001.github.io/images/38/gc5.jpg">
+</center>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-20T09:20:39+08:00" content="2019-09-20">
-          09-20
-        </time>
-      </div>
+<p>1 对象一般都是先在 Eden区创建<br>2 当Eden区满，触发 Young GC，此时将 Eden中还存活的对象复制到 S0中，并清空 Eden区后继续为新的对象分配内存<br>3 当Eden区再次满后，触发又一次的 Young GC，此时会将 Eden和S0中存活的对象复制到 S1中，然后清空Eden和S0后继续为新的对象分配内存<br>4 每经过一次 Young GC，存活下来的对象都会将自己存活次数加1，当达到一定次数后，会随着一次 Young GC 晋升到 Old区<br>5 Old区也会在合适的时机进行自己的 GC</p>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5">  elasticsearch gc说明 </font>
+</center>
 
-    </header>
-  </article>
+<p>Elasticsearch 默认的 GC 配置是CMS GC ，其 Young 区用 ParNew，Old 区用CMS，大家可以在 config/jvm.options中看到如下的配置：</p>
+<figure class="highlight ldif"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## GC configuration</span></span><br><span class="line"><span class="literal">-XX:+UseConcMarkSweepGC</span></span><br><span class="line"><span class="literal">-XX:CMSInitiatingOccupancyFraction=75</span></span><br><span class="line"><span class="literal">-XX:+UseCMSInitiatingOccupancyOnly</span></span><br></pre></td></tr></table></figure>
 
+<h3 id="何时进行回收"><a href="#何时进行回收" class="headerlink" title="何时进行回收"></a>何时进行回收</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">1 </span>Young 区的GC 都是在 Eden 区满时触发</span><br><span class="line"><span class="symbol">2 </span>Serial Old 和 Parallel Old 在 Old 区是在 Young GC 时预测Old 区是否可以为 young 区 promote 到 old 区 的 object 分配空间，如果不可用则触发 Old GC。这个也可以理解为是 Old区满时。</span><br><span class="line"><span class="symbol">3 </span>CMS GC 是在 Old 区大小超过一定比例后触发，而不是 Old 区满。这个原因在于 CMS GC 是并发的算法，也就是说在 GC 线程收集垃圾的时候，用户线程也在运行，因此需要预留一些 Heap 空间给用户线程使用，防止由于无法分配空间而导致 Full GC 发生。</span><br></pre></td></tr></table></figure>
 
-      
-        
+<h3 id="gc-日志说明"><a href="#gc-日志说明" class="headerlink" title="gc 日志说明"></a>gc 日志说明</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">2020-03-12T14:38:03,565</span>][<span class="symbol">WARN </span>][<span class="string">o.e.m.j.JvmGcMonitorService</span>] [<span class="string">es7-u</span>] [<span class="string">gc</span>][<span class="symbol">old</span>][<span class="string">3008939</span>][<span class="symbol">256208</span>] duration [18.4s], collections [1]/[18.9s], total [18.4s]/[5.7h], memory [7.3gb]-&gt;[7.3gb]/[7.9gb], all_pools &#123;[young] [17.5mb]-&gt;[3.3mb]/[532.5mb]&#125;&#123;[survivor] [0b]-&gt;[0b]/[66.5mb]&#125;&#123;[old] [7.3gb]-&gt;[7.3gb]/[7.3gb]&#125;</span><br><span class="line"></span><br><span class="line">[<span class="string">2020-03-12T14:38:03,593</span>][<span class="symbol">WARN </span>][<span class="string">o.e.m.j.JvmGcMonitorService</span>] [<span class="string">es7-u</span>] [<span class="string">gc</span>][<span class="symbol">3008939</span>] overhead, spent [18.4s] collecting in the last [18.9s]</span><br></pre></td></tr></table></figure>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/09/19/2-部署elk7-2-0/" itemprop="url">
-            
-              <span itemprop="name">部署elk7.2.0</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-19T17:59:53+08:00" content="2019-09-19">
-          09-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+<p>本次是old gc, 这是第3008939次GC检查, 从java启动至今这是第256208次 gc 共花18.4s, [从上次检查至今共发生一次gc][从上次检查至今已经过去18.9s],[本次gc18.4s]/[从 JVM 启动至今发生的 GC 总耗时为5.7h],  [ GC 前 Heap memory 空间]-&gt;[GC 后 Heap memory 空间]/[Heap memory 总空间]</p>
+<p>{[young 区][GC 前 Memory ]-&gt;[GC后 Memory]/[young区 Memory 总大小] } {[survivor 区][GC 前 Memory ]-&gt;[GC后 Memory]/[survivor区 Memory 总大小] }{[old 区][GC 前 Memory ]-&gt;[GC后 Memory]/[old区 Memory 总大小] }</p>
 
       
     </div>
 
+    
+
+    
+    
+    
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2020/03/12/38-es集群节点出现overhead脱机的问题/">es集群节点出现overhead脱机的问题</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
+  <p><span>发布时间:</span>2020年03月12日 - 15:03</p>
+  <p><span>最后更新:</span>2020年03月12日 - 15:03</p>
+  <p><span>原始链接:</span><a href="/2020/03/12/38-es集群节点出现overhead脱机的问题/" title="es集群节点出现overhead脱机的问题">http://zhangzw001.github.io/2020/03/12/38-es集群节点出现overhead脱机的问题/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2020/03/12/38-es集群节点出现overhead脱机的问题/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+
+      </div>
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/elasticsearch5/" rel="tag"># elasticsearch5</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/10/37-mac一些常用命令/" rel="next" title="mac一些常用命令">
+                <i class="fa fa-chevron-left"></i> mac一些常用命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
 
         </div>
         
@@ -589,8 +706,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -843,6 +969,23 @@
       </div>
 
       
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#elasticsearch-日志提示-overhead"><span class="nav-number">1.</span> <span class="nav-text">elasticsearch 日志提示 overhead</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#这里将默认的超时时间增加-增加重试次数-增加间隔时间"><span class="nav-number">2.</span> <span class="nav-text">这里将默认的超时时间增加, 增加重试次数, 增加间隔时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记-清除-算法-Mark-Sweep"><span class="nav-number">3.</span> <span class="nav-text">标记-清除 算法(Mark Sweep)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复制算法-Copying"><span class="nav-number">4.</span> <span class="nav-text">复制算法(Copying)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记-整理算法-Mark-Compact"><span class="nav-number">5.</span> <span class="nav-text">标记-整理算法(Mark Compact)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分代收集算法-Generation-Collection"><span class="nav-number">6.</span> <span class="nav-text">分代收集算法(Generation Collection)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#何时进行回收"><span class="nav-number">7.</span> <span class="nav-text">何时进行回收</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gc-日志说明"><span class="nav-number">8.</span> <span class="nav-text">gc 日志说明</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
 
       
 
@@ -972,6 +1115,10 @@
   
 
   
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
 
   
 
