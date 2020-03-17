@@ -6,6 +6,7 @@ tags:
   - shell
 categories:
   - [linux,shell]
+top: 20
 ---
 记录一些shell脚本
 <!-- more -->
@@ -20,4 +21,11 @@ categories:
 ```
 tr -dc A-Za-z0-9_@$\%\^\/\+ < /dev/urandom|head -c 16|xargs
 
+```
+
+#### grep需要转义的字符
+```
+grep '"第一个转义\$第二个转义\[{'  a.txt
+或者直接使用-F
+grep -F '"$[{' a.txt
 ```
