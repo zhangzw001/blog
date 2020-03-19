@@ -104,15 +104,15 @@
   <meta name="description" content="es机器报警磁盘 / 空间不足,查看是生成了 .hprof 文件, 内存溢出的典型特征">
 <meta name="keywords" content="elasticsearch5">
 <meta property="og:type" content="article">
-<meta property="og:title" content="41-记一次es集群内存溢出的问题">
+<meta property="og:title" content="记一次es集群内存溢出的问题">
 <meta property="og:url" content="http://zhangzw001.github.io/2020/03/19/41-记一次es集群内存溢出的问题/index.html">
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
 <meta property="og:description" content="es机器报警磁盘 / 空间不足,查看是生成了 .hprof 文件, 内存溢出的典型特征">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
-<meta property="og:updated_time" content="2020-03-19T04:00:16.807Z">
+<meta property="og:updated_time" content="2020-03-19T06:50:52.991Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="41-记一次es集群内存溢出的问题">
+<meta name="twitter:title" content="记一次es集群内存溢出的问题">
 <meta name="twitter:description" content="es机器报警磁盘 / 空间不足,查看是生成了 .hprof 文件, 内存溢出的典型特征">
 <meta name="twitter:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 
@@ -131,7 +131,7 @@
   };
 </script>
 
-  <title>41-记一次es集群内存溢出的问题 | Zhangzw's Blog</title>
+  <title>记一次es集群内存溢出的问题 | Zhangzw's Blog</title>
   
 
 
@@ -360,7 +360,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">41-记一次es集群内存溢出的问题
+          <h1 class="post-title" itemprop="name headline">记一次es集群内存溢出的问题
 
               
             
@@ -387,7 +387,7 @@
                 
               
 
-              <time title="创建时间：2020-03-19 10:26:49 / 修改时间：12:00:16" itemprop="dateCreated datePublished" datetime="2020-03-19T10:26:49+08:00">2020-03-19</time>
+              <time title="创建时间：2020-03-19 10:26:49 / 修改时间：14:50:52" itemprop="dateCreated datePublished" datetime="2020-03-19T10:26:49+08:00">2020-03-19</time>
             
 
             
@@ -440,7 +440,7 @@
 
           
           
-             <span id="/2020/03/19/41-记一次es集群内存溢出的问题/" class="leancloud_visitors" data-flag-title="41-记一次es集群内存溢出的问题">
+             <span id="/2020/03/19/41-记一次es集群内存溢出的问题/" class="leancloud_visitors" data-flag-title="记一次es集群内存溢出的问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -465,7 +465,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">6.6k</span>
+                <span title="本文字数">6.9k</span>
               
 
               
@@ -512,7 +512,7 @@
 <li>由于elasticsearch用户家目录是/home/elasticsearch, 所以内存溢出时 写的.hprof文件会生成到家目录, 并且大小有6G+, 这会导致/目录磁盘空间不足报警, 是否可以设置该日志目录? 或者取巧设置elasticsearch家目录到/data挂载盘上?</li>
 <li>内存溢出的问题, 是否可以优化并解决</li>
 </ol>
-<h3 id="问题1-我这里并未找到设置-hprof文件的生成目录路径设置-所以我就将根目录做了一个链接"><a href="#问题1-我这里并未找到设置-hprof文件的生成目录路径设置-所以我就将根目录做了一个链接" class="headerlink" title="问题1 我这里并未找到设置.hprof文件的生成目录路径设置, 所以我就将根目录做了一个链接"></a>问题1 我这里并未找到设置.hprof文件的生成目录路径设置, 所以我就将根目录做了一个链接</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv <span class="regexp">/home/</span>elasticsearch <span class="regexp">/data/</span></span><br><span class="line">ln -s <span class="regexp">/data/</span>elasticsearch <span class="regexp">/home/</span>elasticsearch</span><br></pre></td></tr></table></figure>
+<h3 id="问题1-我这里并未找到设置-hprof文件的生成目录路径设置-所以我就将根目录做了一个链接"><a href="#问题1-我这里并未找到设置-hprof文件的生成目录路径设置-所以我就将根目录做了一个链接" class="headerlink" title="问题1 我这里并未找到设置.hprof文件的生成目录路径设置, 所以我就将根目录做了一个链接"></a>问题1 我这里并未找到设置.hprof文件的生成目录路径设置, 所以我就将根目录做了一个链接</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mv <span class="regexp">/home/</span>elasticsearch <span class="regexp">/data/</span></span><br><span class="line">ln -s <span class="regexp">/data/</span>elasticsearch <span class="regexp">/home/</span>elasticsearch</span><br><span class="line">或者修改elasticsearch用户的家目录(不过需要用户没有在login中)</span><br><span class="line">lsof |<span class="keyword">grep</span> elasticsearch</span><br><span class="line">usermod -d <span class="regexp">/data/</span>elasticsearch elasticsearch</span><br></pre></td></tr></table></figure>
 
 <h3 id="问题2-内存溢出的问题-我们设置-indices-fielddata-cache-size-20"><a href="#问题2-内存溢出的问题-我们设置-indices-fielddata-cache-size-20" class="headerlink" title="问题2 内存溢出的问题,我们设置  indices.fielddata.cache.size:  20%"></a>问题2 内存溢出的问题,我们设置  indices.fielddata.cache.size:  20%</h3><blockquote>
 <p><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/_limiting_memory_usage.html#fielddata-size" target="_blank" rel="noopener">elasticsearch2.x 限制内存使用</a></p>
@@ -564,11 +564,11 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2020/03/19/41-记一次es集群内存溢出的问题/">41-记一次es集群内存溢出的问题</a></p>
+  <p><span>本文标题:</span><a href="/2020/03/19/41-记一次es集群内存溢出的问题/">记一次es集群内存溢出的问题</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2020年03月19日 - 10:03</p>
-  <p><span>最后更新:</span>2020年03月19日 - 12:03</p>
-  <p><span>原始链接:</span><a href="/2020/03/19/41-记一次es集群内存溢出的问题/" title="41-记一次es集群内存溢出的问题">http://zhangzw001.github.io/2020/03/19/41-记一次es集群内存溢出的问题/</a>
+  <p><span>最后更新:</span>2020年03月19日 - 14:03</p>
+  <p><span>原始链接:</span><a href="/2020/03/19/41-记一次es集群内存溢出的问题/" title="记一次es集群内存溢出的问题">http://zhangzw001.github.io/2020/03/19/41-记一次es集群内存溢出的问题/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2020/03/19/41-记一次es集群内存溢出的问题/" aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
