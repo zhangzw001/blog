@@ -119,16 +119,8 @@
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="http://zhangzw001.github.io/images/42/02.png">
 <meta property="og:image" content="http://zhangzw001.github.io/images/42/03.png">
-<<<<<<< HEAD
-<meta property="og:image" content="http://zhangzw001.github.io/images/42/02.png">
-<meta property="og:image" content="http://zhangzw001.github.io/images/42/03.png">
 <meta property="og:image" content="http://zhangzw001.github.io/images/42/04.png">
-<meta property="og:image" content="http://zhangzw001.github.io/images/42/04.png">
-<meta property="og:updated_time" content="2020-03-24T03:59:31.815Z">
-=======
-<meta property="og:image" content="http://zhangzw001.github.io/images/42/04.png">
-<meta property="og:updated_time" content="2020-03-24T03:38:06.100Z">
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
+<meta property="og:updated_time" content="2020-03-24T05:38:53.385Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kubeadm安装高可用k8s集群">
 <meta name="twitter:description" content="简单记录kubeadm方式安装k8s1.16.4高可用集群">
@@ -405,11 +397,7 @@
                 
               
 
-<<<<<<< HEAD
-              <time title="创建时间：2020-03-24 11:10:41 / 修改时间：11:59:31" itemprop="dateCreated datePublished" datetime="2020-03-24T11:10:41+08:00">2020-03-24</time>
-=======
-              <time title="创建时间：2020-03-24 11:10:41 / 修改时间：11:38:06" itemprop="dateCreated datePublished" datetime="2020-03-24T11:10:41+08:00">2020-03-24</time>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
+              <time title="创建时间：2020-03-24 11:10:41 / 修改时间：13:38:53" itemprop="dateCreated datePublished" datetime="2020-03-24T11:10:41+08:00">2020-03-24</time>
             
 
             
@@ -487,11 +475,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-<<<<<<< HEAD
-                <span title="本文字数">73k</span>
-=======
                 <span title="本文字数">70k</span>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
               
 
               
@@ -505,11 +489,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-<<<<<<< HEAD
-                <span title="阅读时长">1:07</span>
-=======
                 <span title="阅读时长">1:03</span>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
               
             </div>
           
@@ -560,89 +540,25 @@
 <li><p>1.5 配置系统内核参数</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">使流过网桥的流量也进入iptables/netfilter框架中，在/etc/sysctl.conf中添加以下配置</span><br><span class="line">cat &lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf</span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-iptables</span> = <span class="number">1</span></span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-ip6tables</span> = <span class="number">1</span></span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">sysctl -<span class="selector-tag">p</span> /etc/sysctl.d/k8s.conf</span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
-<<<<<<< HEAD
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
-<blockquote>
-<p>如果出现报错</p>
-</blockquote>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysctl: cannot stat /proc/sys/net/bridge/bridge-nf-<span class="keyword">call</span>-iptables: <span class="keyword">No</span> such <span class="keyword">file</span> <span class="keyword">or</span> <span class="keyword">directory</span></span><br><span class="line">sysctl: cannot stat /proc/<span class="keyword">sys</span>/net/bridge/bridge-nf-<span class="keyword">call</span>-ip6tables: <span class="keyword">No</span> such <span class="keyword">file</span> <span class="keyword">or</span> <span class="keyword">directory</span></span><br></pre></td></tr></table></figure>
-=======
 <blockquote>
 <p>如果出现报错</p>
 </blockquote>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysctl: cannot stat /proc/sys/net/bridge/bridge-nf-<span class="keyword">call</span>-iptables: <span class="keyword">No</span> such <span class="keyword">file</span> <span class="keyword">or</span> <span class="keyword">directory</span></span><br><span class="line">sysctl: cannot stat /proc/<span class="keyword">sys</span>/net/bridge/bridge-nf-<span class="keyword">call</span>-ip6tables: <span class="keyword">No</span> such <span class="keyword">file</span> <span class="keyword">or</span> <span class="keyword">directory</span></span><br></pre></td></tr></table></figure>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 
 <blockquote>
 <p>报错解决:</p>
 </blockquote>
-<<<<<<< HEAD
-  <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">=======</span><br><span class="line"><span class="quote">&gt; 如果出现报错</span></span><br></pre></td></tr></table></figure>
-
-<p>sysctl: cannot stat /proc/sys/net/bridge/bridge-nf-call-iptables: No such file or directory<br>sysctl: cannot stat /proc/sys/net/bridge/bridge-nf-call-ip6tables: No such file or directory</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="quote">&gt; 报错解决:</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>0683df77731bdb852312dcfa3eda982ad53a7509</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<h1 id="执行以下命令"><a href="#执行以下命令" class="headerlink" title="执行以下命令"></a>执行以下命令</h1><p>1 modprobe br_netfilter<br>2 ls /proc/sys/net/bridge<br>3 sysctl -p /etc/sysctl.d/k8s.conf</p>
-<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="bullet">- </span>1.6 设置k8s源</span><br></pre></td></tr></table></figure>
-
-<p>cat &lt;<eof> /etc/yum.repos.d/kubernetes.repo<br>[kubernetes]<br>name=Kubernetes<br>baseurl=<a href="https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/" target="_blank" rel="noopener">https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</a><br>enabled=1<br>gpgcheck=1<br>repo_gpgcheck=1<br>gpgkey=<a href="https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg" target="_blank" rel="noopener">https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg</a> <a href="https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg" target="_blank" rel="noopener">https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</a><br>EOF</eof></p>
-<p>yum clean all<br>yum makecache -y</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br></pre></td></tr></table></figure>
-
-<p>=======</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; <span class="number">0683</span>df77731bdb852312dcfa3eda982ad53a7509</span><br><span class="line">[] 中括号中的是repository id，唯一，用来标识不同仓库</span><br><span class="line">name 仓库名称，自定义</span><br><span class="line">baseurl 仓库地址</span><br><span class="line">enable 是否启用该仓库，默认为<span class="number">1</span>表示启用</span><br><span class="line">gpgcheck 是否验证从该仓库获得程序包的合法性，<span class="number">1</span>为验证</span><br><span class="line">repo_gpgcheck 是否验证元数据的合法性 元数据就是程序包列表，<span class="number">1</span>为验证</span><br><span class="line">gpgkey=URL 数字签名的公钥文件所在位置，如果gpgcheck值为<span class="number">1</span>，此处就需要指定gpgkey文件的位置，如果gpgcheck值为<span class="number">0</span>就不需要此项了</span><br></pre></td></tr></table></figure>
-=======
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 执行以下命令</span></span><br><span class="line">1 modprobe br_netfilter</span><br><span class="line">2 ls /proc/sys/net/bridge</span><br><span class="line">3 sysctl -p /etc/sysctl.d/k8s.conf</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1.6 设置k8s源</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">repo_gpgcheck=1</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">yum clean all</span><br><span class="line">yum makecache -y</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>1.6 设置k8s源<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">repo_gpgcheck=1</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">yum clean all</span><br><span class="line">yum makecache -y</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[] 中括号中的是repository id，唯一，用来标识不同仓库</span><br><span class="line">name 仓库名称，自定义</span><br><span class="line">baseurl 仓库地址</span><br><span class="line">enable 是否启用该仓库，默认为<span class="number">1</span>表示启用</span><br><span class="line">gpgcheck 是否验证从该仓库获得程序包的合法性，<span class="number">1</span>为验证</span><br><span class="line">repo_gpgcheck 是否验证元数据的合法性 元数据就是程序包列表，<span class="number">1</span>为验证</span><br><span class="line">gpgkey=URL 数字签名的公钥文件所在位置，如果gpgcheck值为<span class="number">1</span>，此处就需要指定gpgkey文件的位置，如果gpgcheck值为<span class="number">0</span>就不需要此项了</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1.7 免密登录配置</p>
+<p>略</p>
 </li>
 </ul>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[] 中括号中的是repository id，唯一，用来标识不同仓库</span><br><span class="line">name 仓库名称，自定义</span><br><span class="line">baseurl 仓库地址</span><br><span class="line">enable 是否启用该仓库，默认为<span class="number">1</span>表示启用</span><br><span class="line">gpgcheck 是否验证从该仓库获得程序包的合法性，<span class="number">1</span>为验证</span><br><span class="line">repo_gpgcheck 是否验证元数据的合法性 元数据就是程序包列表，<span class="number">1</span>为验证</span><br><span class="line">gpgkey=URL 数字签名的公钥文件所在位置，如果gpgcheck值为<span class="number">1</span>，此处就需要指定gpgkey文件的位置，如果gpgcheck值为<span class="number">0</span>就不需要此项了</span><br></pre></td></tr></table></figure>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
-
-<ul>
-<li>1.7 免密登录配置</li>
-</ul>
-<<<<<<< HEAD
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
-<h1 id="略"><a href="#略" class="headerlink" title="  略"></a>  略</h1><p>略</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>0683df77731bdb852312dcfa3eda982ad53a7509</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-=======
-<p>略</p>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
 <font color="blue" face="黑体" size="5"> 二、 docker版本安装 </font>
@@ -673,38 +589,15 @@
 <blockquote>
 <p>重新加载docker</p>
 </blockquote>
-</li>
-</ul>
-<<<<<<< HEAD
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br>  <figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">=======</span></span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>0683df77731bdb852312dcfa3eda982ad53a7509<br>systemctl restart docker<br>systemctl enable docker</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">  &gt;</span><span class="bash"> 修改cgroupdriver是为了消除告警：</span></span><br><span class="line"></span><br><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br></pre></td></tr></table></figure>
-
-<p>=======</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; <span class="number">0683</span>df77731bdb852312dcfa3eda982ad53a7509</span><br><span class="line">[<span class="meta">WARNING IsDockerSystemdCheck</span>]: detected “cgroupfs” <span class="keyword">as</span> the Docker cgroup driver. The recommended driver <span class="keyword">is</span> “systemd”. Please follow the guide at https:<span class="comment">//kubernetes.io/docs/setup/cri/</span></span><br></pre></td></tr></table></figure>
-=======
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart docker</span><br><span class="line">systemctl <span class="builtin-name">enable</span> docker</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>修改cgroupdriver是为了消除告警：</p>
 </blockquote>
 <figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">WARNING IsDockerSystemdCheck</span>]: detected “cgroupfs” <span class="keyword">as</span> the Docker cgroup driver. The recommended driver <span class="keyword">is</span> “systemd”. Please follow the guide at https:<span class="comment">//kubernetes.io/docs/setup/cri/</span></span><br></pre></td></tr></table></figure>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 
+</li>
+</ul>
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
 <font color="blue" face="黑体" size="5"> 三、 keepalived安装 </font>
@@ -739,39 +632,12 @@
 <li><p>4.1 安装</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> -y haproxy</span><br></pre></td></tr></table></figure>
 </li>
-<<<<<<< HEAD
-<li><p>4.2 配置<br>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
-<blockquote>
-<h1 id="三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。"><a href="#三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。" class="headerlink" title="三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。"></a>三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。</h1></blockquote>
-=======
 <li><p>4.2 配置</p>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 <blockquote>
 <p>三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。</p>
 </blockquote>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">tee  /etc/haproxy/haproxy.cfg &lt;&lt;- <span class="string">'EOF'</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Global settings</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">global</span><br><span class="line">    <span class="comment"># to have these messages end up in /var/log/haproxy.log you will</span></span><br><span class="line">    <span class="comment"># need to:</span></span><br><span class="line">    <span class="comment"># 1) configure syslog to accept network log events.  This is done</span></span><br><span class="line">    <span class="comment">#    by adding the '-r' option to the SYSLOGD_OPTIONS in</span></span><br><span class="line">    <span class="comment">#    /etc/sysconfig/syslog</span></span><br><span class="line">    <span class="comment"># 2) configure local2 events to go to the /var/log/haproxy.log</span></span><br><span class="line">    <span class="comment">#   file. A line like the following can be added to</span></span><br><span class="line">    <span class="comment">#   /etc/sysconfig/syslog</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#    local2.*                       /var/log/haproxy.log</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    log         <span class="number">127.0</span>.<span class="number">0.1</span> local2</span><br><span class="line"></span><br><span class="line">    chroot      /var/<span class="class"><span class="keyword">lib</span>/<span class="title">haproxy</span></span></span><br><span class="line">    pidfile     /var/run/haproxy.pid</span><br><span class="line">    maxconn     <span class="number">4000</span></span><br><span class="line">    user        haproxy</span><br><span class="line">    group       haproxy</span><br><span class="line">    daemon</span><br><span class="line"></span><br><span class="line">    <span class="comment"># turn on stats unix socket</span></span><br><span class="line">    stats socket /var/<span class="class"><span class="keyword">lib</span>/<span class="title">haproxy</span>/<span class="title">stats</span></span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># common defaults that all the 'listen' and 'backend' sections will</span></span><br><span class="line"><span class="comment"># use if not designated in their block</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------  </span></span><br><span class="line">defaults</span><br><span class="line">    mode                    http</span><br><span class="line">    log                     global</span><br><span class="line">    option                  httplog</span><br><span class="line">    option                  dontlognull</span><br><span class="line">    option http-server-close</span><br><span class="line">    option forwardfor       except <span class="number">127.0</span>.<span class="number">0.0</span>/<span class="number">8</span></span><br><span class="line">    option                  redispatch</span><br><span class="line">    retries                 <span class="number">3</span></span><br><span class="line">    timeout http-request    <span class="number">10</span>s</span><br><span class="line">    timeout queue           <span class="number">1</span>m</span><br><span class="line">    timeout connect         <span class="number">10</span>s</span><br><span class="line">    timeout client          <span class="number">1</span>m</span><br><span class="line">    timeout server          <span class="number">1</span>m</span><br><span class="line">    timeout http-keep-alive <span class="number">10</span>s</span><br><span class="line">    timeout check           <span class="number">10</span>s</span><br><span class="line">    maxconn                 <span class="number">3000</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># kubernetes apiserver frontend which proxys to the backends</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">frontend kubernetes-apiserver</span><br><span class="line">    mode                 tcp</span><br><span class="line">    bind                 *:<span class="number">16443</span></span><br><span class="line">    option               tcplog</span><br><span class="line">    default_backend      kubernetes-apiserver    </span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># round robin balancing between the various backends</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">backend kubernetes-apiserver</span><br><span class="line">    mode        tcp</span><br><span class="line">    balance     roundrobin</span><br><span class="line">    server      master01.k8s.io   <span class="number">172.16</span>.<span class="number">53.106</span>:<span class="number">6443</span> check</span><br><span class="line">    server      master02.k8s.io   <span class="number">172.16</span>.<span class="number">53.107</span>:<span class="number">6443</span> check</span><br><span class="line">    server      master03.k8s.io   <span class="number">172.16</span>.<span class="number">53.108</span>:<span class="number">6443</span> check</span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># collection haproxy statistics message</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">listen stats</span><br><span class="line">    bind                 *:<span class="number">1080</span></span><br><span class="line">    stats auth           <span class="symbol">admin:</span>awesomePassword</span><br><span class="line">    stats refresh        <span class="number">5</span>s</span><br><span class="line">    stats realm          HAProxy\ Statistics</span><br><span class="line">    stats uri            /admin?stats</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
-<<<<<<< HEAD
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>0683df77731bdb852312dcfa3eda982ad53a7509<br>  <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">tee  /etc/haproxy/haproxy.cfg &lt;&lt;- <span class="string">'EOF'</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Global settings</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">global</span><br><span class="line">    <span class="comment"># to have these messages end up in /var/log/haproxy.log you will</span></span><br><span class="line">    <span class="comment"># need to:</span></span><br><span class="line">    <span class="comment"># 1) configure syslog to accept network log events.  This is done</span></span><br><span class="line">    <span class="comment">#    by adding the '-r' option to the SYSLOGD_OPTIONS in</span></span><br><span class="line">    <span class="comment">#    /etc/sysconfig/syslog</span></span><br><span class="line">    <span class="comment"># 2) configure local2 events to go to the /var/log/haproxy.log</span></span><br><span class="line">    <span class="comment">#   file. A line like the following can be added to</span></span><br><span class="line">    <span class="comment">#   /etc/sysconfig/syslog</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#    local2.*                       /var/log/haproxy.log</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    log         <span class="number">127.0</span>.<span class="number">0.1</span> local2</span><br><span class="line"></span><br><span class="line">    chroot      /var/<span class="class"><span class="keyword">lib</span>/<span class="title">haproxy</span></span></span><br><span class="line">    pidfile     /var/run/haproxy.pid</span><br><span class="line">    maxconn     <span class="number">4000</span></span><br><span class="line">    user        haproxy</span><br><span class="line">    group       haproxy</span><br><span class="line">    daemon</span><br><span class="line"></span><br><span class="line">    <span class="comment"># turn on stats unix socket</span></span><br><span class="line">    stats socket /var/<span class="class"><span class="keyword">lib</span>/<span class="title">haproxy</span>/<span class="title">stats</span></span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># common defaults that all the 'listen' and 'backend' sections will</span></span><br><span class="line"><span class="comment"># use if not designated in their block</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------  </span></span><br><span class="line">defaults</span><br><span class="line">    mode                    http</span><br><span class="line">    log                     global</span><br><span class="line">    option                  httplog</span><br><span class="line">    option                  dontlognull</span><br><span class="line">    option http-server-close</span><br><span class="line">    option forwardfor       except <span class="number">127.0</span>.<span class="number">0.0</span>/<span class="number">8</span></span><br><span class="line">    option                  redispatch</span><br><span class="line">    retries                 <span class="number">3</span></span><br><span class="line">    timeout http-request    <span class="number">10</span>s</span><br><span class="line">    timeout queue           <span class="number">1</span>m</span><br><span class="line">    timeout connect         <span class="number">10</span>s</span><br><span class="line">    timeout client          <span class="number">1</span>m</span><br><span class="line">    timeout server          <span class="number">1</span>m</span><br><span class="line">    timeout http-keep-alive <span class="number">10</span>s</span><br><span class="line">    timeout check           <span class="number">10</span>s</span><br><span class="line">    maxconn                 <span class="number">3000</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># kubernetes apiserver frontend which proxys to the backends</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">frontend kubernetes-apiserver</span><br><span class="line">    mode                 tcp</span><br><span class="line">    bind                 *:<span class="number">16443</span></span><br><span class="line">    option               tcplog</span><br><span class="line">    default_backend      kubernetes-apiserver    </span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># round robin balancing between the various backends</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">backend kubernetes-apiserver</span><br><span class="line">    mode        tcp</span><br><span class="line">    balance     roundrobin</span><br><span class="line">    server      master01.k8s.io   <span class="number">172.16</span>.<span class="number">53.106</span>:<span class="number">6443</span> check</span><br><span class="line">    server      master02.k8s.io   <span class="number">172.16</span>.<span class="number">53.107</span>:<span class="number">6443</span> check</span><br><span class="line">    server      master03.k8s.io   <span class="number">172.16</span>.<span class="number">53.108</span>:<span class="number">6443</span> check</span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># collection haproxy statistics message</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">listen stats</span><br><span class="line">    bind                 *:<span class="number">1080</span></span><br><span class="line">    stats auth           <span class="symbol">admin:</span>awesomePassword</span><br><span class="line">    stats refresh        <span class="number">5</span>s</span><br><span class="line">    stats realm          HAProxy\ Statistics</span><br><span class="line">    stats uri            /admin?stats</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-=======
-  <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">tee  /etc/haproxy/haproxy.cfg &lt;&lt;- <span class="string">'EOF'</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Global settings</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">global</span><br><span class="line">    <span class="comment"># to have these messages end up in /var/log/haproxy.log you will</span></span><br><span class="line">    <span class="comment"># need to:</span></span><br><span class="line">    <span class="comment"># 1) configure syslog to accept network log events.  This is done</span></span><br><span class="line">    <span class="comment">#    by adding the '-r' option to the SYSLOGD_OPTIONS in</span></span><br><span class="line">    <span class="comment">#    /etc/sysconfig/syslog</span></span><br><span class="line">    <span class="comment"># 2) configure local2 events to go to the /var/log/haproxy.log</span></span><br><span class="line">    <span class="comment">#   file. A line like the following can be added to</span></span><br><span class="line">    <span class="comment">#   /etc/sysconfig/syslog</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#    local2.*                       /var/log/haproxy.log</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    log         <span class="number">127.0</span>.<span class="number">0.1</span> local2</span><br><span class="line"></span><br><span class="line">    chroot      /var/<span class="class"><span class="keyword">lib</span>/<span class="title">haproxy</span></span></span><br><span class="line">    pidfile     /var/run/haproxy.pid</span><br><span class="line">    maxconn     <span class="number">4000</span></span><br><span class="line">    user        haproxy</span><br><span class="line">    group       haproxy</span><br><span class="line">    daemon</span><br><span class="line"></span><br><span class="line">    <span class="comment"># turn on stats unix socket</span></span><br><span class="line">    stats socket /var/<span class="class"><span class="keyword">lib</span>/<span class="title">haproxy</span>/<span class="title">stats</span></span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># common defaults that all the 'listen' and 'backend' sections will</span></span><br><span class="line"><span class="comment"># use if not designated in their block</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------  </span></span><br><span class="line">defaults</span><br><span class="line">    mode                    http</span><br><span class="line">    log                     global</span><br><span class="line">    option                  httplog</span><br><span class="line">    option                  dontlognull</span><br><span class="line">    option http-server-close</span><br><span class="line">    option forwardfor       except <span class="number">127.0</span>.<span class="number">0.0</span>/<span class="number">8</span></span><br><span class="line">    option                  redispatch</span><br><span class="line">    retries                 <span class="number">3</span></span><br><span class="line">    timeout http-request    <span class="number">10</span>s</span><br><span class="line">    timeout queue           <span class="number">1</span>m</span><br><span class="line">    timeout connect         <span class="number">10</span>s</span><br><span class="line">    timeout client          <span class="number">1</span>m</span><br><span class="line">    timeout server          <span class="number">1</span>m</span><br><span class="line">    timeout http-keep-alive <span class="number">10</span>s</span><br><span class="line">    timeout check           <span class="number">10</span>s</span><br><span class="line">    maxconn                 <span class="number">3000</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># kubernetes apiserver frontend which proxys to the backends</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">frontend kubernetes-apiserver</span><br><span class="line">    mode                 tcp</span><br><span class="line">    bind                 *:<span class="number">16443</span></span><br><span class="line">    option               tcplog</span><br><span class="line">    default_backend      kubernetes-apiserver    </span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># round robin balancing between the various backends</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">backend kubernetes-apiserver</span><br><span class="line">    mode        tcp</span><br><span class="line">    balance     roundrobin</span><br><span class="line">    server      master01.k8s.io   <span class="number">172.16</span>.<span class="number">53.106</span>:<span class="number">6443</span> check</span><br><span class="line">    server      master02.k8s.io   <span class="number">172.16</span>.<span class="number">53.107</span>:<span class="number">6443</span> check</span><br><span class="line">    server      master03.k8s.io   <span class="number">172.16</span>.<span class="number">53.108</span>:<span class="number">6443</span> check</span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># collection haproxy statistics message</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">listen stats</span><br><span class="line">    bind                 *:<span class="number">1080</span></span><br><span class="line">    stats auth           <span class="symbol">admin:</span>awesomePassword</span><br><span class="line">    stats refresh        <span class="number">5</span>s</span><br><span class="line">    stats realm          HAProxy\ Statistics</span><br><span class="line">    stats uri            /admin?stats</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
-
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
-<ul>
 <li><p>4.3 启动</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="builtin-name">enable</span> haproxy</span><br><span class="line">systemctl start haproxy</span><br><span class="line">systemctl status haproxy</span><br><span class="line">netstat -lnptu|grep haproxy</span><br></pre></td></tr></table></figure>
 
@@ -875,59 +741,20 @@
 </li>
 </ul>
 <ul>
-<li>7.5 测试集群<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1 查看leader</span></span><br><span class="line"><span class="comment"># kubectl get endpoints kube-controller-manager -n kube-system -o yaml |grep holderIdentity</span></span><br><span class="line"></span><br><span class="line">control-plane.alpha.kubernetes.io/leader: '&#123;<span class="string">"holderIdentity"</span>:<span class="string">"master01.k8s.io_4b4f63f3-551e-4514-8aa9-a8fdbb13f1b4"</span>,<span class="string">"leaseDurationSeconds"</span>:<span class="number">15</span>,<span class="string">"acquireTime"</span>:<span class="string">"2020-03-24T02:40:32Z"</span>,<span class="string">"renewTime"</span>:<span class="string">"2020-03-24T02:45:47Z"</span>,<span class="string">"leaderTransitions"</span>:<span class="number">1</span>&#125;'</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2 在master01.k8s.io 上执行 init 0 关机 模拟宕机</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3 controller-manager和scheduler也发生了迁移</span></span><br><span class="line"><span class="comment"># kubectl get endpoints kube-controller-manager -n kube-system -o yaml |grep holderIdentity</span></span><br><span class="line"></span><br><span class="line">control-plane.alpha.kubernetes.io/leader: '&#123;<span class="string">"holderIdentity"</span>:<span class="string">"master02.k8s.io_457a8d6d-d0e4-4a8e-afbe-0c37f0dadf8d"</span>,<span class="string">"leaseDurationSeconds"</span>:<span class="number">15</span>,<span class="string">"acquireTime"</span>:<span class="string">"2020-03-24T02:46:03Z"</span>,<span class="string">"renewTime"</span>:<span class="string">"2020-03-24T02:50:50Z"</span>,<span class="string">"leaderTransitions"</span>:<span class="number">2</span>&#125;'</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4 集群此时还是能正常操作</span></span><br><span class="line"><span class="comment"># kubectl get nodes</span></span><br><span class="line">NAME              STATUS     ROLES    AGE   <span class="keyword">VERSION</span></span><br><span class="line">master01.k8s.io   NotReady   <span class="keyword">master</span>   <span class="title">17m</span>   v1.<span class="number">16.4</span></span><br><span class="line">master02.k8s.io   Ready      <span class="keyword">master</span>   <span class="title">12m</span>   v1.<span class="number">16.4</span></span><br><span class="line">master03.k8s.io   Ready      <span class="keyword">master</span>   <span class="title">11m</span>   v1.<span class="number">16.4</span></span><br></pre></td></tr></table></figure>
+<li><p>7.5 测试集群</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1 查看leader</span></span><br><span class="line"><span class="comment"># kubectl get endpoints kube-controller-manager -n kube-system -o yaml |grep holderIdentity</span></span><br><span class="line"></span><br><span class="line">control-plane.alpha.kubernetes.io/leader: '&#123;<span class="string">"holderIdentity"</span>:<span class="string">"master01.k8s.io_4b4f63f3-551e-4514-8aa9-a8fdbb13f1b4"</span>,<span class="string">"leaseDurationSeconds"</span>:<span class="number">15</span>,<span class="string">"acquireTime"</span>:<span class="string">"2020-03-24T02:40:32Z"</span>,<span class="string">"renewTime"</span>:<span class="string">"2020-03-24T02:45:47Z"</span>,<span class="string">"leaderTransitions"</span>:<span class="number">1</span>&#125;'</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2 在master01.k8s.io 上执行 init 0 关机 模拟宕机</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3 controller-manager和scheduler也发生了迁移</span></span><br><span class="line"><span class="comment"># kubectl get endpoints kube-controller-manager -n kube-system -o yaml |grep holderIdentity</span></span><br><span class="line"></span><br><span class="line">control-plane.alpha.kubernetes.io/leader: '&#123;<span class="string">"holderIdentity"</span>:<span class="string">"master02.k8s.io_457a8d6d-d0e4-4a8e-afbe-0c37f0dadf8d"</span>,<span class="string">"leaseDurationSeconds"</span>:<span class="number">15</span>,<span class="string">"acquireTime"</span>:<span class="string">"2020-03-24T02:46:03Z"</span>,<span class="string">"renewTime"</span>:<span class="string">"2020-03-24T02:50:50Z"</span>,<span class="string">"leaderTransitions"</span>:<span class="number">2</span>&#125;'</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4 集群此时还是能正常操作</span></span><br><span class="line"><span class="comment"># kubectl get nodes</span></span><br><span class="line">NAME              STATUS     ROLES    AGE   <span class="keyword">VERSION</span></span><br><span class="line">master01.k8s.io   NotReady   <span class="keyword">master</span>   <span class="title">17m</span>   v1.<span class="number">16.4</span></span><br><span class="line">master02.k8s.io   Ready      <span class="keyword">master</span>   <span class="title">12m</span>   v1.<span class="number">16.4</span></span><br><span class="line">master03.k8s.io   Ready      <span class="keyword">master</span>   <span class="title">11m</span>   v1.<span class="number">16.4</span></span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
-<<<<<<< HEAD
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br>  <img src="http://zhangzw001.github.io/images/42/02.png" alt></p>
-<h1 id><a href="#" class="headerlink" title="  "></a>  <img src="http://zhangzw001.github.io/images/42/03.png" alt></h1><p><img src="http://zhangzw001.github.io/images/42/02.png" alt></p>
-<p><img src="http://zhangzw001.github.io/images/42/03.png" alt></p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>0683df77731bdb852312dcfa3eda982ad53a7509</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-=======
 <p><img src="http://zhangzw001.github.io/images/42/02.png" alt></p>
 <p><img src="http://zhangzw001.github.io/images/42/03.png" alt></p>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
-<ul>
-<li>7.6 导入集群到rancher<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这里请自行在rancher界面生成(我这里是rancherv2.3.5)</span></span><br><span class="line">curl --insecure -sfL https:<span class="regexp">//</span>rancher-dev.xxx.com<span class="regexp">/v3/im</span>port<span class="regexp">/68nzw8nlch92gshktcx2v5d8xvlvlk57nfgffz9jr7hxwfkwcbbtpz.yaml | kubectl apply -f -</span></span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
-<<<<<<< HEAD
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
-<h1 id="-1"><a href="#-1" class="headerlink" title="  "></a>  <img src="http://zhangzw001.github.io/images/42/04.png" alt></h1><p><img src="http://zhangzw001.github.io/images/42/04.png" alt></p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>0683df77731bdb852312dcfa3eda982ad53a7509</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-=======
+<ul>
+<li><p>7.6 导入集群到rancher</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这里请自行在rancher界面生成(我这里是rancherv2.3.5)</span></span><br><span class="line">curl --insecure -sfL https:<span class="regexp">//</span>rancher-dev.xxx.com<span class="regexp">/v3/im</span>port<span class="regexp">/68nzw8nlch92gshktcx2v5d8xvlvlk57nfgffz9jr7hxwfkwcbbtpz.yaml | kubectl apply -f -</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="http://zhangzw001.github.io/images/42/04.png" alt></p>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
+</li>
+</ul>
 
       
     </div>
@@ -950,7 +777,7 @@
   <p><span>本文标题:</span><a href="/2020/03/24/42-kubeadm安装高可用k8s集群/">kubeadm安装高可用k8s集群</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2020年03月24日 - 11:03</p>
-  <p><span>最后更新:</span>2020年03月24日 - 11:03</p>
+  <p><span>最后更新:</span>2020年03月24日 - 13:03</p>
   <p><span>原始链接:</span><a href="/2020/03/24/42-kubeadm安装高可用k8s集群/" title="kubeadm安装高可用k8s集群">http://zhangzw001.github.io/2020/03/24/42-kubeadm安装高可用k8s集群/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2020/03/24/42-kubeadm安装高可用k8s集群/" aria-label="复制成功！"></i></span>
   </p>
@@ -1001,13 +828,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-<<<<<<< HEAD
-              <a href="/2020/03/18/40-记一次跨域的nginx配置问题/" rel="next" title="记一次跨域的nginx配置问题">
-                <i class="fa fa-chevron-left"></i> 记一次跨域的nginx配置问题
-=======
               <a href="/2020/03/19/41-记一次es集群内存溢出的问题/" rel="next" title="记一次es集群内存溢出的问题">
                 <i class="fa fa-chevron-left"></i> 记一次es集群内存溢出的问题
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
               </a>
             
           </div>
@@ -1063,22 +885,8 @@
       
 
       
-<<<<<<< HEAD
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-=======
 
       <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1093,11 +901,7 @@
                 
                   <a href="/archives/">
                 
-<<<<<<< HEAD
-                    <span class="site-state-item-count">43</span>
-=======
                     <span class="site-state-item-count">44</span>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1337,26 +1141,6 @@
       </div>
 
       
-<<<<<<< HEAD
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#执行以下命令"><span class="nav-number">1.</span> <span class="nav-text">执行以下命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#略"><span class="nav-number">2.</span> <span class="nav-text">  略</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。"><span class="nav-number">3.</span> <span class="nav-text">三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">4.</span> <span class="nav-text">  </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-1"><span class="nav-number">5.</span> <span class="nav-text">  </span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-=======
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 
       
 

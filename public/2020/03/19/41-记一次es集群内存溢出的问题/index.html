@@ -110,7 +110,7 @@
 <meta property="og:description" content="es机器报警磁盘 / 空间不足,查看是生成了 .hprof 文件, 内存溢出的典型特征">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
-<meta property="og:updated_time" content="2020-03-24T03:16:51.331Z">
+<meta property="og:updated_time" content="2020-03-24T05:41:04.633Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记一次es集群内存溢出的问题">
 <meta name="twitter:description" content="es机器报警磁盘 / 空间不足,查看是生成了 .hprof 文件, 内存溢出的典型特征">
@@ -404,7 +404,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-03-24 11:16:51" itemprop="dateModified" datetime="2020-03-24T11:16:51+08:00">2020-03-24</time>
+                <time title="修改时间：2020-03-24 13:41:04" itemprop="dateModified" datetime="2020-03-24T13:41:04+08:00">2020-03-24</time>
               
             
           </span>
@@ -477,7 +477,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">7.4k</span>
+                <span title="本文字数">7.2k</span>
               
 
               
@@ -557,23 +557,7 @@
 <p>在 Fielddata的大小 中，我们提过关于给 fielddata 的大小加一个限制，从而确保旧的无用 fielddata 被回收的方法。 indices.fielddata.cache.size 和 indices.breaker.fielddata.limit 之间的关系非常重要。 如果断路器的限制低于缓存大小，没有数据会被回收。为了能正常工作，断路器的限制 必须 要比缓存大小要高。</p>
 </blockquote>
 <h3 id="在设置-Elasticsearch-堆大小时需要通过-ES-HEAP-SIZE-环境变量应用两个规则："><a href="#在设置-Elasticsearch-堆大小时需要通过-ES-HEAP-SIZE-环境变量应用两个规则：" class="headerlink" title="在设置 Elasticsearch 堆大小时需要通过 $ES_HEAP_SIZE 环境变量应用两个规则："></a>在设置 Elasticsearch 堆大小时需要通过 $ES_HEAP_SIZE 环境变量应用两个规则：</h3><p>1 不要超过可用 RAM 的 50%<br>Lucene 能很好利用文件系统的缓存，它是通过系统内核管理的。如果没有足够的文件系统缓存空间，性能会受到影响。 此外，专用于堆的内存越多意味着其他所有使用 doc values 的字段内存越少。<br>2 不要超过 32 GB</p>
-<h1 id="如果堆大小小于-32-GB，JVM-可以利用指针压缩，这可以大大降低内存的使用：每个指针-4-字节而不是-8-字节。"><a href="#如果堆大小小于-32-GB，JVM-可以利用指针压缩，这可以大大降低内存的使用：每个指针-4-字节而不是-8-字节。" class="headerlink" title="如果堆大小小于 32 GB，JVM 可以利用指针压缩，这可以大大降低内存的使用：每个指针 4 字节而不是 8 字节。"></a>如果堆大小小于 32 GB，JVM 可以利用指针压缩，这可以大大降低内存的使用：每个指针 4 字节而不是 8 字节。</h1><hr>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>f0eb8557502bb7b89616955eaea606fc1b067664</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-
+<h2 id="如果堆大小小于-32-GB，JVM-可以利用指针压缩，这可以大大降低内存的使用：每个指针-4-字节而不是-8-字节。"><a href="#如果堆大小小于-32-GB，JVM-可以利用指针压缩，这可以大大降低内存的使用：每个指针-4-字节而不是-8-字节。" class="headerlink" title="如果堆大小小于 32 GB，JVM 可以利用指针压缩，这可以大大降低内存的使用：每个指针 4 字节而不是 8 字节。"></a>如果堆大小小于 32 GB，JVM 可以利用指针压缩，这可以大大降低内存的使用：每个指针 4 字节而不是 8 字节。</h2>
       
     </div>
 
@@ -595,7 +579,7 @@
   <p><span>本文标题:</span><a href="/2020/03/19/41-记一次es集群内存溢出的问题/">记一次es集群内存溢出的问题</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2020年03月19日 - 10:03</p>
-  <p><span>最后更新:</span>2020年03月24日 - 11:03</p>
+  <p><span>最后更新:</span>2020年03月24日 - 13:03</p>
   <p><span>原始链接:</span><a href="/2020/03/19/41-记一次es集群内存溢出的问题/" title="记一次es集群内存溢出的问题">http://zhangzw001.github.io/2020/03/19/41-记一次es集群内存溢出的问题/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2020/03/19/41-记一次es集群内存溢出的问题/" aria-label="复制成功！"></i></span>
   </p>
@@ -982,7 +966,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1-我这里并未找到设置-hprof文件的生成目录路径设置-所以我就将根目录做了一个链接"><span class="nav-number">1.</span> <span class="nav-text">问题1 我这里并未找到设置.hprof文件的生成目录路径设置, 所以我就将根目录做了一个链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2-内存溢出的问题-我们设置-indices-fielddata-cache-size-20"><span class="nav-number">2.</span> <span class="nav-text">问题2 内存溢出的问题,我们设置  indices.fielddata.cache.size:  20%</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监控fielddata"><span class="nav-number">3.</span> <span class="nav-text">监控fielddata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断路器"><span class="nav-number">4.</span> <span class="nav-text">断路器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在设置-Elasticsearch-堆大小时需要通过-ES-HEAP-SIZE-环境变量应用两个规则："><span class="nav-number">5.</span> <span class="nav-text">在设置 Elasticsearch 堆大小时需要通过 $ES_HEAP_SIZE 环境变量应用两个规则：</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#如果堆大小小于-32-GB，JVM-可以利用指针压缩，这可以大大降低内存的使用：每个指针-4-字节而不是-8-字节。"><span class="nav-number"></span> <span class="nav-text">如果堆大小小于 32 GB，JVM 可以利用指针压缩，这可以大大降低内存的使用：每个指针 4 字节而不是 8 字节。</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1-我这里并未找到设置-hprof文件的生成目录路径设置-所以我就将根目录做了一个链接"><span class="nav-number">1.</span> <span class="nav-text">问题1 我这里并未找到设置.hprof文件的生成目录路径设置, 所以我就将根目录做了一个链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2-内存溢出的问题-我们设置-indices-fielddata-cache-size-20"><span class="nav-number">2.</span> <span class="nav-text">问题2 内存溢出的问题,我们设置  indices.fielddata.cache.size:  20%</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监控fielddata"><span class="nav-number">3.</span> <span class="nav-text">监控fielddata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断路器"><span class="nav-number">4.</span> <span class="nav-text">断路器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在设置-Elasticsearch-堆大小时需要通过-ES-HEAP-SIZE-环境变量应用两个规则："><span class="nav-number">5.</span> <span class="nav-text">在设置 Elasticsearch 堆大小时需要通过 $ES_HEAP_SIZE 环境变量应用两个规则：</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#如果堆大小小于-32-GB，JVM-可以利用指针压缩，这可以大大降低内存的使用：每个指针-4-字节而不是-8-字节。"><span class="nav-number"></span> <span class="nav-text">如果堆大小小于 32 GB，JVM 可以利用指针压缩，这可以大大降低内存的使用：每个指针 4 字节而不是 8 字节。</span></a></li></div>
             
 
           </div>
