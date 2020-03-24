@@ -135,4 +135,3 @@ Elasticsearch 默认的 GC 配置是CMS GC ，其 Young 区用 ParNew，Old 区�
 本次是old gc, 这是第3008939次GC检查, 从java启动至今这是第256208次 gc 共花18.4s, [从上次检查至今共发生一次gc][从上次检查至今已经过去18.9s],[本次gc18.4s]/[从 JVM 启动至今发生的 GC 总耗时为5.7h],  [ GC 前 Heap memory 空间]->[GC 后 Heap memory 空间]/[Heap memory 总空间]
 
 {[young 区][GC 前 Memory ]->[GC后 Memory]/[young区 Memory 总大小] } {[survivor 区][GC 前 Memory ]->[GC后 Memory]/[survivor区 Memory 总大小] }{[old 区][GC 前 Memory ]->[GC后 Memory]/[old区 Memory 总大小] }
->>>>>>> dc2da94b55eddf72936367b2aecfa39fc9b4aca8
