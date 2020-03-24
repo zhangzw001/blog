@@ -101,13 +101,13 @@
 
 
 
-  <meta name="description" content="简单记录kubeadm方式安装k8s1.16.4高可用集群">
+  <meta name="description" content="简单记录kubeadm方式安装k8s1.16.4高可用集群,haproxy通过keepalived绑定的vip来负载均衡到三台master, 其中keepalived则反之单机故障,haproxy则让三台master可以同时提供服务.">
 <meta name="keywords" content="k8s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kubeadm安装高可用k8s集群">
 <meta property="og:url" content="http://zhangzw001.github.io/2020/03/24/42-kubeadm安装高可用k8s集群/index.html">
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
-<meta property="og:description" content="简单记录kubeadm方式安装k8s1.16.4高可用集群">
+<meta property="og:description" content="简单记录kubeadm方式安装k8s1.16.4高可用集群,haproxy通过keepalived绑定的vip来负载均衡到三台master, 其中keepalived则反之单机故障,haproxy则让三台master可以同时提供服务.">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://zhangzw001.github.io/images/42/01.png">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
@@ -120,10 +120,10 @@
 <meta property="og:image" content="http://zhangzw001.github.io/images/42/02.png">
 <meta property="og:image" content="http://zhangzw001.github.io/images/42/03.png">
 <meta property="og:image" content="http://zhangzw001.github.io/images/42/04.png">
-<meta property="og:updated_time" content="2020-03-24T05:38:53.385Z">
+<meta property="og:updated_time" content="2020-03-24T06:53:14.143Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kubeadm安装高可用k8s集群">
-<meta name="twitter:description" content="简单记录kubeadm方式安装k8s1.16.4高可用集群">
+<meta name="twitter:description" content="简单记录kubeadm方式安装k8s1.16.4高可用集群,haproxy通过keepalived绑定的vip来负载均衡到三台master, 其中keepalived则反之单机故障,haproxy则让三台master可以同时提供服务.">
 <meta name="twitter:image" content="http://zhangzw001.github.io/images/42/01.png">
 
 
@@ -397,7 +397,7 @@
                 
               
 
-              <time title="创建时间：2020-03-24 11:10:41 / 修改时间：13:38:53" itemprop="dateCreated datePublished" datetime="2020-03-24T11:10:41+08:00">2020-03-24</time>
+              <time title="创建时间：2020-03-24 11:10:41 / 修改时间：14:53:14" itemprop="dateCreated datePublished" datetime="2020-03-24T11:10:41+08:00">2020-03-24</time>
             
 
             
@@ -475,7 +475,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">70k</span>
+                <span title="本文字数">72k</span>
               
 
               
@@ -489,7 +489,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1:03</span>
+                <span title="阅读时长">1:05</span>
               
             </div>
           
@@ -509,7 +509,7 @@
       
 
       
-        <p>简单记录kubeadm方式安装k8s1.16.4高可用集群</p>
+        <p>简单记录kubeadm方式安装k8s1.16.4高可用集群,haproxy通过keepalived绑定的vip来负载均衡到三台master, 其中keepalived则反之单机故障,haproxy则让三台master可以同时提供服务.</p>
 <p><img src="http://zhangzw001.github.io/images/42/01.png" alt></p>
 <a id="more"></a>
 
@@ -520,11 +520,9 @@
 </blockquote>
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
-<font color="blue" face="黑体" size="5"> 一、 安装准备 </font>
 </center>
 
-
-<ul>
+<h3 id="一、-安装准备"><a href="#一、-安装准备" class="headerlink" title="一、 安装准备"></a>一、 安装准备</h3><ul>
 <li><p>1.1 主机名</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">172<span class="selector-class">.16</span><span class="selector-class">.53</span><span class="selector-class">.106</span> <span class="selector-tag">master01</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br><span class="line">172<span class="selector-class">.16</span><span class="selector-class">.53</span><span class="selector-class">.107</span> <span class="selector-tag">master02</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br><span class="line">172<span class="selector-class">.16</span><span class="selector-class">.53</span><span class="selector-class">.108</span> <span class="selector-tag">master03</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br><span class="line">172<span class="selector-class">.16</span><span class="selector-class">.53</span><span class="selector-class">.137</span> <span class="selector-tag">master</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -561,13 +559,10 @@
 </ul>
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
-<font color="blue" face="黑体" size="5"> 二、 docker版本安装 </font>
 </center>
 
 
-
-
-<ul>
+<h3 id="二、-docker版本安装"><a href="#二、-docker版本安装" class="headerlink" title="二、 docker版本安装"></a>二、 docker版本安装</h3><ul>
 <li><p>2.1 配置源</p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yum install -<span class="keyword">y</span> yum-utils device-mapper-persistent-data lvm2 bash-completion</span><br><span class="line">yum-config-manager --<span class="built_in">add</span>-repo http://mirrors.aliyun.<span class="keyword">com</span>/docker-<span class="keyword">ce</span>/linux/centos/docker-<span class="keyword">ce</span>.repo</span><br><span class="line">yum install docker-<span class="keyword">ce</span>-<span class="number">18.09</span>.<span class="number">9</span> docker-<span class="keyword">ce</span>-cli-<span class="number">18.09</span>.<span class="number">9</span> containerd.io -<span class="keyword">y</span></span><br><span class="line"></span><br><span class="line"># 高版本降级</span><br><span class="line">yum downgrade --setopt=obsoletes=<span class="number">0</span> -<span class="keyword">y</span> docker-<span class="keyword">ce</span>-<span class="number">18.09</span>.<span class="number">9</span> docker-<span class="keyword">ce</span>-cli-<span class="number">18.09</span>.<span class="number">9</span></span><br></pre></td></tr></table></figure>
 </li>
@@ -600,11 +595,10 @@
 </ul>
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
-<font color="blue" face="黑体" size="5"> 三、 keepalived安装 </font>
 </center>
 
 
-<ul>
+<h3 id="三、-keepalived安装"><a href="#三、-keepalived安装" class="headerlink" title="三、 keepalived安装"></a>三、 keepalived安装</h3><ul>
 <li><p>3.1 安装</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="keyword">install</span> keepalived</span><br></pre></td></tr></table></figure>
 </li>
@@ -624,11 +618,9 @@
 </ul>
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
-<font color="blue" face="黑体" size="5"> 四、 haproxy安装 </font>
 </center>
 
-
-<ul>
+<h3 id="四、-haproxy安装"><a href="#四、-haproxy安装" class="headerlink" title="四、 haproxy安装"></a>四、 haproxy安装</h3><ul>
 <li><p>4.1 安装</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> -y haproxy</span><br></pre></td></tr></table></figure>
 </li>
@@ -645,12 +637,9 @@
 </ul>
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
-<font color="blue" face="黑体" size="5"> 五、 k8s安装 </font>
 </center>
 
-
-
-<ul>
+<h3 id="五、-k8s安装"><a href="#五、-k8s安装" class="headerlink" title="五、 k8s安装"></a>五、 k8s安装</h3><ul>
 <li><p>5.1 版本查看</p>
 <figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">list</span> kubelet --showduplicates | <span class="keyword">sort</span> -<span class="built_in">r</span></span><br></pre></td></tr></table></figure>
 
@@ -675,18 +664,15 @@
 <blockquote>
 <p>外网的慢, 从阿里云下载后打个官方tag即可</p>
 </blockquote>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">tee /root/image.sh &lt;&lt;- '<span class="literal">EOF</span>'</span><br><span class="line">#!/bin/bash</span><br><span class="line">url=registry.cn-hangzhou.aliyuncs.com/loong576</span><br><span class="line">version=v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line">images=(`kubeadm config images <span class="type">list</span> --kubernetes-version=$version|awk -F '/' '&#123;print $<span class="number">2</span>&#125;'`)</span><br><span class="line">for imagename in $&#123;images[@]&#125; ; do</span><br><span class="line">  docker pull $url/$imagename</span><br><span class="line">  docker tag $url/$imagename k8s.gcr.io/$imagename</span><br><span class="line">  docker rmi -f $url/$imagename</span><br><span class="line">done</span><br><span class="line"><span class="literal">EOF</span></span><br><span class="line"></span><br><span class="line"># 下载</span><br><span class="line">sh  /root/image.sh</span><br><span class="line"></span><br><span class="line"># 验证</span><br><span class="line">docker images|grep <span class="number">1.16</span><span class="number">.4</span></span><br><span class="line">k8s.gcr.io/kube-apiserver                  v1<span class="number">.16</span><span class="number">.4</span>              <span class="number">3722</span>a80984a0        <span class="number">3</span> months ago        <span class="number">217</span>MB</span><br><span class="line">k8s.gcr.io/kube-controller-manager         v1<span class="number">.16</span><span class="number">.4</span>              fb4cca6b4e4c        <span class="number">3</span> months ago        <span class="number">163</span>MB</span><br><span class="line">k8s.gcr.io/kube-proxy                      v1<span class="number">.16</span><span class="number">.4</span>              <span class="number">091</span>df896d78f        <span class="number">3</span> months ago        <span class="number">86.1</span>MB</span><br><span class="line">k8s.gcr.io/kube-scheduler                  v1<span class="number">.16</span><span class="number">.4</span>              <span class="number">2984964036</span>c8        <span class="number">3</span> months ago        <span class="number">87.3</span>MB</span><br><span class="line">k8s.gcr.io/metrics-server-amd64            v0<span class="number">.3</span><span class="number">.5</span>               abf04c0f54ff        <span class="number">6</span> months ago        <span class="number">39.9</span>MB</span><br><span class="line">k8s.gcr.io/etcd                            <span class="number">3.3</span><span class="number">.15</span><span class="number">-0</span>             b2756210eeab        <span class="number">6</span> months ago        <span class="number">247</span>MB</span><br><span class="line">k8s.gcr.io/coredns                         <span class="number">1.6</span><span class="number">.2</span>                bf261d157914        <span class="number">7</span> months ago        <span class="number">44.1</span>MB</span><br><span class="line">k8s.gcr.io/pause                           <span class="number">3.1</span>                  da86e6ba6ca1        <span class="number">2</span> years ago         <span class="number">742</span>kB</span><br></pre></td></tr></table></figure>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">tee /root/image.sh &lt;&lt;- '<span class="literal">EOF</span>'</span><br><span class="line">#!/bin/bash</span><br><span class="line">#url=registry.cn-hangzhou.aliyuncs.com/loong576</span><br><span class="line">url=registry.aliyuncs.com/google_containers</span><br><span class="line">version=v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line">images=(`kubeadm config images <span class="type">list</span> --kubernetes-version=$version|awk -F '/' '&#123;print $<span class="number">2</span>&#125;'`)</span><br><span class="line">for imagename in $&#123;images[@]&#125; ; do</span><br><span class="line">  docker pull $url/$imagename</span><br><span class="line">  docker tag $url/$imagename k8s.gcr.io/$imagename</span><br><span class="line">  docker rmi -f $url/$imagename</span><br><span class="line">done</span><br><span class="line"><span class="literal">EOF</span></span><br><span class="line"></span><br><span class="line"># 下载</span><br><span class="line">sh  /root/image.sh</span><br><span class="line"></span><br><span class="line"># 验证</span><br><span class="line">docker images|grep <span class="number">1.16</span><span class="number">.4</span></span><br><span class="line">k8s.gcr.io/kube-apiserver                  v1<span class="number">.16</span><span class="number">.4</span>              <span class="number">3722</span>a80984a0        <span class="number">3</span> months ago        <span class="number">217</span>MB</span><br><span class="line">k8s.gcr.io/kube-controller-manager         v1<span class="number">.16</span><span class="number">.4</span>              fb4cca6b4e4c        <span class="number">3</span> months ago        <span class="number">163</span>MB</span><br><span class="line">k8s.gcr.io/kube-proxy                      v1<span class="number">.16</span><span class="number">.4</span>              <span class="number">091</span>df896d78f        <span class="number">3</span> months ago        <span class="number">86.1</span>MB</span><br><span class="line">k8s.gcr.io/kube-scheduler                  v1<span class="number">.16</span><span class="number">.4</span>              <span class="number">2984964036</span>c8        <span class="number">3</span> months ago        <span class="number">87.3</span>MB</span><br><span class="line">k8s.gcr.io/metrics-server-amd64            v0<span class="number">.3</span><span class="number">.5</span>               abf04c0f54ff        <span class="number">6</span> months ago        <span class="number">39.9</span>MB</span><br><span class="line">k8s.gcr.io/etcd                            <span class="number">3.3</span><span class="number">.15</span><span class="number">-0</span>             b2756210eeab        <span class="number">6</span> months ago        <span class="number">247</span>MB</span><br><span class="line">k8s.gcr.io/coredns                         <span class="number">1.6</span><span class="number">.2</span>                bf261d157914        <span class="number">7</span> months ago        <span class="number">44.1</span>MB</span><br><span class="line">k8s.gcr.io/pause                           <span class="number">3.1</span>                  da86e6ba6ca1        <span class="number">2</span> years ago         <span class="number">742</span>kB</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
-<font color="blue" face="黑体" size="5"> 六、初始化master </font>
 </center>
 
-
-
-<ul>
+<h3 id="六、初始化master"><a href="#六、初始化master" class="headerlink" title="六、初始化master"></a>六、初始化master</h3><ul>
 <li><p>6.1 kubeadm.1.16.4.conf</p>
 <blockquote>
 <p>在具有vip的master上操作，这里为master01.k8s.io</p>
@@ -711,12 +697,9 @@
 </ul>
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
-<font color="blue" face="黑体" size="5"> 七、control plane节点加入集群 </font>
 </center>
 
-
-
-<ul>
+<h3 id="七、control-plane节点加入集群"><a href="#七、control-plane节点加入集群" class="headerlink" title="七、control plane节点加入集群"></a>七、control plane节点加入集群</h3><ul>
 <li><p>7.1 证书分发</p>
 <blockquote>
 <p>在master01.k8s.io上运行脚本cert-main-master.sh，将证书分发至master02.k8s.io</p>
@@ -733,7 +716,7 @@
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$HOME</span>/.kube</span><br><span class="line">cp -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">chown $(id -u):$(id -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>7.4 集群节点查看</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># kubectl get nodes</span><br><span class="line">NAME              STATUS   ROLES    AGE   VERSION</span><br><span class="line">master01.k8s.io   Ready    master   <span class="number">6</span>m    v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line">master02.k8s.io   Ready    master   <span class="number">99</span>s   v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line">master03.k8s.io   Ready    master   <span class="number">46</span>s   v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line"></span><br><span class="line"># kubectl get pod -n kube-system</span><br><span class="line">NAME                                      READY   STATUS    RESTARTS   AGE</span><br><span class="line">coredns<span class="number">-5644</span>d7b6d9-bdnxl                  <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m54s</span><br><span class="line">coredns<span class="number">-5644</span>d7b6d9-hsbpl                  <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m54s</span><br><span class="line">etcd-master01.k8s.io                      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m10s</span><br><span class="line">etcd-master02.k8s.io                      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">109</span>s</span><br><span class="line">etcd-master03.k8s.io                      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">56</span>s</span><br><span class="line">kube-apiserver-master01.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m11s</span><br><span class="line">kube-apiserver-master02.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">110</span>s</span><br><span class="line">kube-controller-manager-master01.k8s.io   <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">4</span>m52s</span><br><span class="line">kube-controller-manager-master02.k8s.io   <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">110</span>s</span><br><span class="line">kube-flannel-ds-amd64<span class="number">-84</span>b6w               <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m15s</span><br><span class="line">kube-flannel-ds-amd64-df99l               <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">56</span>s</span><br><span class="line">kube-flannel-ds-amd64-jzt62               <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">110</span>s</span><br><span class="line">kube-proxy-fgcmg                          <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">56</span>s</span><br><span class="line">kube-proxy-r9rz2                          <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m54s</span><br><span class="line">kube-proxy-s47gj                          <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">110</span>s</span><br><span class="line">kube-scheduler-master01.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">4</span>m56s</span><br><span class="line">kube-scheduler-master02.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">110</span>s</span><br><span class="line"></span><br><span class="line"># kubectl get cs</span><br><span class="line">NAME                 AGE</span><br><span class="line">scheduler            &lt;unknown&gt;</span><br><span class="line">controller-manager   &lt;unknown&gt;</span><br><span class="line">etcd<span class="number">-0</span>               &lt;unknown&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># kubectl get nodes</span><br><span class="line">NAME              STATUS   ROLES    AGE   VERSION</span><br><span class="line">master01.k8s.io   Ready    master   <span class="number">6</span>m    v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line">master02.k8s.io   Ready    master   <span class="number">99</span>s   v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line">master03.k8s.io   Ready    master   <span class="number">46</span>s   v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line"></span><br><span class="line"># kubectl get pod -n kube-system</span><br><span class="line">NAME                                      READY   STATUS    RESTARTS   AGE</span><br><span class="line">coredns<span class="number">-5644</span>d7b6d9-fz77l                  <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">4</span>h</span><br><span class="line">coredns<span class="number">-5644</span>d7b6d9-qvh6b                  <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">4</span>h</span><br><span class="line">etcd-master01.k8s.io                      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">4</span>h15m</span><br><span class="line">etcd-master02.k8s.io                      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">4</span>h12m</span><br><span class="line">etcd-master03.k8s.io                      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">4</span>h11m</span><br><span class="line">kube-apiserver-master01.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">4</span>h15m</span><br><span class="line">kube-apiserver-master02.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">4</span>h12m</span><br><span class="line">kube-apiserver-master03.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">4</span>h10m</span><br><span class="line">kube-controller-manager-master01.k8s.io   <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">2</span>          <span class="number">4</span>h15m</span><br><span class="line">kube-controller-manager-master02.k8s.io   <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">4</span>h12m</span><br><span class="line">kube-controller-manager-master03.k8s.io   <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">4</span>h10m</span><br><span class="line">kube-flannel-ds-amd64<span class="number">-84</span>b6w               <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">4</span>h15m</span><br><span class="line">kube-flannel-ds-amd64-df99l               <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">4</span>h11m</span><br><span class="line">kube-flannel-ds-amd64-jzt62               <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">4</span>h12m</span><br><span class="line">kube-flannel-ds-amd64-lwd8m               <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">12</span>m</span><br><span class="line">kube-proxy-fgcmg                          <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">4</span>h11m</span><br><span class="line">kube-proxy-mss74                          <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">12</span>m</span><br><span class="line">kube-proxy-r9rz2                          <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">4</span>h16m</span><br><span class="line">kube-proxy-s47gj                          <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">4</span>h12m</span><br><span class="line">kube-scheduler-master01.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">2</span>          <span class="number">4</span>h15m</span><br><span class="line">kube-scheduler-master02.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">4</span>h12m</span><br><span class="line">kube-scheduler-master03.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">4</span>h10m</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># kubectl get cs</span><br><span class="line">NAME                 AGE</span><br><span class="line">scheduler            &lt;unknown&gt;</span><br><span class="line">controller-manager   &lt;unknown&gt;</span><br><span class="line">etcd<span class="number">-0</span>               &lt;unknown&gt;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>执行<code>kubectl get cs</code>显示<code>&lt;unknown&gt;</code>是一个<code>1.16</code>版本已知的<code>bug</code>，后续官方应该会解决处理，有大佬分析了源码并且提交了pr，可<a href="https://segmentfault.com/a/1190000020912684" target="_blank" rel="noopener">点此参考</a></p>
@@ -777,7 +760,7 @@
   <p><span>本文标题:</span><a href="/2020/03/24/42-kubeadm安装高可用k8s集群/">kubeadm安装高可用k8s集群</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2020年03月24日 - 11:03</p>
-  <p><span>最后更新:</span>2020年03月24日 - 13:03</p>
+  <p><span>最后更新:</span>2020年03月24日 - 14:03</p>
   <p><span>原始链接:</span><a href="/2020/03/24/42-kubeadm安装高可用k8s集群/" title="kubeadm安装高可用k8s集群">http://zhangzw001.github.io/2020/03/24/42-kubeadm安装高可用k8s集群/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2020/03/24/42-kubeadm安装高可用k8s集群/" aria-label="复制成功！"></i></span>
   </p>
@@ -885,8 +868,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1140,6 +1132,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、-安装准备"><span class="nav-number">1.</span> <span class="nav-text">一、 安装准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、-docker版本安装"><span class="nav-number">2.</span> <span class="nav-text">二、 docker版本安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、-keepalived安装"><span class="nav-number">3.</span> <span class="nav-text">三、 keepalived安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、-haproxy安装"><span class="nav-number">4.</span> <span class="nav-text">四、 haproxy安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、-k8s安装"><span class="nav-number">5.</span> <span class="nav-text">五、 k8s安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、初始化master"><span class="nav-number">6.</span> <span class="nav-text">六、初始化master</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、control-plane节点加入集群"><span class="nav-number">7.</span> <span class="nav-text">七、control plane节点加入集群</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
