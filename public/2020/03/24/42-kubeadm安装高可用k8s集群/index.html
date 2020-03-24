@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="简单记录kubeadm方式安装k8s1.16.4高可用集群">
+<meta name="keywords" content="k8s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kubeadm安装高可用k8s集群">
+<meta property="og:url" content="http://zhangzw001.github.io/2020/03/24/42-kubeadm安装高可用k8s集群/index.html">
+<meta property="og:site_name" content="Zhangzw&#39;s Blog">
+<meta property="og:description" content="简单记录kubeadm方式安装k8s1.16.4高可用集群">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://zhangzw001.github.io/images/42/01.png">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/42/02.png">
+<meta property="og:image" content="http://zhangzw001.github.io/images/42/03.png">
+<meta property="og:image" content="http://zhangzw001.github.io/images/42/02.png">
+<meta property="og:image" content="http://zhangzw001.github.io/images/42/03.png">
+<meta property="og:image" content="http://zhangzw001.github.io/images/42/04.png">
+<meta property="og:image" content="http://zhangzw001.github.io/images/42/04.png">
+<meta property="og:updated_time" content="2020-03-24T03:59:31.815Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kubeadm安装高可用k8s集群">
+<meta name="twitter:description" content="简单记录kubeadm方式安装k8s1.16.4高可用集群">
+<meta name="twitter:image" content="http://zhangzw001.github.io/images/42/01.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://zhangzw001.github.io/2020/03/24/42-kubeadm安装高可用k8s集群/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>kubeadm安装高可用k8s集群 | Zhangzw's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zhangzw's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangzw001.github.io/2020/03/24/42-kubeadm安装高可用k8s集群/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zhangzw">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhangzw's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kubeadm安装高可用k8s集群
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+	
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-24 11:10:41 / 修改时间：11:59:31" itemprop="dateCreated datePublished" datetime="2020-03-24T11:10:41+08:00">2020-03-24</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术文档/" itemprop="url" rel="index"><span itemprop="name">技术文档</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/24/42-kubeadm安装高可用k8s集群/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2020/03/24/42-kubeadm安装高可用k8s集群/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/24/42-kubeadm安装高可用k8s集群/" class="leancloud_visitors" data-flag-title="kubeadm安装高可用k8s集群">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">73k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">1:07</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>简单记录kubeadm方式安装k8s1.16.4高可用集群</p>
+<p><img src="http://zhangzw001.github.io/images/42/01.png" alt></p>
+<a id="more"></a>
+
+
+
+<blockquote>
+<p><a href="https://www.kubernetes.org.cn/6632.html" target="_blank" rel="noopener">Centos7.6部署k8s v1.16.4高可用集群(主备模式)</a><br><a href="https://www.cnblogs.com/ssgeek/p/11942062.html" target="_blank" rel="noopener">使用kubeadm搭建高可用k8s v1.16.3集群(keepalived+haproxy)</a></p>
+</blockquote>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5"> 一、 安装准备 </font>
+</center>
+
+
+<ul>
+<li><p>1.1 主机名</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">172<span class="selector-class">.16</span><span class="selector-class">.53</span><span class="selector-class">.106</span> <span class="selector-tag">master01</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br><span class="line">172<span class="selector-class">.16</span><span class="selector-class">.53</span><span class="selector-class">.107</span> <span class="selector-tag">master02</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br><span class="line">172<span class="selector-class">.16</span><span class="selector-class">.53</span><span class="selector-class">.108</span> <span class="selector-tag">master03</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br><span class="line">172<span class="selector-class">.16</span><span class="selector-class">.53</span><span class="selector-class">.137</span> <span class="selector-tag">master</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1.2 同步时间, 设置时区</p>
+<figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">* * * * * /<span class="string">usr/</span><span class="string">sbin/</span><span class="string">ntpdate </span><span class="string">time.</span><span class="string">nist.</span><span class="string">gov</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">timedatectl </span><span class="built_in">set-timezone</span> <span class="string">Asia/</span><span class="string">Shanghai</span></span><br><span class="line"><span class="string">或</span>者</span><br><span class="line"><span class="string">ln </span>-<span class="string">sf </span>/<span class="string">usr/</span><span class="string">share/</span><span class="string">zoneinfo/</span><span class="string">Asia/</span><span class="string">Shanghai </span>/<span class="string">etc/</span><span class="string">localtime</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1.3 关闭SElinux</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">setenforce  0</span><br><span class="line">sed -i <span class="string">"s/^SELINUX=enforcing/SELINUX=disabled/g"</span> /etc/sysconfig/selinux</span><br><span class="line">sed -i <span class="string">"s/^SELINUX=enforcing/SELINUX=disabled/g"</span> /etc/selinux/config</span><br><span class="line">sed -i <span class="string">"s/^SELINUX=permissive/SELINUX=disabled/g"</span> /etc/sysconfig/selinux</span><br><span class="line">sed -i <span class="string">"s/^SELINUX=permissive/SELINUX=disabled/g"</span> /etc/selinux/config</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1.4 关闭swap(否则kubeadm init或join会报错)</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; swapoff -a &amp;&amp; sysctl -w vm.swappiness=<span class="number">0</span></span><br><span class="line">vm.swappiness = <span class="number">0</span></span><br><span class="line">或 swapoff -a</span><br><span class="line"></span><br><span class="line">#<span class="regexp">/etc/</span>fstab也要注解掉SWAP挂载。</span><br><span class="line">sed -i.$(date +%F).bak <span class="string">'/swap/s/^/#/'</span> <span class="regexp">/etc/</span>fstab</span><br><span class="line">#sed -i <span class="string">'s/.*swap.*/#&amp;/'</span> <span class="regexp">/etc/</span>fstab</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1.5 配置系统内核参数</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">使流过网桥的流量也进入iptables/netfilter框架中，在/etc/sysctl.conf中添加以下配置</span><br><span class="line">cat &lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf</span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-iptables</span> = <span class="number">1</span></span><br><span class="line">net<span class="selector-class">.bridge</span><span class="selector-class">.bridge-nf-call-ip6tables</span> = <span class="number">1</span></span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">sysctl -<span class="selector-tag">p</span> /etc/sysctl.d/k8s.conf</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<blockquote>
+<p>如果出现报错</p>
+</blockquote>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysctl: cannot stat /proc/sys/net/bridge/bridge-nf-<span class="keyword">call</span>-iptables: <span class="keyword">No</span> such <span class="keyword">file</span> <span class="keyword">or</span> <span class="keyword">directory</span></span><br><span class="line">sysctl: cannot stat /proc/<span class="keyword">sys</span>/net/bridge/bridge-nf-<span class="keyword">call</span>-ip6tables: <span class="keyword">No</span> such <span class="keyword">file</span> <span class="keyword">or</span> <span class="keyword">directory</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>报错解决:</p>
+</blockquote>
+  <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">=======</span><br><span class="line"><span class="quote">&gt; 如果出现报错</span></span><br></pre></td></tr></table></figure>
+
+<p>sysctl: cannot stat /proc/sys/net/bridge/bridge-nf-call-iptables: No such file or directory<br>sysctl: cannot stat /proc/sys/net/bridge/bridge-nf-call-ip6tables: No such file or directory</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="quote">&gt; 报错解决:</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>0683df77731bdb852312dcfa3eda982ad53a7509</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<h1 id="执行以下命令"><a href="#执行以下命令" class="headerlink" title="执行以下命令"></a>执行以下命令</h1><p>1 modprobe br_netfilter<br>2 ls /proc/sys/net/bridge<br>3 sysctl -p /etc/sysctl.d/k8s.conf</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="bullet">- </span>1.6 设置k8s源</span><br></pre></td></tr></table></figure>
+
+<p>cat &lt;<eof> /etc/yum.repos.d/kubernetes.repo<br>[kubernetes]<br>name=Kubernetes<br>baseurl=<a href="https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/" target="_blank" rel="noopener">https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</a><br>enabled=1<br>gpgcheck=1<br>repo_gpgcheck=1<br>gpgkey=<a href="https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg" target="_blank" rel="noopener">https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg</a> <a href="https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg" target="_blank" rel="noopener">https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</a><br>EOF</eof></p>
+<p>yum clean all<br>yum makecache -y</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br></pre></td></tr></table></figure>
+
+<p>=======</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; <span class="number">0683</span>df77731bdb852312dcfa3eda982ad53a7509</span><br><span class="line">[] 中括号中的是repository id，唯一，用来标识不同仓库</span><br><span class="line">name 仓库名称，自定义</span><br><span class="line">baseurl 仓库地址</span><br><span class="line">enable 是否启用该仓库，默认为<span class="number">1</span>表示启用</span><br><span class="line">gpgcheck 是否验证从该仓库获得程序包的合法性，<span class="number">1</span>为验证</span><br><span class="line">repo_gpgcheck 是否验证元数据的合法性 元数据就是程序包列表，<span class="number">1</span>为验证</span><br><span class="line">gpgkey=URL 数字签名的公钥文件所在位置，如果gpgcheck值为<span class="number">1</span>，此处就需要指定gpgkey文件的位置，如果gpgcheck值为<span class="number">0</span>就不需要此项了</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>1.7 免密登录配置</li>
+</ul>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<h1 id="略"><a href="#略" class="headerlink" title="  略"></a>  略</h1><p>略</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>0683df77731bdb852312dcfa3eda982ad53a7509</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5"> 二、 docker版本安装 </font>
+</center>
+
+
+
+
+<ul>
+<li><p>2.1 配置源</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">yum install -<span class="keyword">y</span> yum-utils device-mapper-persistent-data lvm2 bash-completion</span><br><span class="line">yum-config-manager --<span class="built_in">add</span>-repo http://mirrors.aliyun.<span class="keyword">com</span>/docker-<span class="keyword">ce</span>/linux/centos/docker-<span class="keyword">ce</span>.repo</span><br><span class="line">yum install docker-<span class="keyword">ce</span>-<span class="number">18.09</span>.<span class="number">9</span> docker-<span class="keyword">ce</span>-cli-<span class="number">18.09</span>.<span class="number">9</span> containerd.io -<span class="keyword">y</span></span><br><span class="line"></span><br><span class="line"># 高版本降级</span><br><span class="line">yum downgrade --setopt=obsoletes=<span class="number">0</span> -<span class="keyword">y</span> docker-<span class="keyword">ce</span>-<span class="number">18.09</span>.<span class="number">9</span> docker-<span class="keyword">ce</span>-cli-<span class="number">18.09</span>.<span class="number">9</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.2 配置阿里云镜像加速器</p>
+<blockquote>
+<p>登陆地址为：<a href="https://cr.console.aliyun.com" target="_blank" rel="noopener">https://cr.console.aliyun.com</a> ,未注册的可以先注册阿里云账户</p>
+</blockquote>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir -<span class="selector-tag">p</span> /etc/docker</span><br><span class="line">tee /etc/docker/daemon<span class="selector-class">.json</span> &lt;&lt;-<span class="string">'EOF'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://0aqwccdy.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.3 启动docker</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart docker</span><br><span class="line">systemctl <span class="builtin-name">enable</span> docker</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.4 修改Cgroup Driver</p>
+<blockquote>
+<p>修改daemon.json，新增‘”exec-opts”: [“native.cgroupdriver=systemd”’</p>
+</blockquote>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cat <span class="meta-keyword">/etc/</span>docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://0aqwccdy.mirror.aliyuncs.com"</span>],</span><br><span class="line">  <span class="string">"exec-opts"</span>: [<span class="string">"native.cgroupdriver=systemd"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>重新加载docker</p>
+</blockquote>
+</li>
+</ul>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br>  <figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">=======</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>0683df77731bdb852312dcfa3eda982ad53a7509<br>systemctl restart docker<br>systemctl enable docker</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">  &gt;</span><span class="bash"> 修改cgroupdriver是为了消除告警：</span></span><br><span class="line"></span><br><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br></pre></td></tr></table></figure>
+
+<p>=======</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; <span class="number">0683</span>df77731bdb852312dcfa3eda982ad53a7509</span><br><span class="line">[<span class="meta">WARNING IsDockerSystemdCheck</span>]: detected “cgroupfs” <span class="keyword">as</span> the Docker cgroup driver. The recommended driver <span class="keyword">is</span> “systemd”. Please follow the guide at https:<span class="comment">//kubernetes.io/docs/setup/cri/</span></span><br></pre></td></tr></table></figure>
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5"> 三、 keepalived安装 </font>
+</center>
+
+
+<ul>
+<li><p>3.1 安装</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="keyword">install</span> keepalived</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.2 master01.k8s.io上配置</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">tee /etc/keepalived/keepalived.conf &lt;&lt;- '<span class="literal">EOF</span>'</span><br><span class="line">! Configuration File for keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">   router_id master01.k8s.io</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_script check_haproxy &#123;</span><br><span class="line">    script <span class="string">"killall -0 haproxy"</span></span><br><span class="line">    interval <span class="number">3</span></span><br><span class="line">    weight <span class="number">-2</span></span><br><span class="line">    fall <span class="number">10</span></span><br><span class="line">    rise <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    <span class="section">state</span> MASTER</span><br><span class="line">    interface enp0s3</span><br><span class="line">    virtual_router_id <span class="number">51</span></span><br><span class="line">    priority <span class="number">250</span></span><br><span class="line">    advert_int <span class="number">1</span></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass <span class="number">1111</span></span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        <span class="number">172.16</span><span class="number">.53</span><span class="number">.137</span></span><br><span class="line">    &#125;</span><br><span class="line">    track_script &#123;</span><br><span class="line">        check_haproxy</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="literal">EOF</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.3 master02.k8s.io,master03.k8s.io上配置</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">tee /etc/keepalived/keepalived.conf &lt;&lt;- '<span class="literal">EOF</span>'</span><br><span class="line">! Configuration File for keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">   router_id master02.k8s.io</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_script check_haproxy &#123;</span><br><span class="line">    script <span class="string">"killall -0 haproxy"</span></span><br><span class="line">    interval <span class="number">3</span></span><br><span class="line">    weight <span class="number">-2</span></span><br><span class="line">    fall <span class="number">10</span></span><br><span class="line">    rise <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    <span class="section">state</span> BACKUP</span><br><span class="line">    interface enp0s3</span><br><span class="line">    virtual_router_id <span class="number">51</span></span><br><span class="line">    priority <span class="number">200</span></span><br><span class="line">    advert_int <span class="number">1</span></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass <span class="number">1111</span></span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">       <span class="number">172.16</span><span class="number">.53</span><span class="number">.137</span></span><br><span class="line">    &#125;</span><br><span class="line">    track_script &#123;</span><br><span class="line">        check_haproxy</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="literal">EOF</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tee /etc/keepalived/keepalived.conf &lt;&lt;- '<span class="literal">EOF</span>'</span><br><span class="line">! Configuration File for keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">   router_id master03.k8s.io</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_script check_haproxy &#123;</span><br><span class="line">    script <span class="string">"killall -0 haproxy"</span></span><br><span class="line">    interval <span class="number">3</span></span><br><span class="line">    weight <span class="number">-2</span></span><br><span class="line">    fall <span class="number">10</span></span><br><span class="line">    rise <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    <span class="section">state</span> BACKUP</span><br><span class="line">    interface enp0s3</span><br><span class="line">    virtual_router_id <span class="number">51</span></span><br><span class="line">    priority <span class="number">150</span></span><br><span class="line">    advert_int <span class="number">1</span></span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass <span class="number">1111</span></span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        <span class="number">172.16</span><span class="number">.53</span><span class="number">.137</span></span><br><span class="line">    &#125;</span><br><span class="line">    track_script &#123;</span><br><span class="line">        check_haproxy</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="literal">EOF</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.4 master02.k8s.io,master03.k8s.io上启动keepalived</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service keepalived start</span><br><span class="line">systemctl <span class="builtin-name">enable</span> keepalived</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.5 测试</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 首先 <span class="selector-tag">ip</span> <span class="selector-tag">a</span>查看<span class="selector-tag">ip</span>否则绑定成功</span><br><span class="line"></span><br><span class="line"># <span class="selector-tag">ping</span> 172<span class="selector-class">.16</span><span class="selector-class">.53</span><span class="selector-class">.137</span> 是否正常</span><br><span class="line"></span><br><span class="line"># 在<span class="selector-tag">master01</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span>上 停止服务 <span class="selector-tag">service</span> <span class="selector-tag">keepalived</span> <span class="selector-tag">stop</span></span><br><span class="line"></span><br><span class="line"># 在<span class="selector-tag">master02</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span>或<span class="selector-tag">master03</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span>上查看<span class="selector-tag">ip</span> <span class="selector-tag">a</span>是否存在172<span class="selector-class">.16</span><span class="selector-class">.53</span><span class="selector-class">.137</span>, 检查<span class="selector-tag">ping</span> 172<span class="selector-class">.16</span><span class="selector-class">.53</span><span class="selector-class">.137</span> 是否正常</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5"> 四、 haproxy安装 </font>
+</center>
+
+
+<ul>
+<li><p>4.1 安装</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> -y haproxy</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>4.2 配置<br>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<blockquote>
+<h1 id="三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。"><a href="#三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。" class="headerlink" title="三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。"></a>三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。</h1></blockquote>
+<blockquote>
+<p>三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>0683df77731bdb852312dcfa3eda982ad53a7509<br>  <figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">tee  /etc/haproxy/haproxy.cfg &lt;&lt;- <span class="string">'EOF'</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># Global settings</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">global</span><br><span class="line">    <span class="comment"># to have these messages end up in /var/log/haproxy.log you will</span></span><br><span class="line">    <span class="comment"># need to:</span></span><br><span class="line">    <span class="comment"># 1) configure syslog to accept network log events.  This is done</span></span><br><span class="line">    <span class="comment">#    by adding the '-r' option to the SYSLOGD_OPTIONS in</span></span><br><span class="line">    <span class="comment">#    /etc/sysconfig/syslog</span></span><br><span class="line">    <span class="comment"># 2) configure local2 events to go to the /var/log/haproxy.log</span></span><br><span class="line">    <span class="comment">#   file. A line like the following can be added to</span></span><br><span class="line">    <span class="comment">#   /etc/sysconfig/syslog</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#    local2.*                       /var/log/haproxy.log</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    log         <span class="number">127.0</span>.<span class="number">0.1</span> local2</span><br><span class="line"></span><br><span class="line">    chroot      /var/<span class="class"><span class="keyword">lib</span>/<span class="title">haproxy</span></span></span><br><span class="line">    pidfile     /var/run/haproxy.pid</span><br><span class="line">    maxconn     <span class="number">4000</span></span><br><span class="line">    user        haproxy</span><br><span class="line">    group       haproxy</span><br><span class="line">    daemon</span><br><span class="line"></span><br><span class="line">    <span class="comment"># turn on stats unix socket</span></span><br><span class="line">    stats socket /var/<span class="class"><span class="keyword">lib</span>/<span class="title">haproxy</span>/<span class="title">stats</span></span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># common defaults that all the 'listen' and 'backend' sections will</span></span><br><span class="line"><span class="comment"># use if not designated in their block</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------  </span></span><br><span class="line">defaults</span><br><span class="line">    mode                    http</span><br><span class="line">    log                     global</span><br><span class="line">    option                  httplog</span><br><span class="line">    option                  dontlognull</span><br><span class="line">    option http-server-close</span><br><span class="line">    option forwardfor       except <span class="number">127.0</span>.<span class="number">0.0</span>/<span class="number">8</span></span><br><span class="line">    option                  redispatch</span><br><span class="line">    retries                 <span class="number">3</span></span><br><span class="line">    timeout http-request    <span class="number">10</span>s</span><br><span class="line">    timeout queue           <span class="number">1</span>m</span><br><span class="line">    timeout connect         <span class="number">10</span>s</span><br><span class="line">    timeout client          <span class="number">1</span>m</span><br><span class="line">    timeout server          <span class="number">1</span>m</span><br><span class="line">    timeout http-keep-alive <span class="number">10</span>s</span><br><span class="line">    timeout check           <span class="number">10</span>s</span><br><span class="line">    maxconn                 <span class="number">3000</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># kubernetes apiserver frontend which proxys to the backends</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">frontend kubernetes-apiserver</span><br><span class="line">    mode                 tcp</span><br><span class="line">    bind                 *:<span class="number">16443</span></span><br><span class="line">    option               tcplog</span><br><span class="line">    default_backend      kubernetes-apiserver    </span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># round robin balancing between the various backends</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">backend kubernetes-apiserver</span><br><span class="line">    mode        tcp</span><br><span class="line">    balance     roundrobin</span><br><span class="line">    server      master01.k8s.io   <span class="number">172.16</span>.<span class="number">53.106</span>:<span class="number">6443</span> check</span><br><span class="line">    server      master02.k8s.io   <span class="number">172.16</span>.<span class="number">53.107</span>:<span class="number">6443</span> check</span><br><span class="line">    server      master03.k8s.io   <span class="number">172.16</span>.<span class="number">53.108</span>:<span class="number">6443</span> check</span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line"><span class="comment"># collection haproxy statistics message</span></span><br><span class="line"><span class="comment">#---------------------------------------------------------------------</span></span><br><span class="line">listen stats</span><br><span class="line">    bind                 *:<span class="number">1080</span></span><br><span class="line">    stats auth           <span class="symbol">admin:</span>awesomePassword</span><br><span class="line">    stats refresh        <span class="number">5</span>s</span><br><span class="line">    stats realm          HAProxy\ Statistics</span><br><span class="line">    stats uri            /admin?stats</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<ul>
+<li><p>4.3 启动</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="builtin-name">enable</span> haproxy</span><br><span class="line">systemctl start haproxy</span><br><span class="line">systemctl status haproxy</span><br><span class="line">netstat -lnptu|grep haproxy</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5"> 五、 k8s安装 </font>
+</center>
+
+
+
+<ul>
+<li><p>5.1 版本查看</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">list</span> kubelet --showduplicates | <span class="keyword">sort</span> -<span class="built_in">r</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>本文安装的kubelet版本是1.16.4，该版本支持的docker版本为1.13.1, 17.03, 17.06, 17.09, 18.06, 18.09。</p>
+</blockquote>
+</li>
+<li><p>5.2 安装kubelet、kubeadm和kubectl</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">yum</span> <span class="selector-tag">install</span> <span class="selector-tag">-y</span> <span class="selector-tag">kubelet-1</span><span class="selector-class">.16</span><span class="selector-class">.4</span> <span class="selector-tag">kubeadm-1</span><span class="selector-class">.16</span><span class="selector-class">.4</span> <span class="selector-tag">kubectl-1</span><span class="selector-class">.16</span><span class="selector-class">.4</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>kubelet 运行在集群所有节点上，用于启动Pod和容器等对象的工具<br>kubeadm 用于初始化集群，启动集群的命令工具<br>kubectl 用于和集群通信的命令行，通过kubectl可以部署和管理应用，查看各种资源，创建、删除和更新各种组件</p>
+</blockquote>
+</li>
+<li><p>5.3 启动kubelet</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="builtin-name">enable</span> kubelet</span><br><span class="line">systemctl start kubelet</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5.4 kubectl命令补全</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># bash</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"source &lt;(kubectl completion bash)"</span> &gt;&gt; ~<span class="string">/.bash_profile</span></span><br><span class="line">source ~<span class="string">/.bash_profile</span></span><br><span class="line"><span class="comment"># zsh</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"source &lt;(kubectl completion zsh)"</span> &gt;&gt; ~<span class="string">/.zshrc</span></span><br><span class="line">source ~<span class="string">/.zshrc</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>5.5 下载镜像</p>
+<blockquote>
+<p>外网的慢, 从阿里云下载后打个官方tag即可</p>
+</blockquote>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">tee /root/image.sh &lt;&lt;- '<span class="literal">EOF</span>'</span><br><span class="line">#!/bin/bash</span><br><span class="line">url=registry.cn-hangzhou.aliyuncs.com/loong576</span><br><span class="line">version=v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line">images=(`kubeadm config images <span class="type">list</span> --kubernetes-version=$version|awk -F '/' '&#123;print $<span class="number">2</span>&#125;'`)</span><br><span class="line">for imagename in $&#123;images[@]&#125; ; do</span><br><span class="line">  docker pull $url/$imagename</span><br><span class="line">  docker tag $url/$imagename k8s.gcr.io/$imagename</span><br><span class="line">  docker rmi -f $url/$imagename</span><br><span class="line">done</span><br><span class="line"><span class="literal">EOF</span></span><br><span class="line"></span><br><span class="line"># 下载</span><br><span class="line">sh  /root/image.sh</span><br><span class="line"></span><br><span class="line"># 验证</span><br><span class="line">docker images|grep <span class="number">1.16</span><span class="number">.4</span></span><br><span class="line">k8s.gcr.io/kube-apiserver                  v1<span class="number">.16</span><span class="number">.4</span>              <span class="number">3722</span>a80984a0        <span class="number">3</span> months ago        <span class="number">217</span>MB</span><br><span class="line">k8s.gcr.io/kube-controller-manager         v1<span class="number">.16</span><span class="number">.4</span>              fb4cca6b4e4c        <span class="number">3</span> months ago        <span class="number">163</span>MB</span><br><span class="line">k8s.gcr.io/kube-proxy                      v1<span class="number">.16</span><span class="number">.4</span>              <span class="number">091</span>df896d78f        <span class="number">3</span> months ago        <span class="number">86.1</span>MB</span><br><span class="line">k8s.gcr.io/kube-scheduler                  v1<span class="number">.16</span><span class="number">.4</span>              <span class="number">2984964036</span>c8        <span class="number">3</span> months ago        <span class="number">87.3</span>MB</span><br><span class="line">k8s.gcr.io/metrics-server-amd64            v0<span class="number">.3</span><span class="number">.5</span>               abf04c0f54ff        <span class="number">6</span> months ago        <span class="number">39.9</span>MB</span><br><span class="line">k8s.gcr.io/etcd                            <span class="number">3.3</span><span class="number">.15</span><span class="number">-0</span>             b2756210eeab        <span class="number">6</span> months ago        <span class="number">247</span>MB</span><br><span class="line">k8s.gcr.io/coredns                         <span class="number">1.6</span><span class="number">.2</span>                bf261d157914        <span class="number">7</span> months ago        <span class="number">44.1</span>MB</span><br><span class="line">k8s.gcr.io/pause                           <span class="number">3.1</span>                  da86e6ba6ca1        <span class="number">2</span> years ago         <span class="number">742</span>kB</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5"> 六、初始化master </font>
+</center>
+
+
+
+<ul>
+<li><p>6.1 kubeadm.1.16.4.conf</p>
+<blockquote>
+<p>在具有vip的master上操作，这里为master01.k8s.io</p>
+</blockquote>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">tee /data/k8s-config/kubeadm.<span class="number">1.16</span>.<span class="number">4</span><span class="selector-class">.conf</span> &lt;&lt;- <span class="string">'EOF'</span></span><br><span class="line">apiVersion: kubeadm<span class="selector-class">.k8s</span><span class="selector-class">.io</span>/v1beta2</span><br><span class="line">kind: ClusterConfiguration</span><br><span class="line">kubernetesVersion: v1.<span class="number">16.4</span></span><br><span class="line">apiServer:</span><br><span class="line">  certSANs:    #填写所有kube-apiserver节点的hostname、IP、VIP</span><br><span class="line">  - master01<span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br><span class="line">  - master02<span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br><span class="line">  - master03<span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br><span class="line">  - master<span class="selector-class">.k8s</span><span class="selector-class">.io</span></span><br><span class="line">  - dk-node1</span><br><span class="line">  - <span class="number">172.16</span>.<span class="number">53.106</span></span><br><span class="line">  - <span class="number">172.16</span>.<span class="number">53.107</span></span><br><span class="line">  - <span class="number">172.16</span>.<span class="number">53.108</span></span><br><span class="line">  - <span class="number">172.16</span>.<span class="number">53.137</span></span><br><span class="line">  - <span class="number">172.16</span>.<span class="number">76.136</span></span><br><span class="line">  - <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line">controlPlaneEndpoint: <span class="string">"master.k8s.io:16443"</span></span><br><span class="line">networking:</span><br><span class="line">  podSubnet: <span class="string">"10.244.0.0/16"</span></span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>6.2 master初始化</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubeadm init --config=kubeadm<span class="number">.1</span><span class="number">.16</span><span class="number">.4</span>.conf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">You can now join any <span class="built_in">number</span> <span class="keyword">of</span> control-plane nodes <span class="keyword">by</span> copying certificate authorities</span><br><span class="line"><span class="keyword">and</span> service account keys <span class="keyword">on</span> each node <span class="keyword">and</span> <span class="keyword">then</span> <span class="built_in">running</span> <span class="keyword">the</span> following <span class="keyword">as</span> root:</span><br><span class="line"></span><br><span class="line">  kubeadm join master.k8s.io:<span class="number">16443</span> <span class="comment">--token ynaob5.49rz8ofxavp6hzes \</span></span><br><span class="line">    <span class="comment">--discovery-token-ca-cert-hash sha256:6e7859f3b9d8ede08e2202d3cd63c42f56c7d2503dc8c6fb9dc5f050b5c17bac \</span></span><br><span class="line">    <span class="comment">--control-plane</span></span><br><span class="line"></span><br><span class="line">Then you can join any <span class="built_in">number</span> <span class="keyword">of</span> worker nodes <span class="keyword">by</span> <span class="built_in">running</span> <span class="keyword">the</span> following <span class="keyword">on</span> each <span class="keyword">as</span> root:</span><br><span class="line"></span><br><span class="line">kubeadm join master.k8s.io:<span class="number">16443</span> <span class="comment">--token ynaob5.49rz8ofxavp6hzes \</span></span><br><span class="line">    <span class="comment">--discovery-token-ca-cert-hash sha256:6e7859f3b9d8ede08e2202d3cd63c42f56c7d2503dc8c6fb9dc5f050b5c17bac</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>6.3 加载环境变量</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="string">"export KUBECONFIG=/etc/kubernetes/admin.conf"</span> &gt;&gt; ~<span class="string">/.zshrc</span></span><br><span class="line">source ~<span class="string">/.zshrc</span></span><br></pre></td></tr></table></figure>
+
+<p>本文所有操作都在root用户下执行，若为非root用户，则执行如下操作：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$HOME</span>/.kube</span><br><span class="line">cp -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">chown $(id -u):$(id -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>6.4 安装flannel网络</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f https:<span class="comment">//raw.githubusercontent.com/coreos/flannel/2140ac876ef134e0ed5af15c65e414cf26827915/Documentation/kube-flannel.yml</span></span><br><span class="line"></span><br><span class="line">podsecuritypolicy.policy/psp<span class="selector-class">.flannel</span><span class="selector-class">.unprivileged</span> created</span><br><span class="line">clusterrole<span class="selector-class">.rbac</span><span class="selector-class">.authorization</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span>/flannel created</span><br><span class="line">clusterrolebinding<span class="selector-class">.rbac</span><span class="selector-class">.authorization</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span>/flannel created</span><br><span class="line">serviceaccount/flannel created</span><br><span class="line">configmap/kube-flannel-cfg created</span><br><span class="line">daemonset.apps/kube-flannel-ds-amd64 created</span><br><span class="line">daemonset.apps/kube-flannel-ds-arm64 created</span><br><span class="line">daemonset.apps/kube-flannel-ds-arm created</span><br><span class="line">daemonset.apps/kube-flannel-ds-ppc64le created</span><br><span class="line">daemonset.apps/kube-flannel-ds-s390x created</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+<font color="blue" face="黑体" size="5"> 七、control plane节点加入集群 </font>
+</center>
+
+
+
+<ul>
+<li><p>7.1 证书分发</p>
+<blockquote>
+<p>在master01.k8s.io上运行脚本cert-main-master.sh，将证书分发至master02.k8s.io</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">tee /root/cert-main-master.sh  &lt;&lt;- <span class="string">'EOF'</span></span><br><span class="line">USER=root <span class="comment"># customizable</span></span><br><span class="line">CONTROL_PLANE_IPS=<span class="string">"172.16.53.107 172.16.53.108"</span></span><br><span class="line">CONTROL_PLANE_pkidir=<span class="string">"/etc/kubernetes/pki"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> host <span class="keyword">in</span> <span class="variable">$&#123;CONTROL_PLANE_IPS&#125;</span>; <span class="keyword">do</span></span><br><span class="line">    ssh root@<span class="variable">$&#123;host&#125;</span> <span class="string">"mkdir -p <span class="variable">$&#123;CONTROL_PLANE_pkidir&#125;</span>/etcd"</span></span><br><span class="line">    scp /etc/kubernetes/pki/ca.crt <span class="string">"<span class="variable">$&#123;USER&#125;</span>"</span>@<span class="variable">$host</span>:<span class="variable">$&#123;CONTROL_PLANE_pkidir&#125;</span>/</span><br><span class="line">    scp /etc/kubernetes/pki/ca.key <span class="string">"<span class="variable">$&#123;USER&#125;</span>"</span>@<span class="variable">$host</span>:<span class="variable">$&#123;CONTROL_PLANE_pkidir&#125;</span>/</span><br><span class="line">    scp /etc/kubernetes/pki/sa.key <span class="string">"<span class="variable">$&#123;USER&#125;</span>"</span>@<span class="variable">$host</span>:<span class="variable">$&#123;CONTROL_PLANE_pkidir&#125;</span>/</span><br><span class="line">    scp /etc/kubernetes/pki/sa.pub <span class="string">"<span class="variable">$&#123;USER&#125;</span>"</span>@<span class="variable">$host</span>:<span class="variable">$&#123;CONTROL_PLANE_pkidir&#125;</span>/</span><br><span class="line">    scp /etc/kubernetes/pki/front-proxy-ca.crt <span class="string">"<span class="variable">$&#123;USER&#125;</span>"</span>@<span class="variable">$host</span>:<span class="variable">$&#123;CONTROL_PLANE_pkidir&#125;</span>/</span><br><span class="line">    scp /etc/kubernetes/pki/front-proxy-ca.key <span class="string">"<span class="variable">$&#123;USER&#125;</span>"</span>@<span class="variable">$host</span>:<span class="variable">$&#123;CONTROL_PLANE_pkidir&#125;</span>/</span><br><span class="line">    scp /etc/kubernetes/pki/etcd/ca.crt <span class="string">"<span class="variable">$&#123;USER&#125;</span>"</span>@<span class="variable">$host</span>:<span class="variable">$&#123;CONTROL_PLANE_pkidir&#125;</span>/etcd/ca.crt</span><br><span class="line">    <span class="comment"># Quote this line if you are using external etcd</span></span><br><span class="line">    scp /etc/kubernetes/pki/etcd/ca.key <span class="string">"<span class="variable">$&#123;USER&#125;</span>"</span>@<span class="variable">$host</span>:<span class="variable">$&#123;CONTROL_PLANE_pkidir&#125;</span>/etcd/ca.key</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">sh /root/cert-main-master.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>7.2 master02.k8s.io,master03.k8s.io加入集群</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">kubeadm</span> <span class="selector-tag">join</span> <span class="selector-tag">master</span><span class="selector-class">.k8s</span><span class="selector-class">.io</span><span class="selector-pseudo">:16443</span> <span class="selector-tag">--token</span> <span class="selector-tag">ynaob5</span><span class="selector-class">.49rz8ofxavp6hzes</span> \</span><br><span class="line">  <span class="selector-tag">--discovery-token-ca-cert-hash</span> <span class="selector-tag">sha256</span><span class="selector-pseudo">:6e7859f3b9d8ede08e2202d3cd63c42f56c7d2503dc8c6fb9dc5f050b5c17bac</span> \</span><br><span class="line">  <span class="selector-tag">--control-plane</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>6.3 master02.k8s.io,master03.k8s.io加载环境变量</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="string">"export KUBECONFIG=/etc/kubernetes/admin.conf"</span> &gt;&gt; ~<span class="string">/.zshrc</span></span><br><span class="line">source ~<span class="string">/.zshrc</span></span><br></pre></td></tr></table></figure>
+
+<p>本文所有操作都在root用户下执行，若为非root用户，则执行如下操作：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$HOME</span>/.kube</span><br><span class="line">cp -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">chown $(id -u):$(id -g) <span class="variable">$HOME</span>/.kube/config</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>7.4 集群节点查看</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># kubectl get nodes</span><br><span class="line">NAME              STATUS   ROLES    AGE   VERSION</span><br><span class="line">master01.k8s.io   Ready    master   <span class="number">6</span>m    v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line">master02.k8s.io   Ready    master   <span class="number">99</span>s   v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line">master03.k8s.io   Ready    master   <span class="number">46</span>s   v1<span class="number">.16</span><span class="number">.4</span></span><br><span class="line"></span><br><span class="line"># kubectl get pod -n kube-system</span><br><span class="line">NAME                                      READY   STATUS    RESTARTS   AGE</span><br><span class="line">coredns<span class="number">-5644</span>d7b6d9-bdnxl                  <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m54s</span><br><span class="line">coredns<span class="number">-5644</span>d7b6d9-hsbpl                  <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m54s</span><br><span class="line">etcd-master01.k8s.io                      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m10s</span><br><span class="line">etcd-master02.k8s.io                      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">109</span>s</span><br><span class="line">etcd-master03.k8s.io                      <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">56</span>s</span><br><span class="line">kube-apiserver-master01.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m11s</span><br><span class="line">kube-apiserver-master02.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">110</span>s</span><br><span class="line">kube-controller-manager-master01.k8s.io   <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">4</span>m52s</span><br><span class="line">kube-controller-manager-master02.k8s.io   <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">110</span>s</span><br><span class="line">kube-flannel-ds-amd64<span class="number">-84</span>b6w               <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m15s</span><br><span class="line">kube-flannel-ds-amd64-df99l               <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">56</span>s</span><br><span class="line">kube-flannel-ds-amd64-jzt62               <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">110</span>s</span><br><span class="line">kube-proxy-fgcmg                          <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">56</span>s</span><br><span class="line">kube-proxy-r9rz2                          <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">5</span>m54s</span><br><span class="line">kube-proxy-s47gj                          <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">110</span>s</span><br><span class="line">kube-scheduler-master01.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">1</span>          <span class="number">4</span>m56s</span><br><span class="line">kube-scheduler-master02.k8s.io            <span class="number">1</span>/<span class="number">1</span>     Running   <span class="number">0</span>          <span class="number">110</span>s</span><br><span class="line"></span><br><span class="line"># kubectl get cs</span><br><span class="line">NAME                 AGE</span><br><span class="line">scheduler            &lt;unknown&gt;</span><br><span class="line">controller-manager   &lt;unknown&gt;</span><br><span class="line">etcd<span class="number">-0</span>               &lt;unknown&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>执行<code>kubectl get cs</code>显示<code>&lt;unknown&gt;</code>是一个<code>1.16</code>版本已知的<code>bug</code>，后续官方应该会解决处理，有大佬分析了源码并且提交了pr，可<a href="https://segmentfault.com/a/1190000020912684" target="_blank" rel="noopener">点此参考</a></p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>7.5 测试集群<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1 查看leader</span></span><br><span class="line"><span class="comment"># kubectl get endpoints kube-controller-manager -n kube-system -o yaml |grep holderIdentity</span></span><br><span class="line"></span><br><span class="line">control-plane.alpha.kubernetes.io/leader: '&#123;<span class="string">"holderIdentity"</span>:<span class="string">"master01.k8s.io_4b4f63f3-551e-4514-8aa9-a8fdbb13f1b4"</span>,<span class="string">"leaseDurationSeconds"</span>:<span class="number">15</span>,<span class="string">"acquireTime"</span>:<span class="string">"2020-03-24T02:40:32Z"</span>,<span class="string">"renewTime"</span>:<span class="string">"2020-03-24T02:45:47Z"</span>,<span class="string">"leaderTransitions"</span>:<span class="number">1</span>&#125;'</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2 在master01.k8s.io 上执行 init 0 关机 模拟宕机</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3 controller-manager和scheduler也发生了迁移</span></span><br><span class="line"><span class="comment"># kubectl get endpoints kube-controller-manager -n kube-system -o yaml |grep holderIdentity</span></span><br><span class="line"></span><br><span class="line">control-plane.alpha.kubernetes.io/leader: '&#123;<span class="string">"holderIdentity"</span>:<span class="string">"master02.k8s.io_457a8d6d-d0e4-4a8e-afbe-0c37f0dadf8d"</span>,<span class="string">"leaseDurationSeconds"</span>:<span class="number">15</span>,<span class="string">"acquireTime"</span>:<span class="string">"2020-03-24T02:46:03Z"</span>,<span class="string">"renewTime"</span>:<span class="string">"2020-03-24T02:50:50Z"</span>,<span class="string">"leaderTransitions"</span>:<span class="number">2</span>&#125;'</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4 集群此时还是能正常操作</span></span><br><span class="line"><span class="comment"># kubectl get nodes</span></span><br><span class="line">NAME              STATUS     ROLES    AGE   <span class="keyword">VERSION</span></span><br><span class="line">master01.k8s.io   NotReady   <span class="keyword">master</span>   <span class="title">17m</span>   v1.<span class="number">16.4</span></span><br><span class="line">master02.k8s.io   Ready      <span class="keyword">master</span>   <span class="title">12m</span>   v1.<span class="number">16.4</span></span><br><span class="line">master03.k8s.io   Ready      <span class="keyword">master</span>   <span class="title">11m</span>   v1.<span class="number">16.4</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD<br>  <img src="http://zhangzw001.github.io/images/42/02.png" alt></p>
+<h1 id><a href="#" class="headerlink" title="  "></a>  <img src="http://zhangzw001.github.io/images/42/03.png" alt></h1><p><img src="http://zhangzw001.github.io/images/42/02.png" alt></p>
+<p><img src="http://zhangzw001.github.io/images/42/03.png" alt></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>0683df77731bdb852312dcfa3eda982ad53a7509</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<ul>
+<li>7.6 导入集群到rancher<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这里请自行在rancher界面生成(我这里是rancherv2.3.5)</span></span><br><span class="line">curl --insecure -sfL https:<span class="regexp">//</span>rancher-dev.xxx.com<span class="regexp">/v3/im</span>port<span class="regexp">/68nzw8nlch92gshktcx2v5d8xvlvlk57nfgffz9jr7hxwfkwcbbtpz.yaml | kubectl apply -f -</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<h1 id="-1"><a href="#-1" class="headerlink" title="  "></a>  <img src="http://zhangzw001.github.io/images/42/04.png" alt></h1><p><img src="http://zhangzw001.github.io/images/42/04.png" alt></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>0683df77731bdb852312dcfa3eda982ad53a7509</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2020/03/24/42-kubeadm安装高可用k8s集群/">kubeadm安装高可用k8s集群</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
+  <p><span>发布时间:</span>2020年03月24日 - 11:03</p>
+  <p><span>最后更新:</span>2020年03月24日 - 11:03</p>
+  <p><span>原始链接:</span><a href="/2020/03/24/42-kubeadm安装高可用k8s集群/" title="kubeadm安装高可用k8s集群">http://zhangzw001.github.io/2020/03/24/42-kubeadm安装高可用k8s集群/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2020/03/24/42-kubeadm安装高可用k8s集群/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+
+      </div>
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"># k8s</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/18/40-记一次跨域的nginx配置问题/" rel="next" title="记一次跨域的nginx配置问题">
+                <i class="fa fa-chevron-left"></i> 记一次跨域的nginx配置问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zhangzw</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">43</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">40</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友链
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://johnnywl.github.io/" title="https://johnnywl.github.io/" rel="noopener" target="_blank">johnny</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#执行以下命令"><span class="nav-number">1.</span> <span class="nav-text">执行以下命令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#略"><span class="nav-number">2.</span> <span class="nav-text">  略</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。"><span class="nav-number">3.</span> <span class="nav-text">三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#null"><span class="nav-number">4.</span> <span class="nav-text">  </span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-1"><span class="nav-number">5.</span> <span class="nav-text">  </span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhangzw</span>
+
+  
+
+  
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+
+-->
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="96,96,96" opacity="0.5" zindex="-1" count="229" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 'Q7DcnSqtpo3sXcnqbvDv7PkE-gzGzoHsz',
+      appKey: 'OLwBbxGhnrwtyHRU3bJynspO',
+      placeholder: 'ヾﾉ≧∀≦)o 来呀！快活呀！~啦啦啦~ 啦啦啦啦~',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: true
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<!-- 预加载 -->
+<script type="text/javascript" src="/js/src/instantclick.js" data-no-instant></script>
+<script data-no-instant>InstantClick.init();</script>
+
+</body>
+</html>
+
+<!-- 鼠标桃心动画 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<!-- 鼠标移动星星特效 -->
+<!--<script type="text/javascript" src="/js/src/love2.js"></script>-->
+<!-- 看板娘 -->
+<!--<script src="/live2d-widget/autoload.js"></script> -->
