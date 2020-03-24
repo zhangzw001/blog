@@ -101,20 +101,27 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Zhangzw&#39;s Blog">
-<meta property="og:url" content="http://zhangzw001.github.io/categories/nginx/index.html">
+  <meta name="description" content="es机器报警磁盘 / 空间不足,查看是生成了 .hprof 文件, 内存溢出的典型特征">
+<meta name="keywords" content="elasticsearch5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次es集群内存溢出的问题">
+<meta property="og:url" content="http://zhangzw001.github.io/2020/03/19/41-记一次es集群内存溢出的问题/index.html">
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
+<meta property="og:description" content="es机器报警磁盘 / 空间不足,查看是生成了 .hprof 文件, 内存溢出的典型特征">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:updated_time" content="2020-03-24T03:16:51.331Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Zhangzw&#39;s Blog">
+<meta name="twitter:title" content="记一次es集群内存溢出的问题">
+<meta name="twitter:description" content="es机器报警磁盘 / 空间不足,查看是生成了 .hprof 文件, 内存溢出的典型特征">
+<meta name="twitter:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 
 
 
 
 
 
-  <link rel="canonical" href="http://zhangzw001.github.io/categories/nginx/">
+  <link rel="canonical" href="http://zhangzw001.github.io/2020/03/19/41-记一次es集群内存溢出的问题/">
 
 
 
@@ -124,7 +131,7 @@
   };
 </script>
 
-  <title>分类: nginx | Zhangzw's Blog</title>
+  <title>记一次es集群内存溢出的问题 | Zhangzw's Blog</title>
   
 
 
@@ -172,7 +179,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
 
@@ -228,7 +235,7 @@
         
         
           
-          <li class="menu-item menu-item-categories menu-item-active">
+          <li class="menu-item menu-item-categories">
 
     
     
@@ -275,22 +282,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -336,109 +327,366 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block category">
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>nginx<small>分类</small>
-        </h1>
-      </div>
-
-      
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangzw001.github.io/2020/03/19/41-记一次es集群内存溢出的问题/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zhangzw">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhangzw's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-          <a class="post-title-link" href="/2020/03/18/40-记一次跨域的nginx配置问题/" itemprop="url">
-            
-              <span itemprop="name">记一次跨域的nginx配置问题</span>
-            
-          </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">记一次es集群内存溢出的问题
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-03-18T18:26:35+08:00" content="2020-03-18">
-          03-18
-        </time>
-      </div>
+              
+            
+          </h1>
+        
 
-    </header>
-  </article>
+        <div class="post-meta">
+	
+          <span class="post-time">
 
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-19 10:26:49" itemprop="dateCreated datePublished" datetime="2020-03-19T10:26:49+08:00">2020-03-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-03-24 11:16:51" itemprop="dateModified" datetime="2020-03-24T11:16:51+08:00">2020-03-24</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/elk/" itemprop="url" rel="index"><span itemprop="name">elk</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/elk/elasticsearch5/" itemprop="url" rel="index"><span itemprop="name">elasticsearch5</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/19/41-记一次es集群内存溢出的问题/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2020/03/19/41-记一次es集群内存溢出的问题/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/19/41-记一次es集群内存溢出的问题/" class="leancloud_visitors" data-flag-title="记一次es集群内存溢出的问题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">7.4k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">7 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2020/03/18/39-记一次nginx的request-time-和upstream-response-time差值很大问题/" itemprop="url">
-            
-              <span itemprop="name">记一次nginx的request_time 和upstream_response_time差值很大问题</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2020-03-18T10:43:34+08:00" content="2020-03-18">
-          03-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
 
       
-        
+        <p>es机器报警磁盘 / 空间不足,查看是生成了 .hprof 文件, 内存溢出的典型特征</p>
+<a id="more"></a>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
 
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2019/09/27/10-centos6安装nginx1-16-php7-2/" itemprop="url">
-            
-              <span itemprop="name">centos6安装nginx1.16+php7.2</span>
-            
-          </a>
-        
-      </h2>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+</center>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-27T14:39:07+08:00" content="2019-09-27">
-          09-27
-        </time>
-      </div>
+<p>以上问题主要是两点</p>
+<ol>
+<li>由于elasticsearch用户家目录是/home/elasticsearch, 所以内存溢出时 写的.hprof文件会生成到家目录, 并且大小有6G+, 这会导致/目录磁盘空间不足报警, 是否可以设置该日志目录? 或者取巧设置elasticsearch家目录到/data挂载盘上?</li>
+<li>内存溢出的问题, 是否可以优化并解决</li>
+</ol>
+<h3 id="问题1-我这里并未找到设置-hprof文件的生成目录路径设置-所以我就将根目录做了一个链接"><a href="#问题1-我这里并未找到设置-hprof文件的生成目录路径设置-所以我就将根目录做了一个链接" class="headerlink" title="问题1 我这里并未找到设置.hprof文件的生成目录路径设置, 所以我就将根目录做了一个链接"></a>问题1 我这里并未找到设置.hprof文件的生成目录路径设置, 所以我就将根目录做了一个链接</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mv <span class="regexp">/home/</span>elasticsearch <span class="regexp">/data/</span></span><br><span class="line">ln -s <span class="regexp">/data/</span>elasticsearch <span class="regexp">/home/</span>elasticsearch</span><br><span class="line">或者修改elasticsearch用户的家目录(不过需要用户没有在login中)</span><br><span class="line">lsof |<span class="keyword">grep</span> elasticsearch</span><br><span class="line">usermod -d <span class="regexp">/data/</span>elasticsearch elasticsearch</span><br></pre></td></tr></table></figure>
 
-    </header>
-  </article>
+<h3 id="问题2-内存溢出的问题-我们设置-indices-fielddata-cache-size-20"><a href="#问题2-内存溢出的问题-我们设置-indices-fielddata-cache-size-20" class="headerlink" title="问题2 内存溢出的问题,我们设置  indices.fielddata.cache.size:  20%"></a>问题2 内存溢出的问题,我们设置  indices.fielddata.cache.size:  20%</h3><blockquote>
+<p><a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/_limiting_memory_usage.html#fielddata-size" target="_blank" rel="noopener">elasticsearch2.x 限制内存使用</a></p>
+</blockquote>
+<p>indices.fielddata.cache.size 控制为 fielddata 分配的堆空间大小。 当你发起一个查询，分析字符串的聚合将会被加载到 fielddata，如果这些字符串之前没有被加载过。如果结果中 fielddata 大小超过了指定 大小 ，其他的值将会被回收从而获得空间。</p>
+<p>默认情况下，设置都是 unbounded ，Elasticsearch 永远都不会从 fielddata 中回收数据。<br>这个默认设置是刻意选择的：fielddata 不是临时缓存。它是驻留内存里的数据结构，必须可以快速执行访问，而且构建它的代价十分高昂。如果每个请求都重载数据，性能会十分糟糕。</p>
+<h3 id="监控fielddata"><a href="#监控fielddata" class="headerlink" title="监控fielddata"></a>监控fielddata</h3><ul>
+<li><p>按索引使用 indices-stats API ：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">GET</span> /_stats/fielddata?<span class="attribute">fields</span>=*</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>按节点使用 nodes-stats API ：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">GET</span> /_nodes/stats/indices/fielddata?<span class="attribute">fields</span>=*</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>按索引节点：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">GET</span> /_nodes/stats/indices/fielddata?<span class="attribute">level</span>=indices&amp;fields=*</span><br></pre></td></tr></table></figure>
 
+</li>
+</ul>
+<p>使用设置 ?fields=* ，可以将内存使用分配到每个字段。</p>
+<h3 id="断路器"><a href="#断路器" class="headerlink" title="断路器"></a>断路器</h3><p>机敏的读者可能已经发现 fielddata 大小设置的一个问题。fielddata 大小是在数据加载 之后 检查的。 如果一个查询试图加载比可用内存更多的信息到 fielddata 中会发生什么？答案很丑陋：我们会碰到 OutOfMemoryException 。</p>
+<p>Elasticsearch 包括一个 fielddata 断熔器 ，这个设计就是为了处理上述情况。 断熔器通过内部检查（字段的类型、基数、大小等等）来估算一个查询需要的内存。它然后检查要求加载的 fielddata 是否会导致 fielddata 的总量超过堆的配置比例。</p>
+<p>如果估算查询的大小超出限制，就会 触发 断路器，查询会被中止并返回异常。这都发生在数据加载 之前 ，也就意味着不会引起 OutOfMemoryException 。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">可用的断路器（Available Circuit Breakers）</span><br><span class="line"></span><br><span class="line">Elasticsearch 有一系列的断路器，它们都能保证内存不会超出限制：</span><br><span class="line"></span><br><span class="line">indices<span class="selector-class">.breaker</span><span class="selector-class">.fielddata</span><span class="selector-class">.limit</span></span><br><span class="line">fielddata 断路器默认设置堆的 <span class="number">60%</span> 作为 fielddata 大小的上限。</span><br><span class="line">indices<span class="selector-class">.breaker</span><span class="selector-class">.request</span><span class="selector-class">.limit</span></span><br><span class="line">request 断路器估算需要完成其他请求部分的结构大小，例如创建一个聚合桶，默认限制是堆内存的 <span class="number">40%</span>。</span><br><span class="line">indices<span class="selector-class">.breaker</span><span class="selector-class">.total</span><span class="selector-class">.limit</span></span><br><span class="line">total 揉合 request 和 fielddata 断路器保证两者组合起来不会使用超过堆内存的 <span class="number">70%</span>。</span><br></pre></td></tr></table></figure>
+
+<p>断路器的限制可以在文件 config/elasticsearch.yml 中指定，可以动态更新一个正在运行的集群：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT /_cluster/settings</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"persistent"</span> : &#123;</span><br><span class="line">    <span class="string">"indices.breaker.fielddata.limit"</span> : <span class="string">"40%"</span> </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最好为断路器设置一个相对保守点的值。 记住 fielddata 需要与 request 断路器共享堆内存、索引缓冲内存和过滤器缓存。Lucene 的数据被用来构造索引，以及各种其他临时的数据结构。 正因如此，它默认值非常保守，只有 60% 。过于乐观的设置可能会引起潜在的堆栈溢出（OOM）异常，这会使整个节点宕掉。</p>
+<blockquote>
+<p>在 Fielddata的大小 中，我们提过关于给 fielddata 的大小加一个限制，从而确保旧的无用 fielddata 被回收的方法。 indices.fielddata.cache.size 和 indices.breaker.fielddata.limit 之间的关系非常重要。 如果断路器的限制低于缓存大小，没有数据会被回收。为了能正常工作，断路器的限制 必须 要比缓存大小要高。</p>
+</blockquote>
+<h3 id="在设置-Elasticsearch-堆大小时需要通过-ES-HEAP-SIZE-环境变量应用两个规则："><a href="#在设置-Elasticsearch-堆大小时需要通过-ES-HEAP-SIZE-环境变量应用两个规则：" class="headerlink" title="在设置 Elasticsearch 堆大小时需要通过 $ES_HEAP_SIZE 环境变量应用两个规则："></a>在设置 Elasticsearch 堆大小时需要通过 $ES_HEAP_SIZE 环境变量应用两个规则：</h3><p>1 不要超过可用 RAM 的 50%<br>Lucene 能很好利用文件系统的缓存，它是通过系统内核管理的。如果没有足够的文件系统缓存空间，性能会受到影响。 此外，专用于堆的内存越多意味着其他所有使用 doc values 的字段内存越少。<br>2 不要超过 32 GB</p>
+<h1 id="如果堆大小小于-32-GB，JVM-可以利用指针压缩，这可以大大降低内存的使用：每个指针-4-字节而不是-8-字节。"><a href="#如果堆大小小于-32-GB，JVM-可以利用指针压缩，这可以大大降低内存的使用：每个指针-4-字节而不是-8-字节。" class="headerlink" title="如果堆大小小于 32 GB，JVM 可以利用指针压缩，这可以大大降低内存的使用：每个指针 4 字节而不是 8 字节。"></a>如果堆大小小于 32 GB，JVM 可以利用指针压缩，这可以大大降低内存的使用：每个指针 4 字节而不是 8 字节。</h1><hr>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>f0eb8557502bb7b89616955eaea606fc1b067664</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 
       
     </div>
 
+    
+
+    
+    
+    
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2020/03/19/41-记一次es集群内存溢出的问题/">记一次es集群内存溢出的问题</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
+  <p><span>发布时间:</span>2020年03月19日 - 10:03</p>
+  <p><span>最后更新:</span>2020年03月24日 - 11:03</p>
+  <p><span>原始链接:</span><a href="/2020/03/19/41-记一次es集群内存溢出的问题/" title="记一次es集群内存溢出的问题">http://zhangzw001.github.io/2020/03/19/41-记一次es集群内存溢出的问题/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2020/03/19/41-记一次es集群内存溢出的问题/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+
+      </div>
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/elasticsearch5/" rel="tag"># elasticsearch5</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/18/40-记一次跨域的nginx配置问题/" rel="next" title="记一次跨域的nginx配置问题">
+                <i class="fa fa-chevron-left"></i> 记一次跨域的nginx配置问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/24/42-kubeadm安装高可用k8s集群/" rel="prev" title="kubeadm安装高可用k8s集群">
+                kubeadm安装高可用k8s集群 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
 
         </div>
         
@@ -459,8 +707,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -475,11 +732,7 @@
                 
                   <a href="/archives/">
                 
-<<<<<<< HEAD
-                    <span class="site-state-item-count">43</span>
-=======
                     <span class="site-state-item-count">44</span>
->>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -719,6 +972,23 @@
       </div>
 
       
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1-我这里并未找到设置-hprof文件的生成目录路径设置-所以我就将根目录做了一个链接"><span class="nav-number">1.</span> <span class="nav-text">问题1 我这里并未找到设置.hprof文件的生成目录路径设置, 所以我就将根目录做了一个链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2-内存溢出的问题-我们设置-indices-fielddata-cache-size-20"><span class="nav-number">2.</span> <span class="nav-text">问题2 内存溢出的问题,我们设置  indices.fielddata.cache.size:  20%</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监控fielddata"><span class="nav-number">3.</span> <span class="nav-text">监控fielddata</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#断路器"><span class="nav-number">4.</span> <span class="nav-text">断路器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在设置-Elasticsearch-堆大小时需要通过-ES-HEAP-SIZE-环境变量应用两个规则："><span class="nav-number">5.</span> <span class="nav-text">在设置 Elasticsearch 堆大小时需要通过 $ES_HEAP_SIZE 环境变量应用两个规则：</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#如果堆大小小于-32-GB，JVM-可以利用指针压缩，这可以大大降低内存的使用：每个指针-4-字节而不是-8-字节。"><span class="nav-number"></span> <span class="nav-text">如果堆大小小于 32 GB，JVM 可以利用指针压缩，这可以大大降低内存的使用：每个指针 4 字节而不是 8 字节。</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
 
       
 
@@ -848,6 +1118,10 @@
   
 
   
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
 
   
 
