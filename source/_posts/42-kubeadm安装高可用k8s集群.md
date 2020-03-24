@@ -9,7 +9,7 @@ categories:
   - [k8s]
 
 ---
-简单记录kubeadm方式安装k8s1.16.4高可用集群
+简单记录kubeadm方式安装k8s1.16.4高可用集群,haproxy通过keepalived绑定的vip来负载均衡到三台master, 其中keepalived则反之单机故障,haproxy则让三台master可以同时提供服务.
 
 ![](http://zhangzw001.github.io/images/42/01.png)
 
@@ -24,10 +24,9 @@ categories:
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font color="blue" face="黑体" size=5> 一、 安装准备 </font>
 </center>
 
-
+### 一、 安装准备
 - 1.1 主机名
 ```
 172.16.53.106 master01.k8s.io
@@ -126,11 +125,10 @@ gpgkey=URL 数字签名的公钥文件所在位置，如果gpgcheck值为1，此
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font color="blue" face="黑体" size=5> 二、 docker版本安装 </font>
 </center>
 
 
-
+### 二、 docker版本安装
 
 - 2.1 配置源
 ```
@@ -186,9 +184,10 @@ systemctl enable docker
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font color="blue" face="黑体" size=5> 三、 keepalived安装 </font>
 </center>
 
+
+### 三、 keepalived安装
 
 - 3.1 安装
 ```
@@ -320,9 +319,9 @@ systemctl enable keepalived
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font color="blue" face="黑体" size=5> 四、 haproxy安装 </font>
 </center>
 
+### 四、 haproxy安装
 
 - 4.1 安装
 
@@ -421,10 +420,9 @@ netstat -lnptu|grep haproxy
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font color="blue" face="黑体" size=5> 五、 k8s安装 </font>
 </center>
 
-
+### 五、 k8s安装
 
 - 5.1 版本查看
 
@@ -469,7 +467,8 @@ source ~/.zshrc
   ```
 tee /root/image.sh <<- 'EOF'
 #!/bin/bash
-url=registry.cn-hangzhou.aliyuncs.com/loong576
+#url=registry.cn-hangzhou.aliyuncs.com/loong576
+url=registry.aliyuncs.com/google_containers
 version=v1.16.4
 images=(`kubeadm config images list --kubernetes-version=$version|awk -F '/' '{print $2}'`)
 for imagename in ${images[@]} ; do
@@ -496,10 +495,9 @@ k8s.gcr.io/pause                           3.1                  da86e6ba6ca1    
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font color="blue" face="黑体" size=5> 六、初始化master </font>
 </center>
 
-
+### 六、初始化master
 
 - 6.1 kubeadm.1.16.4.conf
 
@@ -583,10 +581,9 @@ daemonset.apps/kube-flannel-ds-s390x created
 
 <center>
 <img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-<font color="blue" face="黑体" size=5> 七、control plane节点加入集群 </font>
 </center>
 
- 
+### 七、control plane节点加入集群
 
 - 7.1 证书分发
 
