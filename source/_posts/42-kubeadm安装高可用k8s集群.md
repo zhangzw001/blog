@@ -77,6 +77,7 @@ EOF
 sysctl -p /etc/sysctl.d/k8s.conf
 ```
 
+<<<<<<< HEAD
   > 如果出现报错
 
   ```
@@ -87,6 +88,15 @@ sysctl: cannot stat /proc/sys/net/bridge/bridge-nf-call-ip6tables: No such file 
   > 报错解决:
 
   ```
+=======
+> 如果出现报错
+```
+sysctl: cannot stat /proc/sys/net/bridge/bridge-nf-call-iptables: No such file or directory
+sysctl: cannot stat /proc/sys/net/bridge/bridge-nf-call-ip6tables: No such file or directory
+```
+> 报错解决:
+```
+>>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 # 执行以下命令
 1 modprobe br_netfilter
 2 ls /proc/sys/net/bridge
@@ -109,7 +119,11 @@ yum clean all
 yum makecache -y
 ```
 
+<<<<<<< HEAD
   ```
+=======
+```
+>>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 [] 中括号中的是repository id，唯一，用来标识不同仓库
 name 仓库名称，自定义
 baseurl 仓库地址
@@ -121,7 +135,11 @@ gpgkey=URL 数字签名的公钥文件所在位置，如果gpgcheck值为1，此
 
 - 1.7 免密登录配置
 
+<<<<<<< HEAD
   略
+=======
+略
+>>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 
 
 <center>
@@ -172,14 +190,22 @@ cat /etc/docker/daemon.json
 
   > 重新加载docker
 
+<<<<<<< HEAD
   ```
+=======
+```
+>>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 systemctl restart docker
 systemctl enable docker
 ```
 
   > 修改cgroupdriver是为了消除告警：
 
+<<<<<<< HEAD
   ```
+=======
+```
+>>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 [WARNING IsDockerSystemdCheck]: detected “cgroupfs” as the Docker cgroup driver. The recommended driver is “systemd”. Please follow the guide at https://kubernetes.io/docs/setup/cri/
 ```
 
@@ -331,7 +357,14 @@ yum install -y haproxy
   ```
 
 - 4.2 配置
+<<<<<<< HEAD
   > 三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。
+=======
+
+  > 三台master节点的配置均相同，配置中声明了后端代理的三个master节点服务器，指定了haproxy运行的端口为16443等，因此16443端口为集群的入口，其他的配置不做赘述。
+
+
+>>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
   ```
 tee  /etc/haproxy/haproxy.cfg <<- 'EOF'
 #---------------------------------------------------------------------
@@ -701,9 +734,15 @@ master02.k8s.io   Ready      master   12m   v1.16.4
 master03.k8s.io   Ready      master   11m   v1.16.4
 ```
 
+<<<<<<< HEAD
   ![](http://zhangzw001.github.io/images/42/02.png)
 
   ![](http://zhangzw001.github.io/images/42/03.png)
+=======
+![](http://zhangzw001.github.io/images/42/02.png)
+
+![](http://zhangzw001.github.io/images/42/03.png)
+>>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 
 
 - 7.6 导入集群到rancher
@@ -712,5 +751,9 @@ master03.k8s.io   Ready      master   11m   v1.16.4
 curl --insecure -sfL https://rancher-dev.xxx.com/v3/import/68nzw8nlch92gshktcx2v5d8xvlvlk57nfgffz9jr7hxwfkwcbbtpz.yaml | kubectl apply -f -
 ```
 
+<<<<<<< HEAD
   ![](http://zhangzw001.github.io/images/42/04.png)
+=======
+![](http://zhangzw001.github.io/images/42/04.png)
+>>>>>>> 0683df77731bdb852312dcfa3eda982ad53a7509
 
