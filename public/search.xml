@@ -115,7 +115,7 @@
   <entry>
     <title><![CDATA[k8s一些命令总结]]></title>
     <url>%2F2019%2F12%2F05%2F34-k8s%E4%B8%80%E4%BA%9B%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93%2F</url>
-    <content type="text"><![CDATA[记录一些kubectl命令 kubectl命令表 常用命令12345678# 让内网可以访问 k8s proxy(k8smaster是:172.16.1.111kubectl proxy --address='172.16.1.111' -p 10000 --accept-hosts='^172.*$'# 查看api类型kubectl api-versions # 让master也运行pod（默认master不运行pod,单机会用到）kubectl taint nodes --all node-role.kubernetes.io/master- scale 使用123# 通过将rc的副本数重新设置为0后，再将副本数设置为2，达到重启nginx的效果。kubectl scale deployment bq-front1 --replicas=0 -n webkubectl scale deployment bq-front1 --replicas=2 -n web metrics 相关123456# 查看node 资源kubectl top nodes# 查看pods 资源kubectl top pods -n php-dev# 获取metrics接口所有数据kubectl get --raw /metrics 根据版本缩放12345678910#查看Deployment的变更信息（以下信息得以保存，是创建时候加的“--record”这个选项起的作用）：kubectl rollout history deployment/bq-nginx-php7 -n webkubectl rollout undo deployment/bq-nginx-php7 # 回退到上一版本kubectl rollout undo deployment/bq-nginx-php7 --to-revision=2 # 回退到指定版本kubectl describe deployments/bq-nginx-php7 -n web #查询详细信息，获取升级进度kubectl rollout pause deployment/bq-nginx-php7 -n web #暂停升级kubectl rollout resume deployment/bq-nginx-php7 -n web #继续升级kubectl rollout undo deployment/bq-nginx-php7 -n web #升级回滚kubectl scale deployment bq-nginx-php7 --replicas 2 -n web #弹性伸缩Pod数量]]></content>
+    <content type="text"><![CDATA[记录一些kubectl命令 kubectl命令表 常用命令12345678# 让内网可以访问 k8s proxy(k8smaster是:172.16.1.111kubectl proxy --address='172.16.1.111' -p 10000 --accept-hosts='^172.*$'# 查看api类型kubectl api-versions # 让master也运行pod（默认master不运行pod,单机会用到）kubectl taint nodes --all node-role.kubernetes.io/master- scale 使用123# 通过将rc的副本数重新设置为0后，再将副本数设置为2，达到重启nginx的效果。kubectl scale deployment bq-front1 --replicas=0 -n webkubectl scale deployment bq-front1 --replicas=2 -n web metrics 相关123456# 查看node 资源kubectl top nodes# 查看pods 资源kubectl top pods -n php-dev# 获取metrics接口所有数据kubectl get --raw /metrics 根据版本缩放123456789101112#查看Deployment的变更信息（以下信息得以保存，是创建时候加的“--record”这个选项起的作用）：kubectl rollout history deployment/bq-nginx-php7 -n webkubectl rollout undo deployment/bq-nginx-php7 # 回退到上一版本kubectl rollout undo deployment/bq-nginx-php7 --to-revision=2 # 回退到指定版本kubectl describe deployments/bq-nginx-php7 -n web #查询详细信息，获取升级进度kubectl rollout pause deployment/bq-nginx-php7 -n web #暂停升级kubectl rollout resume deployment/bq-nginx-php7 -n web #继续升级kubectl rollout undo deployment/bq-nginx-php7 -n web #升级回滚kubectl scale deployment bq-nginx-php7 --replicas 2 -n web #弹性伸缩Pod数量kubectl get ns --show-labels # 查看标签,除了ns, 也可以是node,pod等]]></content>
       <categories>
         <category>k8s</category>
         <category>kubectl</category>
@@ -240,9 +240,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Linux一些脚本汇总]]></title>
-    <url>%2F2019%2F11%2F01%2F25-linux%E4%B8%80%E4%BA%9B%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB%2F</url>
-    <content type="text"><![CDATA[记录一些shell脚本 1 清理es几天前的索引脚本2 从mysql导出表到clickhouse脚本 ###命令汇总 1. 生成字符串1tr -dc A-Za-z0-9_@$\%\^\/\+ &lt; /dev/urandom|head -c 16|xargs grep需要转义的字符123grep '"第一个转义\$第二个转义\[&#123;' a.txt或者直接使用-Fgrep -F '"$[&#123;' a.txt]]></content>
+    <title><![CDATA[一些脚本汇总]]></title>
+    <url>%2F2019%2F11%2F01%2F25-%E4%B8%80%E4%BA%9B%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB%2F</url>
+    <content type="text"><![CDATA[记录一些shell脚本 1 清理es几天前的索引脚本2 从mysql导出表到clickhouse脚本]]></content>
       <categories>
         <category>linux</category>
         <category>shell</category>
@@ -252,9 +252,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[一些脚本汇总]]></title>
-    <url>%2F2019%2F11%2F01%2F25-%E4%B8%80%E4%BA%9B%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB%2F</url>
-    <content type="text"><![CDATA[记录一些shell脚本 1 清理es几天前的索引脚本2 从mysql导出表到clickhouse脚本]]></content>
+    <title><![CDATA[Linux一些脚本汇总]]></title>
+    <url>%2F2019%2F11%2F01%2F25-linux%E4%B8%80%E4%BA%9B%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB%2F</url>
+    <content type="text"><![CDATA[记录一些shell脚本 1 清理es几天前的索引脚本2 从mysql导出表到clickhouse脚本 ###命令汇总 1. 生成字符串1tr -dc A-Za-z0-9_@$\%\^\/\+ &lt; /dev/urandom|head -c 16|xargs grep需要转义的字符123grep '"第一个转义\$第二个转义\[&#123;' a.txt或者直接使用-Fgrep -F '"$[&#123;' a.txt]]></content>
       <categories>
         <category>linux</category>
         <category>shell</category>
