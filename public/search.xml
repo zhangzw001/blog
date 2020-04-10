@@ -245,9 +245,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[一些脚本汇总]]></title>
-    <url>%2F2019%2F11%2F01%2F25-%E4%B8%80%E4%BA%9B%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB%2F</url>
-    <content type="text"><![CDATA[记录一些shell脚本 1 清理es几天前的索引脚本2 从mysql导出表到clickhouse脚本]]></content>
+    <title><![CDATA[Linux一些脚本汇总]]></title>
+    <url>%2F2019%2F11%2F01%2F25-linux%E4%B8%80%E4%BA%9B%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB%2F</url>
+    <content type="text"><![CDATA[记录一些shell脚本 1 清理es几天前的索引脚本2 从mysql导出表到clickhouse脚本 ###命令汇总 1. 生成字符串1tr -dc A-Za-z0-9_@$\%\^\/\+ &lt; /dev/urandom|head -c 16|xargs grep需要转义的字符123grep '"第一个转义\$第二个转义\[&#123;' a.txt或者直接使用-Fgrep -F '"$[&#123;' a.txt]]></content>
       <categories>
         <category>linux</category>
         <category>shell</category>
@@ -257,9 +257,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Linux一些脚本汇总]]></title>
-    <url>%2F2019%2F11%2F01%2F25-linux%E4%B8%80%E4%BA%9B%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB%2F</url>
-    <content type="text"><![CDATA[记录一些shell脚本 1 清理es几天前的索引脚本2 从mysql导出表到clickhouse脚本 ###命令汇总 1. 生成字符串1tr -dc A-Za-z0-9_@$\%\^\/\+ &lt; /dev/urandom|head -c 16|xargs grep需要转义的字符123grep '"第一个转义\$第二个转义\[&#123;' a.txt或者直接使用-Fgrep -F '"$[&#123;' a.txt]]></content>
+    <title><![CDATA[一些脚本汇总]]></title>
+    <url>%2F2019%2F11%2F01%2F25-%E4%B8%80%E4%BA%9B%E8%84%9A%E6%9C%AC%E6%B1%87%E6%80%BB%2F</url>
+    <content type="text"><![CDATA[记录一些shell脚本 1 清理es几天前的索引脚本2 从mysql导出表到clickhouse脚本]]></content>
       <categories>
         <category>linux</category>
         <category>shell</category>
