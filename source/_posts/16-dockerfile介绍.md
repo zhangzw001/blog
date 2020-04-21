@@ -159,3 +159,24 @@ CMD ["/bin/sh"]
 - 3 busybox: 1M多的镜像,称为嵌入式linux的瑞士军刀, Linux和unix一些常用的命令
 
 
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<font face="黑体" size=5> 注意事项 </font>
+</center>
+
+1. 镜像构建的顺序会影响缓存的有效性,经常修改的内容应该放到最后
+2. 尽可能的写到同一个RUN,删除不必要的例外 --no-install-recommends, 并且记得删除包管理缓存 rm -rf /var/lib/apt/lists/*
+3. 多阶段构建的使用
+```
+from maven:3.6-jdk-8-alpine as mavencache
+workdir /opt
+copy pom.xml .
+run mvn -e -B xx:xx
+copy src ./src
+run mvn -e -B xx
+
+from openjdk:8-jdk-alpine
+copy --from-mavencache /opt/target/xxx.jar /
+cmd ["java", "-jar", "/xxx.jar"]
+```
