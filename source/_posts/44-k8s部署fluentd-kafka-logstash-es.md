@@ -3,7 +3,6 @@ title: k8s部署fluentd+kafka+logstash+es
 copyright: true
 date: 2020-04-09 17:40:58
 tags:
----
   - fluentd
 categories:
   - [elk7]
