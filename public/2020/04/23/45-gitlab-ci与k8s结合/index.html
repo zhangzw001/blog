@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文减少如何通过gitlab-ci整合k8s实现流水线部署">
+<meta name="keywords" content="k8s,gitlab-runner">
+<meta property="og:type" content="article">
+<meta property="og:title" content="45-gitlab-ci与k8s结合">
+<meta property="og:url" content="http://zhangzw001.github.io/2020/04/23/45-gitlab-ci与k8s结合/index.html">
+<meta property="og:site_name" content="Zhangzw&#39;s Blog">
+<meta property="og:description" content="本文减少如何通过gitlab-ci整合k8s实现流水线部署">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/45/02.png">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/45/03.png">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="http://zhangzw001.github.io/images/45/01.png">
+<meta property="og:updated_time" content="2020-04-23T08:33:05.544Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="45-gitlab-ci与k8s结合">
+<meta name="twitter:description" content="本文减少如何通过gitlab-ci整合k8s实现流水线部署">
+<meta name="twitter:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://zhangzw001.github.io/2020/04/23/45-gitlab-ci与k8s结合/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>45-gitlab-ci与k8s结合 | Zhangzw's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zhangzw's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangzw001.github.io/2020/04/23/45-gitlab-ci与k8s结合/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zhangzw">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhangzw's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">45-gitlab-ci与k8s结合
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+	
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-23 16:20:33 / 修改时间：16:33:05" itemprop="dateCreated datePublished" datetime="2020-04-23T16:20:33+08:00">2020-04-23</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/gitlab-ci/" itemprop="url" rel="index"><span itemprop="name">gitlab-ci</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/23/45-gitlab-ci与k8s结合/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2020/04/23/45-gitlab-ci与k8s结合/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/04/23/45-gitlab-ci与k8s结合/" class="leancloud_visitors" data-flag-title="45-gitlab-ci与k8s结合">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">55k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">50 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文减少如何通过gitlab-ci整合k8s实现流水线部署</p>
+<a id="more"></a>
+
+
+<blockquote>
+<ol>
+<li><a href="https://www.cnblogs.com/Sinte-Beuve/p/11739196.html" target="_blank" rel="noopener">https://www.cnblogs.com/Sinte-Beuve/p/11739196.html</a></li>
+<li><a href="https://www.qikqiak.com/post/gitlab-ci-k8s-cluster-feature/" target="_blank" rel="noopener">https://www.qikqiak.com/post/gitlab-ci-k8s-cluster-feature/</a></li>
+</ol>
+</blockquote>
+<h3 id="环境版本统计"><a href="#环境版本统计" class="headerlink" title="环境版本统计"></a>环境版本统计</h3><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">1 </span>gitlab/gitlab-runner <span class="number">0.15.0</span></span><br><span class="line"><span class="symbol">2 </span>helm <span class="number">2.16</span></span><br><span class="line"><span class="symbol">3 </span>k8s <span class="number">1.16.4</span></span><br><span class="line"><span class="symbol">4 </span>gitlab <span class="number">11.5</span></span><br><span class="line"><span class="symbol">5 </span>CentOS Linux release <span class="number">7.7</span> /kernel <span class="number">5.2</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>小节</p>
+</blockquote>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>. gitlab 通过admin管理页面的runner配置, 安装gitlab-runner, 安装方式可以是二进制, docker 或k8s (这里是k8s)</span><br><span class="line"><span class="number">2</span>. <span class="function"><span class="title">gitlab</span> 项目目录的 Operations -&gt;</span> <span class="function"><span class="title">kubernetes</span> -&gt;</span> A<span class="function"><span class="title">dd</span> Kubernetes Cluster -&gt;</span> Add existing cluster 是结合k8s, 每个项目都需要设置一个k8s集群,k8s集群需要配置rbac权限</span><br><span class="line"><span class="number">3</span>. ci 在提交到私有harbor上是需要验证账号密码, 私有仓库拉取也需要验证</span><br></pre></td></tr></table></figure>
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+</center>
+
+<h3 id="helm2-16安装"><a href="#helm2-16安装" class="headerlink" title="helm2.16安装"></a>helm2.16安装</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wget https:<span class="comment">//get.helm.sh/helm-v2.16.2-linux-amd64.tar.gz</span></span><br><span class="line">tar -xvf helm-v2.<span class="number">16.2</span>-linux-amd64<span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br><span class="line">mv linux-amd64/helm /usr/local/bin/helm</span><br><span class="line"></span><br><span class="line">kubectl create serviceaccount --namespace=kube-system tiller</span><br><span class="line">kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller</span><br><span class="line"></span><br><span class="line">helm init --upgrade -<span class="selector-tag">i</span> registry<span class="selector-class">.cn-hangzhou</span><span class="selector-class">.aliyuncs</span><span class="selector-class">.com</span>/google_containers/tiller:v2.<span class="number">16.2</span> --stable-repo-url https:<span class="comment">//kubernetes.oss-cn-hangzhou.aliyuncs.com/charts --service-account tiller</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://zhangzw001.github.io/images/45/02.png" alt></p>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+</center>
+
+
+<h3 id="从官方拉取helm2-配置文件"><a href="#从官方拉取helm2-配置文件" class="headerlink" title="从官方拉取helm2 配置文件"></a>从官方拉取helm2 配置文件</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加源</span></span><br><span class="line">helm repo <span class="built_in">add</span> gitlab <span class="keyword">https</span>://charts.gitlab.io</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看</span></span><br><span class="line">helm search runner</span><br><span class="line">gitlab/gitlab-runner <span class="number">0.15</span><span class="number">.0</span>        <span class="number">12.9</span><span class="number">.0</span>      GitLab Runner</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载charts压缩包gitlab-runner-0.15.0.tgz</span></span><br><span class="line">helm fetch gitlab/gitlab-runner</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建gitlab-runner的rbac账号</span></span><br><span class="line">kubectl <span class="built_in">create</span> serviceaccount  gitlab-cluster-admin</span><br><span class="line">kubectl <span class="built_in">create</span> clusterrolebinding gitlab-cluster-admin <span class="comment">--clusterrole=cluster-admin --group=system:serviceaccounts --namespace=default</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后修改 values.yaml</span></span><br><span class="line">gitlabUrl: <span class="keyword">http</span>://gitlab.zhangzw.com <span class="comment">#gitlab服务器上管理页面上的URL</span></span><br><span class="line">runnerRegistrationToken: <span class="comment">#gitlab服务器管理页面的token</span></span><br><span class="line">serviceAccountName: gitlab-cluster-admin</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 templates/configmap.yaml (如果后面配置dind采用tcp://0.0.0.0:2375的方式应该不用挂载sock文件)</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="keyword">if</span> ! sh /scripts/register-<span class="keyword">the</span>-runner; <span class="keyword">then</span></span><br><span class="line">      exit <span class="number">1</span></span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    <span class="comment"># add new config start</span></span><br><span class="line">    cat &gt;&gt;/home/gitlab-runner/.gitlab-runner/config.toml &lt;&lt;<span class="literal">EOF</span></span><br><span class="line">      [[runners.kubernetes.volumes.host_path]]</span><br><span class="line">            name = <span class="string">"docker"</span></span><br><span class="line">            mount_path = <span class="string">"/var/run/docker.sock"</span></span><br><span class="line">            read_only = <span class="literal">false</span></span><br><span class="line">            host_path = <span class="string">"/var/run/docker.sock"</span></span><br><span class="line">    <span class="literal">EOF</span></span><br><span class="line">    <span class="comment"># add new config end</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Start the runner</span></span><br><span class="line">    exec /entrypoint run <span class="comment">--user=gitlab-runner \</span></span><br><span class="line">      <span class="comment">--working-directory=/home/gitlab-runner</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># helm启动,更新,删除gitlab-runner</span></span><br><span class="line">helm install  <span class="comment">--name gitlab-runner .</span></span><br><span class="line">helm upgrade gitlab-runner .</span><br><span class="line">helm <span class="built_in">delete</span> <span class="comment">--purge gitlab-runner</span></span><br></pre></td></tr></table></figure>
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+</center>
+
+
+
+<h3 id="登录到gitlab-runner-镜像register注册"><a href="#登录到gitlab-runner-镜像register注册" class="headerlink" title="登录到gitlab-runner 镜像register注册"></a>登录到gitlab-runner 镜像register注册</h3><blockquote>
+<p>以下大部分都是回车, 只有token需要手动输入(输入values.yaml中的runnerRegistrationToken即可)</p>
+</blockquote>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">bash-5.0$ gitlab-runner register</span><br><span class="line">Runtime platform                                    arch=amd64 os=linux pid=4257 revision=4c96e5ad version=12.9.0</span><br><span class="line"><span class="symbol">WARNING: </span>Running in user-mode.                     </span><br><span class="line"><span class="symbol">WARNING: </span>The user-mode requires you to manually start builds processing:</span><br><span class="line"><span class="symbol">WARNING: </span>$ gitlab-runner run                       </span><br><span class="line"><span class="symbol">WARNING: </span>Use sudo for system-mode:                 </span><br><span class="line"><span class="symbol">WARNING: </span>$ sudo gitlab-runner...                   </span><br><span class="line"></span><br><span class="line">Please enter the gitlab-ci coordinator URL (e.g. https://gitlab.zhangzw.com/):</span><br><span class="line">[http://gitlab.zhangzw.com]:</span><br><span class="line">Please enter the gitlab-ci token for this runner:</span><br><span class="line">djs47LiKFy-64FxAACp5</span><br><span class="line">Please enter the gitlab-ci description for this runner:</span><br><span class="line">[gitlab-runner-gitlab-runner-6cf8c6bff4-rhhs5]:</span><br><span class="line">Please enter the gitlab-ci tags for this runner (comma separated):</span><br><span class="line"></span><br><span class="line">Registering runner... succeeded                     runner=djs47LiK</span><br><span class="line">Please enter the executor: docker<span class="code">+machine, docker-ssh+</span>machine, kubernetes, docker, docker-ssh, shell, ssh, virtualbox, custom, parallels:</span><br><span class="line">[kubernetes]:</span><br><span class="line">Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!</span><br><span class="line">bash-5.0$</span><br></pre></td></tr></table></figure>
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+</center>
+
+
+<h3 id="在项目的页面点击-Add-Kubernetes-Cluster-gt-Add-existing-cluster"><a href="#在项目的页面点击-Add-Kubernetes-Cluster-gt-Add-existing-cluster" class="headerlink" title="在项目的页面点击 Add Kubernetes Cluster -&gt; Add existing cluster"></a>在项目的页面点击 Add Kubernetes Cluster -&gt; Add existing cluster</h3><ul>
+<li><ol>
+<li>API URL 是你的集群的apiserver的地址， 一般可以通过输入kubectl cluster-info获取<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl cluster-info</span><br><span class="line"></span><br><span class="line">Kubernetes master <span class="keyword">is</span> running at http<span class="variable">s:</span>//master.k8s.io:<span class="number">16443</span></span><br><span class="line">KubeDNS <span class="keyword">is</span> running at http<span class="variable">s:</span>//master.k8s.io:<span class="number">16443</span>/api/v1/namespaces/kube-<span class="built_in">system</span>/services/kube-dn<span class="variable">s:dns</span>/proxy</span><br><span class="line">Metrics-server <span class="keyword">is</span> running at http<span class="variable">s:</span>//master.k8s.io:<span class="number">16443</span>/api/v1/namespaces/kube-<span class="built_in">system</span>/services/http<span class="variable">s:metrics</span>-server:/proxy</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>CA证书</li>
+</ol>
+</li>
+</ul>
+<blockquote>
+<p>由于我们在部署阶段需要去创建、删除一些资源对象，所以我们也需要对象的 RBAC 权限，这里为了简单，我们直接新建一个 ServiceAccount，绑定上一个cluster-admin的权限(gitlab-serviceAccount.yaml)</p>
+</blockquote>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ServiceAccount</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">gitlab</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">gitlab</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRoleBinding</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">gitlab</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">gitlab</span></span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="attr">  - kind:</span> <span class="string">ServiceAccount</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">gitlab</span></span><br><span class="line"><span class="attr">    namespace:</span> <span class="string">gitlab</span></span><br><span class="line"><span class="attr">roleRef:</span></span><br><span class="line"><span class="attr">  apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line"><span class="attr">  kind:</span> <span class="string">ClusterRole</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">cluster-admin</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#可以通过上面创建的 ServiceAccount 获取 CA 证书和 Token：</span></span><br><span class="line">kubectl <span class="built_in">get</span> serviceaccount gitlab -n gitlab -o json | jq -r <span class="string">'.secrets[0].name'</span></span><br><span class="line">gitlab-<span class="keyword">token</span><span class="number">-9</span>jlpr</span><br><span class="line"></span><br><span class="line"><span class="comment"># 然后根据上面的Secret找到CA证书</span></span><br><span class="line">kubectl <span class="built_in">get</span> secret gitlab-<span class="keyword">token</span><span class="number">-9</span>jlpr -n gitlab -o json | jq -r <span class="string">'.data["ca.crt"]'</span> | base64 -d</span><br><span class="line">xxxxxCA证书内容xxxxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当然要找到对应的 Token 也很简单</span></span><br><span class="line">kubectl <span class="built_in">get</span> secret gitlab-<span class="keyword">token</span><span class="number">-9</span>jlpr  -n gitlab -o json | jq -r <span class="string">'.data.token'</span> | base64 -d</span><br><span class="line">xxxxxxtoken值xxxx</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>然后复制对应的值贴到项目的k8s配置中即可</p>
+</blockquote>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+</center>
+
+
+
+<h3 id="简单测试"><a href="#简单测试" class="headerlink" title="简单测试"></a>简单测试</h3><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#.gitlab-ci.yml</span></span><br><span class="line"><span class="symbol">image:</span> busybox</span><br><span class="line"><span class="symbol">stages:</span></span><br><span class="line">  - build</span><br><span class="line">  - deploy</span><br><span class="line"><span class="symbol">Job1:</span></span><br><span class="line"><span class="symbol">  stage:</span> build</span><br><span class="line"><span class="symbol">  script:</span></span><br><span class="line">    - echo <span class="string">"go go go !!!~"</span></span><br><span class="line"><span class="symbol">  only:</span></span><br><span class="line">    - master</span><br><span class="line"></span><br><span class="line"><span class="symbol">deploy:</span></span><br><span class="line"><span class="symbol">  stage:</span> deploy</span><br><span class="line"><span class="symbol">  script:</span></span><br><span class="line">    - echo <span class="string">"部署开始"</span></span><br><span class="line"><span class="symbol">  only:</span></span><br><span class="line">    - master</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://zhangzw001.github.io/images/45/03.png" alt></p>
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+</center>
+
+
+<h3 id="gitlab-ci-yaml配置"><a href="#gitlab-ci-yaml配置" class="headerlink" title=".gitlab-ci.yaml配置"></a>.gitlab-ci.yaml配置</h3><blockquote>
+<p>以下一些配置写到gitlab项目页面-&gt; Settings -&gt; CI/CD -&gt; Variables<br>其实也可以写到.gitlab-ca.yaml中, 我在deployment.yaml也无法用如下变量</p>
+</blockquote>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CI_REGISTRY_USER: admin</span><br><span class="line">CI_REGISTRY_PASSWORD: xxxxx</span><br><span class="line">CI_REGISTRY: hub<span class="selector-class">.xxx</span><span class="selector-class">.com</span></span><br><span class="line">CI_REGISTRY_IMAGE: hub<span class="selector-class">.xxx</span><span class="selector-class">.com</span>/public/nginx</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">variables:</span></span><br><span class="line"><span class="symbol">  GIT_CURL_VERBOSE:</span> <span class="number">1</span></span><br><span class="line"><span class="symbol">  GIT_TRACE:</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">stages:</span></span><br><span class="line">  - release</span><br><span class="line">  - review</span><br><span class="line">  - deploy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="symbol">buildPushImage:</span></span><br><span class="line"><span class="symbol">  stage:</span> release</span><br><span class="line"><span class="symbol">  image:</span> docker:latest</span><br><span class="line"><span class="symbol">  services:</span></span><br><span class="line">    - name: docker:dind</span><br><span class="line"><span class="symbol">      command:</span> [<span class="string">"--insecure-registry=hub.zhangzw.com"</span>]</span><br><span class="line"><span class="symbol">  variables:</span></span><br><span class="line"><span class="symbol">    DOCKER_DRIVER:</span> overlay2</span><br><span class="line"><span class="symbol">    DOCKER_HOST:</span> tcp:<span class="comment">//192.168.0.136:2375</span></span><br><span class="line"><span class="symbol">  script:</span></span><br><span class="line">    - docker login -u <span class="string">"$&#123;CI_REGISTRY_USER&#125;"</span> -p <span class="string">"$&#123;CI_REGISTRY_PASSWORD&#125;"</span> <span class="string">"$&#123;CI_REGISTRY&#125;"</span></span><br><span class="line">    - docker build -t <span class="string">"$&#123;CI_REGISTRY_IMAGE&#125;:$&#123;CI_COMMIT_REF_NAME&#125;"</span> .</span><br><span class="line">    - docker push <span class="string">"$&#123;CI_REGISTRY_IMAGE&#125;:$&#123;CI_COMMIT_REF_NAME&#125;"</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">deploy_review:</span></span><br><span class="line"><span class="symbol">  image:</span> bitnami/kubectl:<span class="number">1.16</span><span class="number">.3</span></span><br><span class="line"><span class="symbol">  stage:</span> review</span><br><span class="line"><span class="symbol">  only:</span></span><br><span class="line">    - branches</span><br><span class="line"><span class="symbol">  except:</span></span><br><span class="line">    - tags</span><br><span class="line"><span class="symbol">  environment:</span></span><br><span class="line"><span class="symbol">    name:</span> dev</span><br><span class="line"><span class="symbol">    url:</span> http:<span class="comment">//dev-gitlab-k8s-demo.zhangzw.com</span></span><br><span class="line"><span class="symbol">    on_stop:</span> stop_review</span><br><span class="line"><span class="symbol">  script:</span></span><br><span class="line">    - kubectl version</span><br><span class="line">    - cd deploy/</span><br><span class="line">    - sed -i <span class="string">"s/__CI_ENVIRONMENT_SLUG__/$&#123;CI_ENVIRONMENT_SLUG&#125;/"</span> deployment.yaml ingress.yaml service.yaml</span><br><span class="line">    - sed -i <span class="string">"s/__VERSION__/$&#123;CI_COMMIT_REF_NAME&#125;/"</span> deployment.yaml ingress.yaml service.yaml</span><br><span class="line">    - |</span><br><span class="line">      if kubectl apply -f deployment.yaml | grep -q unchanged; then</span><br><span class="line">          echo <span class="string">"=&gt; Patching deployment to force image update."</span></span><br><span class="line">          kubectl patch -f deployment.yaml -p <span class="string">"&#123;\"spec\":&#123;\"template\":&#123;\"metadata\":&#123;\"annotations\":&#123;\"ci-last-updated\":\"$(date +'%s')\"&#125;&#125;&#125;&#125;&#125;"</span></span><br><span class="line">      else</span><br><span class="line">          echo <span class="string">"=&gt; Deployment apply has changed the object, no need to force image update."</span></span><br><span class="line">      fi</span><br><span class="line">    - kubectl apply -f service.yaml || true</span><br><span class="line">    - kubectl apply -f ingress.yaml</span><br><span class="line">    - kubectl rollout status -f deployment.yaml</span><br><span class="line">    - kubectl get all,ing -l ref=$&#123;CI_ENVIRONMENT_SLUG&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="symbol">stop_review:</span></span><br><span class="line"><span class="symbol">  image:</span> bitnami/kubectl:<span class="number">1.16</span><span class="number">.3</span></span><br><span class="line"><span class="symbol">  stage:</span> review</span><br><span class="line"><span class="symbol">  variables:</span></span><br><span class="line"><span class="symbol">    GIT_STRATEGY:</span> none</span><br><span class="line"><span class="symbol">  when:</span> manual</span><br><span class="line"><span class="symbol">  only:</span></span><br><span class="line">    - branches</span><br><span class="line"><span class="symbol">  except:</span></span><br><span class="line">    - master</span><br><span class="line">    - tags</span><br><span class="line"><span class="symbol">  environment:</span></span><br><span class="line"><span class="symbol">    name:</span> dev</span><br><span class="line"><span class="symbol">    action:</span> stop</span><br><span class="line"><span class="symbol">  script:</span></span><br><span class="line">    - kubectl version</span><br><span class="line">    - kubectl delete ing -l ref=$&#123;CI_ENVIRONMENT_SLUG&#125;</span><br><span class="line">    - kubectl delete all -l ref=$&#123;CI_ENVIRONMENT_SLUG&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="symbol">deploy_live:</span></span><br><span class="line"><span class="symbol">  image:</span> bitnami/kubectl:<span class="number">1.16</span><span class="number">.3</span></span><br><span class="line"><span class="symbol">  stage:</span> deploy</span><br><span class="line"><span class="symbol">  environment:</span></span><br><span class="line"><span class="symbol">    name:</span> live</span><br><span class="line"><span class="symbol">    url:</span> http:<span class="comment">//live-gitlab-k8s-demo.zhangzw.com</span></span><br><span class="line"><span class="symbol">  script:</span></span><br><span class="line">    - echo <span class="string">"部署开始"</span></span><br><span class="line">    - cd deploy</span><br><span class="line">    - sed -i <span class="string">"s/__CI_ENVIRONMENT_SLUG__/$&#123;CI_ENVIRONMENT_SLUG&#125;/"</span> deployment.yaml ingress.yaml service.yaml</span><br><span class="line">    - sed -i <span class="string">"s/__VERSION__/$&#123;CI_COMMIT_REF_NAME&#125;/"</span> deployment.yaml ingress.yaml service.yaml</span><br><span class="line">    - kubectl apply -f deployment.yaml</span><br><span class="line">    - kubectl apply -f service.yaml</span><br><span class="line">    - kubectl apply -f ingress.yaml</span><br><span class="line">    - kubectl rollout status -f deployment.yaml</span><br><span class="line">    - kubectl get all,ing -l ref=$&#123;CI_ENVIRONMENT_SLUG&#125;</span><br><span class="line"><span class="symbol">  only:</span></span><br><span class="line">    - tags</span><br><span class="line"><span class="symbol">  when:</span> manual</span><br></pre></td></tr></table></figure>
+
+<h3 id="deploy-deployment-yaml"><a href="#deploy-deployment-yaml" class="headerlink" title="deploy/deployment.yaml"></a>deploy/deployment.yaml</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">gitlab-k8s-demo-__CI_ENVIRONMENT_SLUG__</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">gitlab-k8s-demo</span></span><br><span class="line"><span class="attr">    ref:</span> <span class="string">__CI_ENVIRONMENT_SLUG__</span></span><br><span class="line"><span class="attr">    track:</span> <span class="string">stable</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">2</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    matchLabels:</span></span><br><span class="line"><span class="attr">      app:</span> <span class="string">gitlab-k8s-demo</span></span><br><span class="line"><span class="attr">      ref:</span> <span class="string">__CI_ENVIRONMENT_SLUG__</span></span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">gitlab-k8s-demo</span></span><br><span class="line"><span class="attr">        ref:</span> <span class="string">__CI_ENVIRONMENT_SLUG__</span></span><br><span class="line"><span class="attr">        track:</span> <span class="string">stable</span></span><br><span class="line"><span class="attr">    spec:</span></span><br><span class="line"><span class="attr">      imagePullSecrets:</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">myregistry</span></span><br><span class="line"><span class="attr">      containers:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">app</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">hub.zhangzw.com/bq/nginx:__VERSION__</span></span><br><span class="line"><span class="attr">        imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">http-metrics</span></span><br><span class="line"><span class="attr">          protocol:</span> <span class="string">TCP</span></span><br><span class="line"><span class="attr">          containerPort:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">        livenessProbe:</span></span><br><span class="line"><span class="attr">          httpGet:</span></span><br><span class="line"><span class="attr">            path:</span> <span class="string">/</span></span><br><span class="line"><span class="attr">            port:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">          initialDelaySeconds:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">          timeoutSeconds:</span> <span class="number">2</span></span><br><span class="line"><span class="attr">        readinessProbe:</span></span><br><span class="line"><span class="attr">          httpGet:</span></span><br><span class="line"><span class="attr">            path:</span> <span class="string">/</span></span><br><span class="line"><span class="attr">            port:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">          initialDelaySeconds:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">          timeoutSeconds:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="如果我们harbor中设置的是私有镜像-则需要设置imagePullSecret-才能拉取镜像"><a href="#如果我们harbor中设置的是私有镜像-则需要设置imagePullSecret-才能拉取镜像" class="headerlink" title="如果我们harbor中设置的是私有镜像, 则需要设置imagePullSecret 才能拉取镜像"></a>如果我们harbor中设置的是私有镜像, 则需要设置imagePullSecret 才能拉取镜像</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create<span class="built_in"> secret </span>docker-registry gitlab-hub-secret <span class="attribute">--docker-server</span>=hub.zhangzw.com <span class="attribute">--docker-username</span>=xxx <span class="attribute">--docker-password</span>=xxx <span class="attribute">--docker-email</span>=zhangzw@zhangzw.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="deploy-service-yaml"><a href="#deploy-service-yaml" class="headerlink" title="deploy/service.yaml"></a>deploy/service.yaml</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">gitlab-k8s-demo-__CI_ENVIRONMENT_SLUG__</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">gitlab-k8s-demo</span></span><br><span class="line"><span class="attr">    ref:</span> <span class="string">__CI_ENVIRONMENT_SLUG__</span></span><br><span class="line"><span class="attr">  annotations:</span></span><br><span class="line">    <span class="string">prometheus.io/scrape:</span> <span class="string">"true"</span></span><br><span class="line">    <span class="string">prometheus.io/port:</span> <span class="string">"80"</span></span><br><span class="line">    <span class="string">prometheus.io/scheme:</span> <span class="string">"http"</span></span><br><span class="line">    <span class="string">prometheus.io/path:</span> <span class="string">"/"</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">ClusterIP</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">http-metrics</span></span><br><span class="line"><span class="attr">      port:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">      protocol:</span> <span class="string">TCP</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">gitlab-k8s-demo</span></span><br><span class="line"><span class="attr">    ref:</span> <span class="string">__CI_ENVIRONMENT_SLUG__</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="deploy-ingress-yaml"><a href="#deploy-ingress-yaml" class="headerlink" title="deploy/ingress.yaml"></a>deploy/ingress.yaml</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">gitlab-k8s-demo-__CI_ENVIRONMENT_SLUG__</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">gitlab-k8s-demo</span></span><br><span class="line"><span class="attr">    ref:</span> <span class="string">__CI_ENVIRONMENT_SLUG__</span></span><br><span class="line"><span class="attr">  annotations:</span></span><br><span class="line">    <span class="string">kubernetes.io/ingress.class:</span> <span class="string">"traefik"</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  rules:</span></span><br><span class="line"><span class="attr">  - host:</span> <span class="string">__CI_ENVIRONMENT_SLUG__-gitlab-k8s-demo.zhangzw.com</span></span><br><span class="line"><span class="attr">    http:</span></span><br><span class="line"><span class="attr">      paths:</span></span><br><span class="line"><span class="attr">      - path:</span> <span class="string">/</span></span><br><span class="line"><span class="attr">        backend:</span></span><br><span class="line"><span class="attr">          serviceName:</span> <span class="string">gitlab-k8s-demo-__CI_ENVIRONMENT_SLUG__</span></span><br><span class="line"><span class="attr">          servicePort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure>
+
+<center>
+<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+</center>
+
+
+
+
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><h4 id="err1-流水线打包的时候提示没有权限"><a href="#err1-流水线打包的时候提示没有权限" class="headerlink" title="err1.  流水线打包的时候提示没有权限"></a>err1.  流水线打包的时候提示没有权限</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ERROR: Job failed (system failure): pods is forbidden:<span class="built_in"> User </span><span class="string">"system:serviceaccount:default:default"</span> cannot create<span class="built_in"> resource </span><span class="string">"pods"</span> <span class="keyword">in</span> API<span class="built_in"> group </span><span class="string">""</span> <span class="keyword">in</span> the namespace <span class="string">"default"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kubectl create serviceaccount  gitlab-cluster-admin</span><br><span class="line">kubectl create clusterrolebinding gitlab-cluster-admin <span class="attribute">--clusterrole</span>=cluster-admin <span class="attribute">--group</span>=system:serviceaccounts <span class="attribute">--namespace</span>=default</span><br></pre></td></tr></table></figure>
+
+<h4 id="err2-流水线打包提示无法拉取项目"><a href="#err2-流水线打包提示无法拉取项目" class="headerlink" title="err2. 流水线打包提示无法拉取项目"></a>err2. 流水线打包提示无法拉取项目</h4><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fatal: unable to access <span class="string">'http://gitlab.zhangzw.com/k8s/rancher-dev-php.git/'</span>: Failed to connect to gitlab.zhangzw.com port <span class="number">80</span>: Connection refused</span><br><span class="line">Uploading artifacts <span class="keyword">for</span> failed job</span><br><span class="line">ERROR: Job failed: command terminated with <span class="keyword">exit</span> code <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>难道是因为我们的项目是私有项目?</p>
+</blockquote>
+<p>显然我们在官网 <a href="https://docs.gitlab.zhangzw.com/runner/configuration/advanced-configuration.html" target="_blank" rel="noopener">https://docs.gitlab.zhangzw.com/runner/configuration/advanced-configuration.html</a> 这里看到下面一句话</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Only <span class="keyword">if</span> <span class="keyword">the</span> clone_url is <span class="built_in">set</span>, <span class="keyword">the</span> runner will construct <span class="keyword">a</span> clone <span class="built_in">URL</span> <span class="keyword">in</span> <span class="keyword">the</span> form <span class="keyword">of</span> <span class="keyword">http</span>://gitlab-ci-<span class="keyword">token</span>:s3cr3tt0k3n@<span class="number">192.168</span><span class="number">.1</span><span class="number">.23</span>/namespace/project.git.</span><br><span class="line"></span><br><span class="line"><span class="comment"># 尝试修改 values.yaml</span></span><br><span class="line">cloneUrl: <span class="keyword">http</span>://gitlab.zhangzw.com</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>之后还是出现了该问题</p>
+</blockquote>
+<blockquote>
+<p>所以这应该是gitlab-runner register的问题</p>
+</blockquote>
+<blockquote>
+<p>但是这里诡异的是, 我三个步骤,前两个都是正常, 第三个一直是报错connection refused, 但是我重试了三遍有正常了, 这么不稳定的吗?</p>
+</blockquote>
+<p><img src="http://zhangzw001.github.io/images/45/01.png" alt></p>
+<blockquote>
+<p>看日志错误有点像是这么回事, 我的nginx反向代理了gitlab.zhangzw.com proxy_pass的是ip:10080, 而日志中看起来报错提示是链接到ip:80</p>
+</blockquote>
+<p>我这里试着将helm安装gitlab-runner的配置文件values.yaml修改如下:</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">gitlabUrl</span>: <span class="attribute">http</span>:<span class="comment">//192.168.0.65:10080</span></span><br><span class="line">  <span class="attribute">cloneUrl</span>: <span class="attribute">http</span>:<span class="comment">//192.168.0.65:10080</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>测试之后还是会出现无法连接, 所以也不是这个问题, 这里git clone http 方式经过nginx代理是没问题的</p>
+</blockquote>
+<p>如果是项目权限问题, 那我新建一个public项目应该不会报错</p>
+<blockquote>
+<p>测试之后还是会出现无法连接, 看起问题还是网络方面问题, 为什么会网络无法连接呢?</p>
+</blockquote>
+<p>嗯??? 我查看了下 gitlab admin -&gt; runners -&gt; 点击Runner token 进入 -&gt; Assigned projects  这里我之前是加过的, 但是helm 安装的gitlab-runner upgrade之后就好像丢失了, 可能是我这边没有mount数据存储到nfs, 不过这里可以不用按照分配的方式, 就设置为share即可,如果有多个runner,需要更细致的权限部署划分,可以设置</p>
+<p>所以现在这个问题就变成, 有可能第一次会成功, 有可能会失败, 有可能第二个步骤失败 , 然后retry 2次?3次或6次又成功了, 蛋疼中…</p>
+<h4 id="err3-k8s1-16安装helm2-14的有报错-Error-error-installing-the-server-could-not-find-the-requested-resource-这是由于-extensions-v1beta1-已经被-apps-v1-替代。相信在2-15-或者-3-版本发布之后-应该就不会遇到这个问题了。还是生态比较慢的原因。"><a href="#err3-k8s1-16安装helm2-14的有报错-Error-error-installing-the-server-could-not-find-the-requested-resource-这是由于-extensions-v1beta1-已经被-apps-v1-替代。相信在2-15-或者-3-版本发布之后-应该就不会遇到这个问题了。还是生态比较慢的原因。" class="headerlink" title="err3. k8s1.16安装helm2.14的有报错: Error: error installing: the server could not find the requested resource, 这是由于 extensions/v1beta1 已经被 apps/v1 替代。相信在2.15 或者 3 版本发布之后, 应该就不会遇到这个问题了。还是生态比较慢的原因。"></a>err3. k8s1.16安装helm2.14的有报错: Error: error installing: the server could not find the requested resource, 这是由于 extensions/v1beta1 已经被 apps/v1 替代。相信在2.15 或者 3 版本发布之后, 应该就不会遇到这个问题了。还是生态比较慢的原因。</h4><figure class="highlight dsconfig"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">helm </span><span class="string">init </span>-i <span class="string">registry.</span><span class="string">cn-hangzhou.</span><span class="string">aliyuncs.</span><span class="string">com/</span><span class="string">google_containers/</span><span class="string">tiller:v2.</span><span class="string">14.</span>3 <span class="built_in">--stable-repo-url</span> <span class="string">http:</span>//<span class="string">mirror.</span><span class="string">azure.</span><span class="string">cn/</span><span class="string">kubernetes/</span><span class="string">charts/</span> <span class="built_in">--service-account</span> <span class="string">tiller </span><span class="built_in">--override</span> <span class="string">spec.</span><span class="string">selector.</span><span class="string">matchLabels.</span><span class="string">'name'</span>=<span class="string">'tiller'</span>,<span class="string">spec.</span><span class="string">selector.</span><span class="string">matchLabels.</span><span class="string">'app'</span>=<span class="string">'helm'</span> <span class="built_in">--output</span> <span class="string">yaml </span>| <span class="string">sed </span><span class="string">'s@apiVersion: extensions/v1beta1@apiVersion: apps/v1@'</span> | <span class="string">kubectl </span><span class="string">apply </span>-f -</span><br></pre></td></tr></table></figure>
+
+<h4 id="err4-Cannot-connect-to-the-Docker-daemon-at-unix-var-run-docker-sock-Is-the-docker-daemon-running"><a href="#err4-Cannot-connect-to-the-Docker-daemon-at-unix-var-run-docker-sock-Is-the-docker-daemon-running" class="headerlink" title="err4. Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?"></a>err4. Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">不确定为什么会报这个错误, 第二次启动又没问题了</span><br></pre></td></tr></table></figure>
+
+<h4 id="err5-time-”2020-04-22T02-39-12Z”-level-error-msg-”failed-to-dial-gRPC-cannot-connect-to-the-Docker-daemon-Is-‘docker-daemon’-running-on-this-host-dial-tcp-127-0-0-1-2375-connect-connection-refused”"><a href="#err5-time-”2020-04-22T02-39-12Z”-level-error-msg-”failed-to-dial-gRPC-cannot-connect-to-the-Docker-daemon-Is-‘docker-daemon’-running-on-this-host-dial-tcp-127-0-0-1-2375-connect-connection-refused”" class="headerlink" title="err5. time=”2020-04-22T02:39:12Z” level=error msg=”failed to dial gRPC: cannot connect to the Docker daemon. Is ‘docker daemon’ running on this host?: dial tcp 127.0.0.1:2375: connect: connection refused”"></a>err5. time=”2020-04-22T02:39:12Z” level=error msg=”failed to dial gRPC: cannot connect to the Docker daemon. Is ‘docker daemon’ running on this host?: dial tcp 127.0.0.1:2375: connect: connection refused”</h4><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这种情况需要docker或者k8s的docker启动方式添加tcp方式</span><br><span class="line">vim /usr/<span class="class"><span class="keyword">lib</span>/<span class="title">systemd</span>/<span class="title">system</span>/<span class="title">docker</span>.<span class="title">service</span></span></span><br><span class="line">ExecStart=<span class="regexp">/usr/bin</span><span class="regexp">/dockerd -H tcp:/</span><span class="regexp">/0.0.0.0:2375 -H unix:/</span><span class="regexp">//var</span><span class="regexp">/run/docker</span>.sock -H <span class="symbol">fd:</span>/<span class="regexp">/ --containerd=/run</span><span class="regexp">/containerd/containerd</span>.sock</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+
+    
+    
+    
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2020/04/23/45-gitlab-ci与k8s结合/">45-gitlab-ci与k8s结合</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
+  <p><span>发布时间:</span>2020年04月23日 - 16:04</p>
+  <p><span>最后更新:</span>2020年04月23日 - 16:04</p>
+  <p><span>原始链接:</span><a href="/2020/04/23/45-gitlab-ci与k8s结合/" title="45-gitlab-ci与k8s结合">http://zhangzw001.github.io/2020/04/23/45-gitlab-ci与k8s结合/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2020/04/23/45-gitlab-ci与k8s结合/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+
+      </div>
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"># k8s</a>
+          
+            <a href="/tags/gitlab-runner/" rel="tag"># gitlab-runner</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/09/44-k8s部署fluentd-kafka-logstash-es/" rel="next" title="k8s部署fluentd+kafka+logstash+es">
+                <i class="fa fa-chevron-left"></i> k8s部署fluentd+kafka+logstash+es
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zhangzw</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">41</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友链
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://johnnywl.github.io/" title="https://johnnywl.github.io/" rel="noopener" target="_blank">johnny</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境版本统计"><span class="nav-number">1.</span> <span class="nav-text">环境版本统计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#helm2-16安装"><span class="nav-number">2.</span> <span class="nav-text">helm2.16安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从官方拉取helm2-配置文件"><span class="nav-number">3.</span> <span class="nav-text">从官方拉取helm2 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#登录到gitlab-runner-镜像register注册"><span class="nav-number">4.</span> <span class="nav-text">登录到gitlab-runner 镜像register注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在项目的页面点击-Add-Kubernetes-Cluster-gt-Add-existing-cluster"><span class="nav-number">5.</span> <span class="nav-text">在项目的页面点击 Add Kubernetes Cluster -&gt; Add existing cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单测试"><span class="nav-number">6.</span> <span class="nav-text">简单测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gitlab-ci-yaml配置"><span class="nav-number">7.</span> <span class="nav-text">.gitlab-ci.yaml配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deploy-deployment-yaml"><span class="nav-number">8.</span> <span class="nav-text">deploy/deployment.yaml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果我们harbor中设置的是私有镜像-则需要设置imagePullSecret-才能拉取镜像"><span class="nav-number">9.</span> <span class="nav-text">如果我们harbor中设置的是私有镜像, 则需要设置imagePullSecret 才能拉取镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deploy-service-yaml"><span class="nav-number">10.</span> <span class="nav-text">deploy/service.yaml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deploy-ingress-yaml"><span class="nav-number">11.</span> <span class="nav-text">deploy/ingress.yaml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-number">12.</span> <span class="nav-text">遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#err1-流水线打包的时候提示没有权限"><span class="nav-number">12.1.</span> <span class="nav-text">err1.  流水线打包的时候提示没有权限</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#err2-流水线打包提示无法拉取项目"><span class="nav-number">12.2.</span> <span class="nav-text">err2. 流水线打包提示无法拉取项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#err3-k8s1-16安装helm2-14的有报错-Error-error-installing-the-server-could-not-find-the-requested-resource-这是由于-extensions-v1beta1-已经被-apps-v1-替代。相信在2-15-或者-3-版本发布之后-应该就不会遇到这个问题了。还是生态比较慢的原因。"><span class="nav-number">12.3.</span> <span class="nav-text">err3. k8s1.16安装helm2.14的有报错: Error: error installing: the server could not find the requested resource, 这是由于 extensions/v1beta1 已经被 apps/v1 替代。相信在2.15 或者 3 版本发布之后, 应该就不会遇到这个问题了。还是生态比较慢的原因。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#err4-Cannot-connect-to-the-Docker-daemon-at-unix-var-run-docker-sock-Is-the-docker-daemon-running"><span class="nav-number">12.4.</span> <span class="nav-text">err4. Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#err5-time-”2020-04-22T02-39-12Z”-level-error-msg-”failed-to-dial-gRPC-cannot-connect-to-the-Docker-daemon-Is-‘docker-daemon’-running-on-this-host-dial-tcp-127-0-0-1-2375-connect-connection-refused”"><span class="nav-number">12.5.</span> <span class="nav-text">err5. time=”2020-04-22T02:39:12Z” level=error msg=”failed to dial gRPC: cannot connect to the Docker daemon. Is ‘docker daemon’ running on this host?: dial tcp 127.0.0.1:2375: connect: connection refused”</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhangzw</span>
+
+  
+
+  
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+
+-->
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="96,96,96" opacity="0.5" zindex="-1" count="229" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 'Q7DcnSqtpo3sXcnqbvDv7PkE-gzGzoHsz',
+      appKey: 'OLwBbxGhnrwtyHRU3bJynspO',
+      placeholder: 'ヾﾉ≧∀≦)o 来呀！快活呀！~啦啦啦~ 啦啦啦啦~',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: true
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<!-- 预加载 -->
+<script type="text/javascript" src="/js/src/instantclick.js" data-no-instant></script>
+<script data-no-instant>InstantClick.init();</script>
+
+</body>
+</html>
+
+<!-- 鼠标桃心动画 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<!-- 鼠标移动星星特效 -->
+<!--<script type="text/javascript" src="/js/src/love2.js"></script>-->
+<!-- 看板娘 -->
+<!--<script src="/live2d-widget/autoload.js"></script> -->
