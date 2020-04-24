@@ -80,7 +80,7 @@ USER fluent
     @type kafka2
 
     # list of seed brokers，这个地方可以通过逗号写多个地址比如 host1:9092,host2:9092
-    brokers 172.16.xxx.142:9092
+    brokers 192.168.xxx.142:9092
     use_event_time true
 
     # buffer settings
@@ -194,13 +194,13 @@ config/pipeline/logstash.conf
 input {
  kafka{
   type =>"php-mysql-dev-252-log"
-  bootstrap_servers => "172.16.xxx.142:9092"
+  bootstrap_servers => "192.168.xxx.142:9092"
   topics => "php-mysql-dev-0-slowlog"
  }
 
         kafka{
                 type =>"udplog"
-                bootstrap_servers => "172.16.xxx.142:9092"
+                bootstrap_servers => "192.168.xxx.142:9092"
                 topics => "udplog"
         }
 
@@ -254,14 +254,14 @@ output {
 ###
    if [type] == "php-mysql-dev-252-log" {
       elasticsearch {
-        hosts =>  [ "http://172.16.xxx.120:19230" ]
+        hosts =>  [ "http://192.168.xxx.120:19230" ]
         index => "php-mysql-dev-252-%{+YYYY.MM.dd}"
       }
    }
 ###
     if [type] == "udplog" {
       elasticsearch {
-        hosts =>  [ "http://172.16.xxx.120:19230" ]
+        hosts =>  [ "http://192.168.xxx.120:19230" ]
         index => "udplog-%{+YYYY.MM.dd}"
       }
     }

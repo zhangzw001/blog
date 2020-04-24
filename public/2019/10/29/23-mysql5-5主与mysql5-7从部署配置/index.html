@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
-<meta property="og:updated_time" content="2019-10-29T07:19:31.758Z">
+<meta property="og:updated_time" content="2020-04-24T08:48:52.992Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql5.5主与mysql5.7从部署配置">
 <meta name="twitter:description" content="由于需要将旧版mysql5.5的数据同步到新mysql5.7, 并且会对部分表分库">
@@ -389,12 +389,24 @@
                 
               
 
-              <time title="创建时间：2019-10-29 14:56:55 / 修改时间：15:19:31" itemprop="dateCreated datePublished" datetime="2019-10-29T14:56:55+08:00">2019-10-29</time>
+              <time title="创建时间：2019-10-29 14:56:55" itemprop="dateCreated datePublished" datetime="2019-10-29T14:56:55+08:00">2019-10-29</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-04-24 16:48:52" itemprop="dateModified" datetime="2020-04-24T16:48:52+08:00">2020-04-24</time>
               
             
           </span>
@@ -531,7 +543,7 @@
 </center>
 
 
-<h3 id="将msyql5-7作为mysql5-5的从库"><a href="#将msyql5-7作为mysql5-5的从库" class="headerlink" title="将msyql5.7作为mysql5.5的从库"></a>将msyql5.7作为mysql5.5的从库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从库执行, POS位置以 show master status\G 查询为准</span></span><br><span class="line"><span class="keyword">stop</span> <span class="keyword">slave</span>;</span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> read_only=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">reset</span> <span class="keyword">slave</span> <span class="keyword">all</span>;</span><br><span class="line"><span class="keyword">CHANGE</span> <span class="keyword">MASTER</span> <span class="keyword">TO</span> MASTER_HOST=<span class="string">'db_master.prod.boqii.com'</span>,MASTER_PORT=<span class="number">3306</span>,MASTER_USER=<span class="string">'boqii_repl_user'</span>,MASTER_PASSWORD=<span class="string">'d79f25dfb70f315819edaa1d'</span>,MASTER_LOG_FILE=<span class="string">'m1-master-bin.000001'</span>,MASTER_LOG_POS=<span class="number">107</span>;</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">slave</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="将msyql5-7作为mysql5-5的从库"><a href="#将msyql5-7作为mysql5-5的从库" class="headerlink" title="将msyql5.7作为mysql5.5的从库"></a>将msyql5.7作为mysql5.5的从库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从库执行, POS位置以 show master status\G 查询为准</span></span><br><span class="line"><span class="keyword">stop</span> <span class="keyword">slave</span>;</span><br><span class="line"><span class="keyword">SET</span> <span class="keyword">GLOBAL</span> read_only=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">reset</span> <span class="keyword">slave</span> <span class="keyword">all</span>;</span><br><span class="line"><span class="keyword">CHANGE</span> <span class="keyword">MASTER</span> <span class="keyword">TO</span> MASTER_HOST=<span class="string">'db_master.prod.zhangzw.com'</span>,MASTER_PORT=<span class="number">3306</span>,MASTER_USER=<span class="string">'xxx'</span>,MASTER_PASSWORD=<span class="string">'xxx'</span>,MASTER_LOG_FILE=<span class="string">'m1-master-bin.000001'</span>,MASTER_LOG_POS=<span class="number">107</span>;</span><br><span class="line"><span class="keyword">start</span> <span class="keyword">slave</span>;</span><br></pre></td></tr></table></figure>
 
 <h3 id="在主库测试创建表-查看是否会同步到mysql5-7从库"><a href="#在主库测试创建表-查看是否会同步到mysql5-7从库" class="headerlink" title="在主库测试创建表, 查看是否会同步到mysql5.7从库"></a>在主库测试创建表, 查看是否会同步到mysql5.7从库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> tutorials_tbl(</span><br><span class="line">   tutorial_id <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">   tutorial_title <span class="built_in">VARCHAR</span>(<span class="number">100</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   tutorial_author <span class="built_in">VARCHAR</span>(<span class="number">40</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">   submission_date <span class="built_in">DATE</span>,</span><br><span class="line">   PRIMARY <span class="keyword">KEY</span> ( tutorial_id )</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
@@ -621,7 +633,7 @@
   <p><span>本文标题:</span><a href="/2019/10/29/23-mysql5-5主与mysql5-7从部署配置/">mysql5.5主与mysql5.7从部署配置</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
   <p><span>发布时间:</span>2019年10月29日 - 14:10</p>
-  <p><span>最后更新:</span>2019年10月29日 - 15:10</p>
+  <p><span>最后更新:</span>2020年04月24日 - 16:04</p>
   <p><span>原始链接:</span><a href="/2019/10/29/23-mysql5-5主与mysql5-7从部署配置/" title="mysql5.5主与mysql5.7从部署配置">http://zhangzw001.github.io/2019/10/29/23-mysql5-5主与mysql5-7从部署配置/</a>
     <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2019/10/29/23-mysql5-5主与mysql5-7从部署配置/" aria-label="复制成功！"></i></span>
   </p>
@@ -993,6 +1005,10 @@
                 
                   <li class="links-of-blogroll-item">
                     <a href="https://johnnywl.github.io/" title="https://johnnywl.github.io/" rel="noopener" target="_blank">johnny</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.qikqiak.com/" title="https://www.qikqiak.com/" rel="noopener" target="_blank">阳明</a>
                   </li>
                 
               </ul>
