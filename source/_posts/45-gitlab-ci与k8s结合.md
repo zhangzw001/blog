@@ -526,6 +526,8 @@ gitlabUrl: http://192.168.0.65:10080
 
 所以现在这个问题就变成, 有可能第一次会成功, 有可能会失败, 有可能第二个步骤失败 , 然后retry 2次?3次或6次又成功了, 蛋疼中...
 
+`2020-04-24 15:58:40 补:  我这边测试的gitlab-runner安装的网段和gitlab的网段之间网络问题,  现在新搭建的gitlab-runner和gitlab在同一网段就不在报错了...`
+
 
 
 #### err3. k8s1.16安装helm2.14的有报错: Error: error installing: the server could not find the requested resource, 这是由于 extensions/v1beta1 已经被 apps/v1 替代。相信在2.15 或者 3 版本发布之后, 应该就不会遇到这个问题了。还是生态比较慢的原因。

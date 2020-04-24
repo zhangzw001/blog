@@ -88,8 +88,8 @@ ls -l
 # public network是公共网络，负责集群对外提供服务的流量
 # cluster network是集群网络，负载集群中数据复制传输通信等
 # 本次实验使用同一块网卡，生境环境建议分别使用一块网卡
-public network = 172.16.76.0/22
-cluster network = 172.16.76.0/22
+public network = 192.168.0.0/22
+cluster network = 192.168.0.0/22
 osd pool default size = 2
 
 
@@ -166,18 +166,18 @@ epoch 1
 fsid 4620d0c7-4458-4ff9-9296-d1318058bafc
 last_changed 2019-06-19 14:44:41.361005
 created 2019-06-19 14:44:41.361005
-0: 172.16.76.134:6789/0 mon.dk2-t
+0: 192.168.0.134:6789/0 mon.dk2-t
 ```
 
 #### 配置文件内容 /etc/ceph/ceph.conf
 ```
 [global]
-public network = 172.16.76.0/22
-cluster network = 172.16.76.0/22
+public network = 192.168.0.0/22
+cluster network = 192.168.0.0/22
 osd pool default size = 2
 fsid = 4620d0c7-4458-4ff9-9296-d1318058bafc
 mon_initial_members = dk2-t
-mon_host = 172.16.76.134
+mon_host = 192.168.0.134
 auth_cluster_required = cephx
 auth_service_required = cephx
 auth_client_required = cephx
@@ -283,7 +283,7 @@ spec:
     - ReadWriteOnce
   rbd:
     monitors:
-      - '172.16.76.134:6789'
+      - '192.168.0.134:6789'
     pool: rbd-k8s
     image: cephimageredis
     user: admin

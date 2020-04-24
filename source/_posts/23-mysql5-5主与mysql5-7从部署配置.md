@@ -52,7 +52,7 @@ categories:
  stop slave;
  SET GLOBAL read_only=0;
  reset slave all;
- CHANGE MASTER TO MASTER_HOST='db_master.prod.boqii.com',MASTER_PORT=3306,MASTER_USER='boqii_repl_user',MASTER_PASSWORD='d79f25dfb70f315819edaa1d',MASTER_LOG_FILE='m1-master-bin.000001',MASTER_LOG_POS=107;
+ CHANGE MASTER TO MASTER_HOST='db_master.prod.zhangzw.com',MASTER_PORT=3306,MASTER_USER='xxx',MASTER_PASSWORD='xxx',MASTER_LOG_FILE='m1-master-bin.000001',MASTER_LOG_POS=107;
  start slave;
 ```
 

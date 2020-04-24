@@ -34,7 +34,7 @@ yum install -y nfs-utils rpcbind
 
 # 创建目录
 mkdir /data/nfs
-echo "/data/nfs 172.16.76.0/24(rw,sync,no_root_squash) " >>/etc/exports
+echo "/data/nfs 192.168.0.0/24(rw,sync,no_root_squash) " >>/etc/exports
 
 # 启动服务
 systemctl start rpcbind
@@ -83,13 +83,13 @@ spec:
             - name: PROVISIONER_NAME
               value: nfs.com/nfs
             - name: NFS_SERVER
-              value: 172.16.76.134
+              value: 192.168.0.134
             - name: NFS_PATH
               value: /data/nfs
       volumes:
         - name: nfs-client-root
           nfs:
-            server: 172.16.76.134
+            server: 192.168.0.134
             path: /data/nfs
 ```
 
@@ -207,7 +207,7 @@ spec:
     spec:
       containers:
       - name: nginx0-deploy
-        image: hub.boqii.com/bq/nginx:1.15.12
+        image: hub.zhangzw.com/bq/nginx:1.15.12
         ports:
         - containerPort: 80
         volumeMounts:
@@ -277,7 +277,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: hub.boqii.com/bq/nginx:1.15.12
+        image: hub.zhangzw.com/bq/nginx:1.15.12
         volumeMounts:
         - mountPath: "/usr/share/nginx/html/"
           name: html
@@ -354,7 +354,7 @@ spec:
             memory: 256Mi
         env:
         - name: MYSQL_ROOT_PASSWORD
-          value: "boqii.123"
+          value: "admin"
         - name: MYSQL_DATABASE
           value: "gogs"
         - name: MYSQL_USER
@@ -366,7 +366,7 @@ spec:
       volumes:
         - name: mysql-data
           nfs:
-            server: 172.16.76.134
+            server: 192.168.0.134
             path: /data/nfs/k8s-db-t/mysql-data-dev
 
 ---
@@ -424,7 +424,7 @@ metadata:
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: ceph.com/rbd
 parameters:
-  monitors: 172.16.76.134:6789
+  monitors: 192.168.0.134:6789
   adminId: admin
   adminSecretName: ceph-secret-admin
   adminSecretNamespace: default
@@ -465,7 +465,7 @@ metadata:
 provisioner: ceph.com/rbd
 reclaimPolicy: Retain
 parameters:
-  monitors: 172.16.76.134:6789
+  monitors: 192.168.0.134:6789
   adminId: admin
   adminSecretName: ceph-secret-admin
   adminSecretNamespace: default
