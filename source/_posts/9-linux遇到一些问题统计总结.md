@@ -47,9 +47,9 @@ saved_entry=CentOS Linux (5.3.13-1.el7.elrepo.x86_64) 7 (Core)
 tcpdump  -n port 80
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
-11:16:40.689157 IP 172.16.54.141.53444 > 172.16.53.106.http: Flags [SEW], seq 1306124348, win 65535, options [mss 1460,nop,wscale 5,nop,nop,TS val 458678777 ecr 0,sackOK,eol], length 0
-11:16:40.689724 IP 172.16.53.106.http > 172.16.54.141.53444: Flags [S.E], seq 1553518959, ack 1306124349, win 64308, options [mss 1410,sackOK,TS val 4208119240 ecr 458678777,nop,wscale 7], length 0
-11:16:40.690320 IP 172.16.54.141.53444 > 172.16.53.106.http: Flags [.], ack 1, win 4106, options [nop,nop,TS val 458678778 ecr 4208119240], length 0
+11:16:40.689157 IP 192.168.54.141.53444 > 192.168.53.106.http: Flags [SEW], seq 1306124348, win 65535, options [mss 1460,nop,wscale 5,nop,nop,TS val 458678777 ecr 0,sackOK,eol], length 0
+11:16:40.689724 IP 192.168.53.106.http > 192.168.54.141.53444: Flags [S.E], seq 1553518959, ack 1306124349, win 64308, options [mss 1410,sackOK,TS val 4208119240 ecr 458678777,nop,wscale 7], length 0
+11:16:40.690320 IP 192.168.54.141.53444 > 192.168.53.106.http: Flags [.], ack 1, win 4106, options [nop,nop,TS val 458678778 ecr 4208119240], length 0
 ```
 这里第一和第二次握手都没有问题, 第三次 ack 1, 并非是seq+1
 
@@ -61,9 +61,9 @@ listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
 ```
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
-11:16:54.806628 IP 172.16.54.141.53516 > 172.16.53.106.http: Flags [S], seq 316359286, win 65535, options [mss 1460,nop,wscale 5,nop,nop,TS val 458692791 ecr 0,sackOK,eol], length 0
-11:16:54.806861 IP 172.16.53.106.http > 172.16.54.141.53516: Flags [S.], seq 1113466641, ack 316359287, win 64308, options [mss 1410,sackOK,TS val 4208133357 ecr 458692791,nop,wscale 7], length 0
-11:16:54.807576 IP 172.16.54.141.53516 > 172.16.53.106.http: Flags [.], ack 1113466642, win 4106, options [nop,nop,TS val 458692792 ecr 4208133357], length 0
+11:16:54.806628 IP 192.168.54.141.53516 > 192.168.53.106.http: Flags [S], seq 316359286, win 65535, options [mss 1460,nop,wscale 5,nop,nop,TS val 458692791 ecr 0,sackOK,eol], length 0
+11:16:54.806861 IP 192.168.53.106.http > 192.168.54.141.53516: Flags [S.], seq 1113466641, ack 316359287, win 64308, options [mss 1410,sackOK,TS val 4208133357 ecr 458692791,nop,wscale 7], length 0
+11:16:54.807576 IP 192.168.54.141.53516 > 192.168.53.106.http: Flags [.], ack 1113466642, win 4106, options [nop,nop,TS val 458692792 ecr 4208133357], length 0
 ```
 
 三次握手图
@@ -271,7 +271,7 @@ server {
 # 一定要写到server段, 否则后端可能报404错误
 server {
 	listen 80;
-    	server_name  openapi-community-alpha.boqii.com ;
+    	server_name  openapi-community-alpha.zhangzw.com ;
         set $request_trace_id trace-id-$pid-$connection-$bytes_sent-$msec;
                 # 如果请求头中已有该参数,则获取即可;如果没有,则使用$request_id进行填充
                 set $temp_request_id $http_x_request_id;

@@ -29,10 +29,10 @@ categories:
 ### 一、 安装准备
 - 1.1 主机名
 ```
-172.16.53.106 master01.k8s.io
-172.16.53.107 master02.k8s.io
-172.16.53.108 master03.k8s.io
-172.16.53.137 master.k8s.io
+192.168.53.106 master01.k8s.io
+192.168.53.107 master02.k8s.io
+192.168.53.108 master03.k8s.io
+192.168.53.137 master.k8s.io
 ```
 
 - 1.2 同步时间, 设置时区
@@ -221,7 +221,7 @@ vrrp_instance VI_1 {
         auth_pass 1111
     }
     virtual_ipaddress {
-        172.16.53.137
+        192.168.53.137
     }
     track_script {
         check_haproxy
@@ -257,7 +257,7 @@ vrrp_instance VI_1 {
         auth_pass 1111
     }
     virtual_ipaddress {
-       172.16.53.137
+       192.168.53.137
     }
     track_script {
         check_haproxy
@@ -291,7 +291,7 @@ vrrp_instance VI_1 {
         auth_pass 1111
     }
     virtual_ipaddress {
-        172.16.53.137
+        192.168.53.137
     }
     track_script {
         check_haproxy
@@ -310,11 +310,11 @@ systemctl enable keepalived
 ```
 # 首先 ip a查看ip否则绑定成功
 
-# ping 172.16.53.137 是否正常
+# ping 192.168.53.137 是否正常
 
 # 在master01.k8s.io上 停止服务 service keepalived stop
 
-# 在master02.k8s.io或master03.k8s.io上查看ip a是否存在172.16.53.137, 检查ping 172.16.53.137 是否正常
+# 在master02.k8s.io或master03.k8s.io上查看ip a是否存在192.168.53.137, 检查ping 192.168.53.137 是否正常
 ```
 
 <center>
@@ -394,9 +394,9 @@ frontend kubernetes-apiserver
 backend kubernetes-apiserver
     mode        tcp
     balance     roundrobin
-    server      master01.k8s.io   172.16.53.106:6443 check
-    server      master02.k8s.io   172.16.53.107:6443 check
-    server      master03.k8s.io   172.16.53.108:6443 check
+    server      master01.k8s.io   192.168.53.106:6443 check
+    server      master02.k8s.io   192.168.53.107:6443 check
+    server      master03.k8s.io   192.168.53.108:6443 check
 #---------------------------------------------------------------------
 # collection haproxy statistics message
 #---------------------------------------------------------------------
@@ -515,11 +515,11 @@ apiServer:
   - master03.k8s.io
   - master.k8s.io
   - dk-node1
-  - 172.16.53.106
-  - 172.16.53.107
-  - 172.16.53.108
-  - 172.16.53.137
-  - 172.16.76.136
+  - 192.168.53.106
+  - 192.168.53.107
+  - 192.168.53.108
+  - 192.168.53.137
+  - 192.168.0.136
   - 127.0.0.1
 controlPlaneEndpoint: "master.k8s.io:16443"
 networking:
@@ -592,7 +592,7 @@ daemonset.apps/kube-flannel-ds-s390x created
   ```
 tee /root/cert-main-master.sh  <<- 'EOF'
 USER=root # customizable
-CONTROL_PLANE_IPS="172.16.53.107 172.16.53.108"
+CONTROL_PLANE_IPS="192.168.53.107 192.168.53.108"
 CONTROL_PLANE_pkidir="/etc/kubernetes/pki"
 
 for host in ${CONTROL_PLANE_IPS}; do

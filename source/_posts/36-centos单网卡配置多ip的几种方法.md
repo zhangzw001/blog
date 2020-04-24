@@ -22,7 +22,7 @@ centos单网卡配置多ip的几种方法
 ### 方法一 新建IP别名
 > 临时设置, 不需要重启
 ```
-ifconfig enp0s3:1 172.16.53.109/24
+ifconfig enp0s3:1 192.168.53.109/24
 ifconfig enp0s3:1 down
 ```
 
@@ -30,7 +30,7 @@ ifconfig enp0s3:1 down
 ```
 #cat ifcfg-enp0s3:1
 DEVICE=enp0s3
-IPADDR=172.16.53.109
+IPADDR=192.168.53.109
 NETMASK=255.255.255.0
 
 # 重启网络
@@ -43,22 +43,22 @@ ip a 或ifconfig
 
 ### 方法二  临时设置, 不需要重启
 ```
-ip addr add 172.16.53.110/24 dev enp0s3 label enp0s3:2
+ip addr add 192.168.53.110/24 dev enp0s3 label enp0s3:2
 ```
 
 ### 方法三  临时设置, 不需要重启
 
 ```
-ifconfig enp0s3:3 172.16.53.111 netmask 255.255.255.0
+ifconfig enp0s3:3 192.168.53.111 netmask 255.255.255.0
 ```
 
 ### 方法四 同一个配置文件设置, 需要重启。IP地址没有别名不好进行管理。
 ```
 #cat ifcfg-enp0s3
 DEVICE=enp0s3
-IPADDR=172.16.53.106
-IPADDR1=172.16.53.112
-IPADDR2=172.16.53.113
+IPADDR=192.168.53.106
+IPADDR1=192.168.53.112
+IPADDR2=192.168.53.113
 PREFIX=24
 PREFIX1=24
 PREFIX2=24

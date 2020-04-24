@@ -38,7 +38,7 @@ nginx跨域的Access-Control-Allow-Origin的配置 和多域名配置的问题
         ###################这里是配置多域名跨域配置
 	set $F_Allow_Origin "127.0.0.1";
         #如果是允许的域名则设置Access-Control-Allow-Origin 为该$http_origin
-        if ( "$http_origin" ~ "[a-z]+.boqii.com" ) {
+        if ( "$http_origin" ~ "[a-z]+.zhangzw.com" ) {
                set $F_Allow_Origin "$http_origin";
         }
         add_header F_Allow_Origin "$http_origin";
@@ -54,7 +54,7 @@ nginx跨域的Access-Control-Allow-Origin的配置 和多域名配置的问题
 ```
         ###################这里是配置多域名跨域配置
         #如果是允许的域名则设置Access-Control-Allow-Origin 为该$http_origin
-        #if ( "$http_origin" !~ "[a-z]+.boqii.com" ) {
+        #if ( "$http_origin" !~ "[a-z]+.zhangzw.com" ) {
         #       return 403;
         #}
         add_header Bq_F_Allow_Origin "$http_origin";
