@@ -138,7 +138,20 @@ Please enter the gitlab-ci tags for this runner (comma separated):
 Registering runner... succeeded                     runner=djs47LiK
 Please enter the executor: docker+machine, docker-ssh+machine, kubernetes, docker, docker-ssh, shell, ssh, virtualbox, custom, parallels:
 [kubernetes]:
+<<<<<<< HEAD
 Runner registered successfully. Feel free to start it, but if its running already the config should be automatically reloaded!
+=======
+<<<<<<< HEAD
+Runner registered successfully. Feel free to start it, but if its running already the config should be automatically reloaded!
+=======
+<<<<<<< HEAD
+Runner registered successfully. Feel free to start it, but if its running already the config should be automatically reloaded!
+=======
+Runner registered successfully. Feel free to start it, but if it's running already the config should be automatically reloaded!
+bash-5.0$
+>>>>>>> a4ff283e537af20d52689341e13de3e70adfc5eb
+>>>>>>> 920f2ad19066e5422707161dc8771420ed47c703
+>>>>>>> e341e7ae2f3edfa1cd92411aa8d97e9b2d171aef
 ```
 
 
@@ -149,9 +162,25 @@ Runner registered successfully. Feel free to start it, but if its running alread
 
 
 ### 在项目的页面点击 Add Kubernetes Cluster -> Add existing cluster
+<<<<<<< HEAD
 
 - 1. API URL 是你的集群的apiserver的地址， 一般可以通过输入kubectl cluster-info获取
 
+=======
+<<<<<<< HEAD
+
+- 1. API URL 是你的集群的apiserver的地址， 一般可以通过输入kubectl cluster-info获取
+
+=======
+<<<<<<< HEAD
+
+- 1. API URL 是你的集群的apiserver的地址， 一般可以通过输入kubectl cluster-info获取
+
+=======
+- 1. API URL 是你的集群的apiserver的地址， 一般可以通过输入kubectl cluster-info获取
+>>>>>>> a4ff283e537af20d52689341e13de3e70adfc5eb
+>>>>>>> 920f2ad19066e5422707161dc8771420ed47c703
+>>>>>>> e341e7ae2f3edfa1cd92411aa8d97e9b2d171aef
 ```
 kubectl cluster-info
 
@@ -503,7 +532,19 @@ cloneUrl: http://gitlab.zhangzw.com
 
 > 所以这应该是gitlab-runner register的问题
 
+<<<<<<< HEAD
 > 但是这里诡异的是, 我三个步骤,前两个都是正常, 第三个一直是报错connection refused, 但是我重试了三遍又正常了, 这么不稳定的吗?
+=======
+<<<<<<< HEAD
+> 但是这里诡异的是, 我三个步骤,前两个都是正常, 第三个一直是报错connection refused, 但是我重试了三遍又正常了, 这么不稳定的吗?
+=======
+<<<<<<< HEAD
+> 但是这里诡异的是, 我三个步骤,前两个都是正常, 第三个一直是报错connection refused, 但是我重试了三遍又正常了, 这么不稳定的吗?
+=======
+> 但是这里诡异的是, 我三个步骤,前两个都是正常, 第三个一直是报错connection refused, 但是我重试了三遍有正常了, 这么不稳定的吗?
+>>>>>>> a4ff283e537af20d52689341e13de3e70adfc5eb
+>>>>>>> 920f2ad19066e5422707161dc8771420ed47c703
+>>>>>>> e341e7ae2f3edfa1cd92411aa8d97e9b2d171aef
 
 ![](http://zhangzw001.github.io/images/45/01.png)
 

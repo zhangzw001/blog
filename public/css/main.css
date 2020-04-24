@@ -1930,7 +1930,11 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
+<<<<<<< HEAD
   background: #ddb3c3;
+=======
+  background: #fb6c7c;
+>>>>>>> e341e7ae2f3edfa1cd92411aa8d97e9b2d171aef
 }
 .links-of-blogroll {
   font-size: 13px;
