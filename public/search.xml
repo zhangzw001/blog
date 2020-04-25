@@ -204,11 +204,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[29-k3s集群部署项目报挂载nfs错误]]></title>
-    <url>%2F2019%2F11%2F25%2F29-k3s%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE%E6%8A%A5%E6%8C%82%E8%BD%BDnfs%E9%94%99%E8%AF%AF%2F</url>
-    <content type="text"></content>
-  </entry>
-  <entry>
     <title><![CDATA[k3s集群部署项目报挂载nfs错误]]></title>
     <url>%2F2019%2F11%2F25%2F30-k3s%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE%E6%8A%A5%E6%8C%82%E8%BD%BDnfs%E9%94%99%E8%AF%AF%2F</url>
     <content type="text"><![CDATA[体验轻量级k8s集群遇到一些nfs问题 部署服务器查看describe信息如下:1234567Mounting command: systemd-runMounting arguments: --description=Kubernetes transient mount for /var/lib/kubelet/pods/369daaef-1e90-446b-92ce-3d562f94b429/volumes/kubernetes.io~nfs/pvc-f462c606-5796-4c48-8928-7822f3fa0605 --scope -- mount -t nfs 192.168.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-es520-2-dev-1-pvc-f462c606-5796-4c48-8928-7822f3fa0605 /var/lib/kubelet/pods/369daaef-1e90-446b-92ce-3d562f94b429/volumes/kubernetes.io~nfs/pvc-f462c606-5796-4c48-8928-7822f3fa0605Output: Running scope as unit run-14829.scope.mount: 文件系统类型错误、选项错误、192.168.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-es520-2-dev-1-pvc-f462c606-5796-4c48-8928-7822f3fa0605 上有坏超级块、 缺少代码页或助手程序，或其他错误 (对某些文件系统(如 nfs、cifs) 您可能需要 一款 /sbin/mount.&lt;类型&gt; 助手程序) 分析 猜测1 可能是nfs的系统格式和集群node节点文件格式不同 1234# 查看发现nfs是ext4, 然后集群中其他的磁盘都是xfsdf -T|egrep -v "contai|var|overl"所以新挂了块磁盘,格式化为xfs然后再次实验,发现错误同样... 猜测2 可能是客户端无法识别nfs格式 12345678910111213# 做个测试mkdir /tmp/abcmount -t nfs 192.168.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-es520-2-dev-1-pvc-f462c606-5796-4c48-8928-7822f3fa0605 /tmp/abc# 果然报错mount: wrong fs type, bad option, bad superblock on 192.168.x.x:/data-nfs/nfs/k3s/ns-elastic5-es520-2-dev-nfs-plugins, missing codepage or helper program, or other error (for several filesystems (e.g. nfs, cifs) you might need a /sbin/mount.&lt;type&gt; helper program) In some cases useful info is found in syslog - try dmesg | tail or so. 所以安装了nfs即可 1yum install nfs]]></content>
@@ -220,6 +215,11 @@
       <tags>
         <tag>k3s</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[29-k3s集群部署项目报挂载nfs错误]]></title>
+    <url>%2F2019%2F11%2F25%2F29-k3s%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE%E6%8A%A5%E6%8C%82%E8%BD%BDnfs%E9%94%99%E8%AF%AF%2F</url>
+    <content type="text"></content>
   </entry>
   <entry>
     <title><![CDATA[k8s1.16使用旧yml部署配置问题]]></title>
