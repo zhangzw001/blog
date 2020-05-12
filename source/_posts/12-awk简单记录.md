@@ -47,3 +47,15 @@ cat b.txt
 cat b.txt|awk '{m[$2]++} {s[$2]+=$1} ; END {for(i in m) {print s[i]/m[i] "," m[i] "," i}}'|awk -F "," '$2 > 20'|sort -k2nr > test.csv
 ```
 
+#### 例如计算总响应时间,总数,平均值
+```
+# 这里$17 是接口名 : /v4.5/?xxx , $4 是响应时间 
+# 每遇到一个$17, 就把$4响应时间累加存到 s中,  s可能是 s["/v4.5/?xxx"]=4.75, s["/v3.8/?xxx"]=1.469
+# 同理m一样,  m["/v4.5/?xxx"]=313, m["/v3.8/?xxx"]=64
+
+tail -1000 openapi.access.log |awk '{s[$17]+=$4} {m[$17]++} END {for(i in s) {print m[i],"\t",s[i],"\t",s[i]/m[i],"\t",i} }'|sort -k1nr|head -10
+
+313   4.75   0.0151757   /v4.5/?xxx
+64   1.469   0.0229531   /v3.8/?xxx
+```
+
