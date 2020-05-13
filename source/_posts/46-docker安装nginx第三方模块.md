@@ -1,5 +1,5 @@
 ---
-title: 46-docker安装nginx第三方模块
+title: docker安装nginx第三方模块
 copyright: true
 date: 2020-05-13 11:12:01
 tags:
