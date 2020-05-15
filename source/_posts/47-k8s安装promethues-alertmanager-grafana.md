@@ -1,5 +1,5 @@
 ---
-title: 47-k8s安装promethues+alertmanager+grafana
+title: k8s安装promethues+alertmanager+grafana
 copyright: true
 date: 2020-05-14 18:34:47
 tags:
@@ -22,7 +22,7 @@ categories:
 - 6 [grafana 监控模板下载](https://grafana.com/grafana/dashboards?dataSource=prometheus&search=docker&orderBy=name&direction=asc)
 
 
-> 考虑到测试资源有限,为更精简自定义按照监控,减少多余资源占用, 也同时更了解prometheus的更多细节, 这里没有使用prometheus-operator
+---
 
 
 <center>
