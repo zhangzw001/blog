@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="k8s升级一般不能跨版本升级, 所以这里间断介绍升级过程, 每次升级一个大版本">
+<meta name="keywords" content="k8s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="k8s升级(1.10-&gt;1.15)">
+<meta property="og:url" content="http://zhangzw001.github.io/2020/05/18/48-k8s升级-1-10-1-15/index.html">
+<meta property="og:site_name" content="Zhangzw&#39;s Blog">
+<meta property="og:description" content="k8s升级一般不能跨版本升级, 所以这里间断介绍升级过程, 每次升级一个大版本">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-05-18T10:24:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="k8s升级(1.10-&gt;1.15)">
+<meta name="twitter:description" content="k8s升级一般不能跨版本升级, 所以这里间断介绍升级过程, 每次升级一个大版本">
+
+
+
+
+
+
+  <link rel="canonical" href="http://zhangzw001.github.io/2020/05/18/48-k8s升级-1-10-1-15/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>k8s升级(1.10->1.15) | Zhangzw's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zhangzw's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangzw001.github.io/2020/05/18/48-k8s升级-1-10-1-15/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zhangzw">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhangzw's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">k8s升级(1.10->1.15)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+	
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-05-18 17:43:27 / 修改时间：18:24:40" itemprop="dateCreated datePublished" datetime="2020-05-18T17:43:27+08:00">2020-05-18</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/k8s/" itemprop="url" rel="index"><span itemprop="name">k8s</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/05/18/48-k8s升级-1-10-1-15/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2020/05/18/48-k8s升级-1-10-1-15/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/05/18/48-k8s升级-1-10-1-15/" class="leancloud_visitors" data-flag-title="k8s升级(1.10->1.15)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">44k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">40 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>k8s升级一般不能跨版本升级, 所以这里间断介绍升级过程, 每次升级一个大版本</p>
+<a id="more"></a>
+
+
+<h3 id="k8s升级"><a href="#k8s升级" class="headerlink" title="k8s升级"></a>k8s升级</h3><p><a href="https://blog.51cto.com/newfly/2440901?source=dra" target="_blank" rel="noopener">kubernetes集群版本升级攻略</a><br><a href="https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/" target="_blank" rel="noopener">官方kubeadm升级文档</a></p>
+<h3 id="版本关系"><a href="#版本关系" class="headerlink" title="版本关系"></a>版本关系</h3><p>Kubernetes 1.15.0 –&gt;Docker版本1.13.1、17.03、17.06、17.09、18.06、18.09<br>Kubernetes 1.14.0 –&gt;Docker版本1.13.1、17.03、17.06、17.09、18.06、18.09<br>Kubernetes 1.13.0 –&gt;Docker版本1.11.1、1.12.1、1.13.1、17.03、17.06、17.09、18.06<br>Kubernetes 1.11.* –&gt;Docker版本1.11.2到1.13.1、17.03<br>Kubernetes 1.10.* –&gt;Docker版本1.11.2到1.13.1、17.03</p>
+<h3 id="k8s1-10-gt-k8s1-11"><a href="#k8s1-10-gt-k8s1-11" class="headerlink" title="k8s1.10 -&gt; k8s1.11"></a>k8s1.10 -&gt; k8s1.11</h3><ul>
+<li>注意我这里是单机,所以没有禁止调度,集群在升级前需要禁止调度: </li>
+</ul>
+<blockquote>
+<p>kubectl taint node master-01 node-role.kubernetes.io/master=””:NoExecute<br>kubectl taint node –all node-role.kubernetes.io/master-</p>
+</blockquote>
+<ul>
+<li>注意备份etcd</li>
+</ul>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export ETCDCTL_API=<span class="number">3</span></span><br><span class="line"># 备份</span><br><span class="line">etcdctl <span class="keyword">snapshot</span> save backup-$(<span class="keyword">date</span> +%Y%m%d_%H).db</span><br><span class="line"># 恢复</span><br><span class="line">etcdctl <span class="keyword">snapshot</span> restore backup-xxxx.db --data-dir=/data/etcd/data</span><br></pre></td></tr></table></figure>
+
+<h4 id="kubeadm升级准备"><a href="#kubeadm升级准备" class="headerlink" title="kubeadm升级准备"></a>kubeadm升级准备</h4><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"># 保存配置</span><br><span class="line">kubeadm config view &gt; kubeadmin-<span class="number">10</span>-view.conf</span><br><span class="line"></span><br><span class="line"># k8s1<span class="meta">.10</span>版本要求cni必须是低于kubernetes-cni-<span class="number">0.6</span><span class="meta">.0</span>-<span class="number">0</span>版本</span><br><span class="line">export k8s_version=<span class="number">1.11</span><span class="meta">.0</span></span><br><span class="line">yum makecache all</span><br><span class="line">version=$(yum list kubeadm --showduplicates | sort -r|grep $&#123;k8s_version&#125;|awk <span class="string">'&#123;print $2&#125;'</span>)</span><br><span class="line"></span><br><span class="line">yum install -y kubeadm-$&#123;version&#125; --disableexcludes=kubernetes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 查看是否可以更新</span><br><span class="line">kubeadm upgrade plan</span><br><span class="line">[preflight] Running pre-flight checks.</span><br><span class="line">[upgrade] Making sure the cluster is healthy:</span><br><span class="line">[upgrade/config] Making sure the configuration is correct:</span><br><span class="line">[upgrade/config] Reading configuration from the cluster...</span><br><span class="line">[upgrade/config] FYI: You can look <span class="meta">at</span> this config file with <span class="string">'kubectl -n kube-system get cm kubeadm-config -oyaml'</span></span><br><span class="line">[upgrade] Fetching available versions to upgrade to</span><br><span class="line">[upgrade/versions] Cluster version: v1<span class="meta">.10</span><span class="meta">.0</span></span><br><span class="line">[upgrade/versions] kubeadm version: v1<span class="meta">.11</span><span class="meta">.0</span></span><br><span class="line">[upgrade/versions] WARNING: Couldn<span class="string">'t fetch latest stable version from the internet: unable to get URL "https://dl.k8s.io/release/stable.txt": Get https://storage.googleapis.com/kubernetes-release/release/stable.txt: net/http: TLS handshake timeout</span></span><br><span class="line"><span class="string">[upgrade/versions] WARNING: Falling back to current kubeadm version as latest stable version</span></span><br><span class="line"><span class="string">[upgrade/versions] WARNING: Couldn'</span>t fetch latest version <span class="keyword">in</span> the v1<span class="meta">.10</span> series from the internet: unable to get URL <span class="string">"https://dl.k8s.io/release/stable-1.10.txt"</span>: Get https://storage.googleapis.com/kubernetes-release/release/stable-<span class="number">1.10</span>.txt: dial tcp <span class="number">172.217</span><span class="meta">.160</span><span class="meta">.112</span>:<span class="number">443</span>: i/o timeout</span><br><span class="line"></span><br><span class="line">External components that should be upgraded manually before you upgrade the control plane with <span class="string">'kubeadm upgrade apply'</span>:</span><br><span class="line">COMPONENT   CURRENT   AVAILABLE</span><br><span class="line">Etcd        <span class="number">3.3</span><span class="meta">.11</span>    <span class="number">3.2</span><span class="meta">.18</span></span><br><span class="line"></span><br><span class="line">Components that must be upgraded manually after you have upgraded the control plane with <span class="string">'kubeadm upgrade apply'</span>:</span><br><span class="line">COMPONENT   CURRENT       AVAILABLE</span><br><span class="line">Kubelet     <span class="number">1</span> x v1<span class="meta">.10</span><span class="meta">.1</span>   v1<span class="meta">.11</span><span class="meta">.0</span></span><br><span class="line"></span><br><span class="line">Upgrade to the latest stable version:</span><br><span class="line"></span><br><span class="line">COMPONENT            CURRENT   AVAILABLE</span><br><span class="line">API Server           v1<span class="meta">.10</span><span class="meta">.0</span>   v1<span class="meta">.11</span><span class="meta">.0</span></span><br><span class="line">Controller Manager   v1<span class="meta">.10</span><span class="meta">.0</span>   v1<span class="meta">.11</span><span class="meta">.0</span></span><br><span class="line">Scheduler            v1<span class="meta">.10</span><span class="meta">.0</span>   v1<span class="meta">.11</span><span class="meta">.0</span></span><br><span class="line">Kube Proxy           v1<span class="meta">.10</span><span class="meta">.0</span>   v1<span class="meta">.11</span><span class="meta">.0</span></span><br><span class="line">CoreDNS              <span class="number">1.0</span><span class="meta">.6</span>     <span class="number">1.1</span><span class="meta">.3</span></span><br><span class="line"></span><br><span class="line">You can now apply the upgrade by executing the following command:</span><br><span class="line"></span><br><span class="line"> kubeadm upgrade apply v1<span class="meta">.11</span><span class="meta">.0</span></span><br><span class="line"></span><br><span class="line">_____________________________________________________________________</span><br></pre></td></tr></table></figure>
+
+<h4 id="执行升级操作"><a href="#执行升级操作" class="headerlink" title="执行升级操作"></a>执行升级操作</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">kubeadm<span class="built_in"> upgrade </span>apply v1.11.0 --config kubeadmin-10-view.conf --dry-run</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改下kubeadmin-10-view.conf配置 imageRepository: registry.cn-hangzhou.aliyuncs.com/k8sth</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/k8sth/kube-proxy-amd64:v1.11.0</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/k8sth/kube-controller-manager-amd64:v1.11.0</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/k8sth/kube-scheduler-amd64:v1.11.0</span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/k8sth/kube-apiserver-amd64:v1.11.0</span><br><span class="line"></span><br><span class="line">kubeadm<span class="built_in"> upgrade </span>apply v1.11.0 --config kubeadmin-10-view.conf</span><br></pre></td></tr></table></figure>
+
+<h4 id="升级kubelet-kubectl"><a href="#升级kubelet-kubectl" class="headerlink" title="升级kubelet kubectl"></a>升级kubelet kubectl</h4><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">yum install -y kubectl-$&#123;version&#125; kubelet-$&#123;version&#125; --disableexcludes=kubernetes</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改下kubelet配置(否则集群会报错)</span></span><br><span class="line">vim /var/<span class="class"><span class="keyword">lib</span>/<span class="title">kubelet</span>/<span class="title">kubeadm</span>-<span class="title">flags</span>.<span class="title">env</span></span></span><br><span class="line">增加--pod-infra-container-image=registry.cn-hangzhou.aliyuncs.com/google_containers/<span class="symbol">pause:</span><span class="number">3.1</span></span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart kubelet</span><br><span class="line">kubectl version</span><br><span class="line">kubelet --version</span><br><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+
+<h3 id="k8s1-11-gt-k8s1-12"><a href="#k8s1-11-gt-k8s1-12" class="headerlink" title="k8s1.11 -&gt; k8s1.12"></a>k8s1.11 -&gt; k8s1.12</h3><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"># 保存配置</span><br><span class="line">kubeadm config <span class="keyword">view</span> &gt; kubeadmin-<span class="number">11</span>-<span class="keyword">view</span>.<span class="keyword">conf</span></span><br><span class="line"># 或者通过configmap</span><br><span class="line">kubectl <span class="built_in">get</span> configmap -n kube-<span class="built_in">system</span> kubeadm-config -<span class="keyword">o</span> jsonpath=&#123;.data.MasterConfiguration&#125; &gt; kubeadmin-<span class="number">11</span>-<span class="keyword">view</span>.<span class="keyword">conf</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">export k8s_version=<span class="number">1.12</span>.<span class="number">0</span></span><br><span class="line">yum makecache <span class="keyword">all</span></span><br><span class="line"><span class="keyword">version</span>=$(yum <span class="keyword">list</span> kubeadm --showduplicates | <span class="keyword">sort</span> -r|<span class="keyword">grep</span> $&#123;k8s_version&#125;|awk <span class="string">'&#123;print $2&#125;'</span>)</span><br><span class="line"></span><br><span class="line">yum install -<span class="keyword">y</span> kubeadm-$&#123;<span class="keyword">version</span>&#125; --disableexcludes=kubernetes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kubeadm upgrade plan</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#修改image地址(之前是registry.<span class="keyword">cn</span>-hangzhou.aliyuncs.<span class="keyword">com</span>/k8sth)</span><br><span class="line"><span class="keyword">vim</span> kubeadmin-<span class="number">11</span>-<span class="keyword">view</span>.<span class="keyword">conf</span></span><br><span class="line">imageRepository: registry.<span class="keyword">cn</span>-hangzhou.aliyuncs.<span class="keyword">com</span>/google_containers</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kubeadm upgrade apply v1.<span class="number">12.0</span> --config kubeadmin-<span class="number">11</span>-<span class="keyword">view</span>.<span class="keyword">conf</span> --dry-run</span><br><span class="line"></span><br><span class="line">docker pull registry.<span class="keyword">cn</span>-hangzhou.aliyuncs.<span class="keyword">com</span>/google_containers/kube-proxy:v$&#123;k8s_version&#125;</span><br><span class="line">docker pull registry.<span class="keyword">cn</span>-hangzhou.aliyuncs.<span class="keyword">com</span>/google_containers/kube-controller-manager:v$&#123;k8s_version&#125;</span><br><span class="line">docker pull registry.<span class="keyword">cn</span>-hangzhou.aliyuncs.<span class="keyword">com</span>/google_containers/kube-scheduler:v$&#123;k8s_version&#125;</span><br><span class="line">docker pull registry.<span class="keyword">cn</span>-hangzhou.aliyuncs.<span class="keyword">com</span>/google_containers/kube-apiserver:v$&#123;k8s_version&#125;</span><br><span class="line">docker pull registry.<span class="keyword">cn</span>-hangzhou.aliyuncs.<span class="keyword">com</span>/google_containers/pause:<span class="number">3.1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kubeadm upgrade apply v$&#123;k8s_version&#125; --config kubeadmin-<span class="number">11</span>-<span class="keyword">view</span>.<span class="keyword">conf</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">yum install -<span class="keyword">y</span> kubelet-$&#123;<span class="keyword">version</span>&#125; kubectl-$&#123;<span class="keyword">version</span>&#125; --disableexcludes=kubernetes</span><br><span class="line"></span><br><span class="line"># 修改下kubelet配置(否则集群会报错)</span><br><span class="line"><span class="keyword">vim</span> /var/lib/kubelet/kubeadm-flags.env</span><br><span class="line">增加--pod-infra-container-image=registry.<span class="keyword">cn</span>-hangzhou.aliyuncs.<span class="keyword">com</span>/google_containers/pause:<span class="number">3.1</span></span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart kubelet</span><br><span class="line">kubectl <span class="keyword">version</span></span><br><span class="line">kubelet --<span class="keyword">version</span></span><br><span class="line">kubectl <span class="built_in">get</span> nodes</span><br></pre></td></tr></table></figure>
+
+<h3 id="k8s1-12-gt-k8s1-13"><a href="#k8s1-12-gt-k8s1-13" class="headerlink" title="k8s1.12 -&gt; k8s1.13"></a>k8s1.12 -&gt; k8s1.13</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"># 保存配置</span><br><span class="line">export k8s_old_version=1.12.0</span><br><span class="line">export k8s_version=1.13.0</span><br><span class="line">export kubeadm_config=kubeadmin-<span class="variable">$&#123;k8s_old_version&#125;</span>-<span class="keyword">view</span>.<span class="keyword">conf</span></span><br><span class="line"></span><br><span class="line">kubeadm config <span class="keyword">view</span> &gt; <span class="variable">$&#123;kubeadm_config&#125;</span></span><br><span class="line"># 或者通过configmap</span><br><span class="line">kubectl get configmap -<span class="keyword">n</span> kube-system kubeadm-config -o jsonpath=&#123;.data.ClusterConfiguration&#125; &gt; <span class="variable">$&#123;kubeadm_config&#125;</span></span><br><span class="line"></span><br><span class="line">yum makecache all</span><br><span class="line"><span class="keyword">version</span>=$(yum <span class="keyword">list</span> kubeadm --showduplicates | <span class="keyword">sort</span> -r|grep <span class="variable">$&#123;k8s_version&#125;</span>|awk '&#123;<span class="keyword">print</span> <span class="variable">$2&#125;</span>')</span><br><span class="line"></span><br><span class="line"># 一起安装是因为kubeadm安装时会依赖kubelet, kubelet会安装最新版本(1.18.2)</span><br><span class="line">yum install -y kubeadm-<span class="variable">$&#123;version&#125;</span> kubelet-<span class="variable">$&#123;version&#125;</span> kubectl-<span class="variable">$&#123;version&#125;</span> kubernetes-cni-0.6.0-0 --disableexcludes=kubernetes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kubeadm upgrade plan</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kubeadm upgrade apply v<span class="variable">$&#123;k8s_version&#125;</span>  --config <span class="variable">$&#123;kubeadm_config&#125;</span> --dry-<span class="keyword">run</span></span><br><span class="line"></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/<span class="keyword">pause</span>:3.1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kubeadm upgrade apply v<span class="variable">$&#123;k8s_version&#125;</span> --config <span class="variable">$&#123;kubeadm_config&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">yum install -y kubelet-<span class="variable">$&#123;version&#125;</span> kubectl-<span class="variable">$&#123;version&#125;</span> --disableexcludes=kubernetes</span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart kubelet</span><br><span class="line">kubectl <span class="keyword">version</span></span><br><span class="line">kubelet --<span class="keyword">version</span></span><br><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+
+<h3 id="k8s1-13-gt-k8s1-14"><a href="#k8s1-13-gt-k8s1-14" class="headerlink" title="k8s1.13 -&gt; k8s1.14"></a>k8s1.13 -&gt; k8s1.14</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"># 保存配置</span><br><span class="line">export k8s_old_version=1.13.0</span><br><span class="line">export k8s_version=1.14.0</span><br><span class="line">export kubeadm_config=kubeadmin-<span class="variable">$&#123;k8s_old_version&#125;</span>-<span class="keyword">view</span>.<span class="keyword">conf</span></span><br><span class="line"></span><br><span class="line"># config <span class="keyword">view</span>或者通过configmap(2选1)</span><br><span class="line">kubeadm config <span class="keyword">view</span> &gt; <span class="variable">$&#123;kubeadm_config&#125;</span></span><br><span class="line">kubectl get configmap -<span class="keyword">n</span> kube-system kubeadm-config -o jsonpath=&#123;.data.ClusterConfiguration&#125; &gt; <span class="variable">$&#123;kubeadm_config&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">yum makecache all</span><br><span class="line"><span class="keyword">version</span>=$(yum <span class="keyword">list</span> kubeadm --showduplicates | <span class="keyword">sort</span> -r|grep <span class="variable">$&#123;k8s_version&#125;</span>|awk '&#123;<span class="keyword">print</span> <span class="variable">$2&#125;</span>')</span><br><span class="line"></span><br><span class="line"># 一起安装是因为kubeadm安装时会依赖kubelet, kubelet会安装最新版本(1.18.2) </span><br><span class="line"># (这里1.14会依赖kubernetes-cni:0.7.5-0)</span><br><span class="line">yum install -y kubeadm-<span class="variable">$&#123;version&#125;</span> kubelet-<span class="variable">$&#123;version&#125;</span> kubectl-<span class="variable">$&#123;version&#125;</span> --disableexcludes=kubernetes</span><br><span class="line"></span><br><span class="line">kubeadm upgrade plan</span><br><span class="line"></span><br><span class="line">kubeadm upgrade apply v<span class="variable">$&#123;k8s_version&#125;</span>  --config <span class="variable">$&#123;kubeadm_config&#125;</span> --dry-<span class="keyword">run</span></span><br><span class="line"></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/<span class="keyword">pause</span>:3.1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kubeadm upgrade apply v<span class="variable">$&#123;k8s_version&#125;</span> --config <span class="variable">$&#123;kubeadm_config&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart kubelet</span><br><span class="line">kubectl <span class="keyword">version</span></span><br><span class="line">kubelet --<span class="keyword">version</span></span><br><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+
+<h3 id="升级docker"><a href="#升级docker" class="headerlink" title="升级docker"></a>升级docker</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install docker-ce-18.09.9 docker-ce-cli-18.09.9</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启docker, k8s集群会间断(如果是多台, 将重启的节点taint剔除集群重启即可)</span></span><br><span class="line">service docker restart</span><br></pre></td></tr></table></figure>
+
+<h3 id="k8s1-14-gt-k8s1-15"><a href="#k8s1-14-gt-k8s1-15" class="headerlink" title="k8s1.14 -&gt; k8s1.15"></a>k8s1.14 -&gt; k8s1.15</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"># 保存配置</span><br><span class="line">export k8s_old_version=1.14.0</span><br><span class="line">export k8s_version=1.15.0</span><br><span class="line">export kubeadm_config=kubeadmin-<span class="variable">$&#123;k8s_old_version&#125;</span>-<span class="keyword">view</span>.<span class="keyword">conf</span></span><br><span class="line"></span><br><span class="line"># config <span class="keyword">view</span>或者通过configmap(2选1)</span><br><span class="line">kubeadm config <span class="keyword">view</span> &gt; <span class="variable">$&#123;kubeadm_config&#125;</span></span><br><span class="line">kubectl get configmap -<span class="keyword">n</span> kube-system kubeadm-config -o jsonpath=&#123;.data.ClusterConfiguration&#125; &gt; <span class="variable">$&#123;kubeadm_config&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">yum makecache all</span><br><span class="line"><span class="keyword">version</span>=$(yum <span class="keyword">list</span> kubeadm --showduplicates | <span class="keyword">sort</span> -r|grep <span class="variable">$&#123;k8s_version&#125;</span>|awk '&#123;<span class="keyword">print</span> <span class="variable">$2&#125;</span>')</span><br><span class="line"></span><br><span class="line"># 一起安装是因为kubeadm安装时会依赖kubelet, kubelet会安装最新版本(1.18.2) </span><br><span class="line">yum install -y kubeadm-<span class="variable">$&#123;version&#125;</span> kubelet-<span class="variable">$&#123;version&#125;</span> kubectl-<span class="variable">$&#123;version&#125;</span> </span><br><span class="line"></span><br><span class="line">kubeadm upgrade plan</span><br><span class="line"></span><br><span class="line">kubeadm upgrade apply v<span class="variable">$&#123;k8s_version&#125;</span>  --config <span class="variable">$&#123;kubeadm_config&#125;</span> --dry-<span class="keyword">run</span></span><br><span class="line"></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v<span class="variable">$&#123;k8s_version&#125;</span></span><br><span class="line">docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/<span class="keyword">pause</span>:3.1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">kubeadm upgrade apply v<span class="variable">$&#123;k8s_version&#125;</span> --config <span class="variable">$&#123;kubeadm_config&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart kubelet</span><br><span class="line">kubectl <span class="keyword">version</span></span><br><span class="line">kubelet --<span class="keyword">version</span></span><br><span class="line">kubectl get nodes</span><br></pre></td></tr></table></figure>
+
+<h4 id="kubeadm-upgrade-plan-具体结果"><a href="#kubeadm-upgrade-plan-具体结果" class="headerlink" title="kubeadm upgrade plan 具体结果"></a>kubeadm upgrade plan 具体结果</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"> kubeadm upgrade plan</span><br><span class="line">[upgrade/config] Making sure the configuration is correct:</span><br><span class="line">[upgrade/config] Reading configuration from the cluster...</span><br><span class="line">[upgrade/config] FYI: You can look at this config file <span class="keyword">with</span> <span class="string">'kubectl -n kube-system get cm kubeadm-config -oyaml'</span></span><br><span class="line">[preflight] Running pre-flight checks.</span><br><span class="line">[<span class="keyword">upgrade</span>] Making sure the cluster <span class="keyword">is</span> healthy:</span><br><span class="line">[<span class="keyword">upgrade</span>] Fetching available <span class="keyword">versions</span> <span class="keyword">to</span> <span class="keyword">upgrade</span> <span class="keyword">to</span></span><br><span class="line">[<span class="keyword">upgrade</span>/<span class="keyword">versions</span>] Cluster <span class="keyword">version</span>: v1<span class="number">.14</span><span class="number">.0</span></span><br><span class="line">[<span class="keyword">upgrade</span>/<span class="keyword">versions</span>] kubeadm <span class="keyword">version</span>: v1<span class="number">.15</span><span class="number">.0</span></span><br><span class="line">W0518 <span class="number">05</span>:<span class="number">21</span>:<span class="number">52.446954</span>     <span class="number">801</span> version.go:<span class="number">98</span>] could <span class="keyword">not</span> <span class="keyword">fetch</span> a Kubernetes <span class="keyword">version</span> <span class="keyword">from</span> the internet: unable <span class="keyword">to</span> <span class="keyword">get</span> <span class="keyword">URL</span> <span class="string">"https://dl.k8s.io/release/stable.txt"</span>: <span class="keyword">Get</span> https://storage.googleapis.com/kubernetes-<span class="keyword">release</span>/<span class="keyword">release</span>/stable.txt: net/<span class="keyword">http</span>: request canceled <span class="keyword">while</span> waiting <span class="keyword">for</span> <span class="keyword">connection</span> (Client.Timeout exceeded <span class="keyword">while</span> awaiting headers)</span><br><span class="line">W0518 <span class="number">05</span>:<span class="number">21</span>:<span class="number">52.447091</span>     <span class="number">801</span> version.go:<span class="number">99</span>] falling back <span class="keyword">to</span> the <span class="keyword">local</span> <span class="keyword">client</span> <span class="keyword">version</span>: v1<span class="number">.15</span><span class="number">.0</span></span><br><span class="line">[<span class="keyword">upgrade</span>/<span class="keyword">versions</span>] Latest stable <span class="keyword">version</span>: v1<span class="number">.15</span><span class="number">.0</span></span><br><span class="line">W0518 <span class="number">05</span>:<span class="number">22</span>:<span class="number">02.467795</span>     <span class="number">801</span> version.go:<span class="number">98</span>] could <span class="keyword">not</span> <span class="keyword">fetch</span> a Kubernetes <span class="keyword">version</span> <span class="keyword">from</span> the internet: unable <span class="keyword">to</span> <span class="keyword">get</span> <span class="keyword">URL</span> <span class="string">"https://dl.k8s.io/release/stable-1.14.txt"</span>: <span class="keyword">Get</span> https://storage.googleapis.com/kubernetes-<span class="keyword">release</span>/<span class="keyword">release</span>/stable<span class="number">-1.14</span>.txt: net/<span class="keyword">http</span>: request canceled <span class="keyword">while</span> waiting <span class="keyword">for</span> <span class="keyword">connection</span> (Client.Timeout exceeded <span class="keyword">while</span> awaiting headers)</span><br><span class="line">W0518 <span class="number">05</span>:<span class="number">22</span>:<span class="number">02.467847</span>     <span class="number">801</span> version.go:<span class="number">99</span>] falling back <span class="keyword">to</span> the <span class="keyword">local</span> <span class="keyword">client</span> <span class="keyword">version</span>: v1<span class="number">.15</span><span class="number">.0</span></span><br><span class="line">[<span class="keyword">upgrade</span>/<span class="keyword">versions</span>] Latest <span class="keyword">version</span> <span class="keyword">in</span> the v1<span class="number">.14</span> series: v1<span class="number">.15</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">External</span> components that should be upgraded manually <span class="keyword">before</span> you <span class="keyword">upgrade</span> the control plane <span class="keyword">with</span> <span class="string">'kubeadm upgrade apply'</span>:</span><br><span class="line">COMPONENT   <span class="keyword">CURRENT</span>   AVAILABLE</span><br><span class="line">Etcd        <span class="number">3.3</span><span class="number">.11</span>    <span class="number">3.3</span><span class="number">.10</span></span><br><span class="line"></span><br><span class="line">Components that must be upgraded manually <span class="keyword">after</span> you have upgraded the control plane <span class="keyword">with</span> <span class="string">'kubeadm upgrade apply'</span>:</span><br><span class="line">COMPONENT   <span class="keyword">CURRENT</span>       AVAILABLE</span><br><span class="line">Kubelet     <span class="number">1</span> x v1<span class="number">.14</span><span class="number">.0</span>   v1<span class="number">.15</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Upgrade</span> <span class="keyword">to</span> the latest <span class="keyword">version</span> <span class="keyword">in</span> the v1<span class="number">.14</span> series:</span><br><span class="line"></span><br><span class="line">COMPONENT            <span class="keyword">CURRENT</span>   AVAILABLE</span><br><span class="line">API <span class="keyword">Server</span>           v1<span class="number">.14</span><span class="number">.0</span>   v1<span class="number">.15</span><span class="number">.0</span></span><br><span class="line">Controller Manager   v1<span class="number">.14</span><span class="number">.0</span>   v1<span class="number">.15</span><span class="number">.0</span></span><br><span class="line">Scheduler            v1<span class="number">.14</span><span class="number">.0</span>   v1<span class="number">.15</span><span class="number">.0</span></span><br><span class="line">Kube Proxy           v1<span class="number">.14</span><span class="number">.0</span>   v1<span class="number">.15</span><span class="number">.0</span></span><br><span class="line">CoreDNS              <span class="number">1.3</span><span class="number">.1</span>     <span class="number">1.3</span><span class="number">.1</span></span><br><span class="line"></span><br><span class="line">You can <span class="keyword">now</span> <span class="keyword">apply</span> the <span class="keyword">upgrade</span> <span class="keyword">by</span> executing the <span class="keyword">following</span> command:</span><br><span class="line"></span><br><span class="line"> kubeadm <span class="keyword">upgrade</span> <span class="keyword">apply</span> v1<span class="number">.15</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line">_____________________________________________________________________</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="1-版本选择的image配置问题"><a href="#1-版本选择的image配置问题" class="headerlink" title="1. 版本选择的image配置问题"></a>1. 版本选择的image配置问题</h4><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">开始选择升级到k8s1<span class="meta">.11</span><span class="meta">.10</span>版本, 但是镜像版本只有registry.cn-hangzhou.aliyuncs.com/k8sth/kube-proxy-amd64:v1<span class="meta">.11</span><span class="meta">.0</span> , 没有找到v1<span class="meta">.11</span><span class="meta">.10</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-1-12版本开始阿里云镜像地址变化"><a href="#2-1-12版本开始阿里云镜像地址变化" class="headerlink" title="2. 1.12版本开始阿里云镜像地址变化"></a>2. 1.12版本开始阿里云镜像地址变化</h4><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">registry<span class="selector-class">.cn-hangzhou</span><span class="selector-class">.aliyuncs</span><span class="selector-class">.com</span>/google_containers/kube-proxy:v1.<span class="number">12.0</span></span><br><span class="line">registry<span class="selector-class">.cn-hangzhou</span><span class="selector-class">.aliyuncs</span><span class="selector-class">.com</span>/google_containers/pause:<span class="number">3.1</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-如果执行升级中断或停止-可以"><a href="#3-如果执行升级中断或停止-可以" class="headerlink" title="3. 如果执行升级中断或停止, 可以"></a>3. 如果执行升级中断或停止, 可以</h4><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubeadm<span class="built_in"> upgrade </span>--force。</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+
+    
+    
+    
+    
+      <div>
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2020/05/18/48-k8s升级-1-10-1-15/">k8s升级(1.10->1.15)</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 zhangzw 的个人博客">zhangzw</a></p>
+  <p><span>发布时间:</span>2020年05月18日 - 17:05</p>
+  <p><span>最后更新:</span>2020年05月18日 - 18:05</p>
+  <p><span>原始链接:</span><a href="/2020/05/18/48-k8s升级-1-10-1-15/" title="k8s升级(1.10->1.15)">http://zhangzw001.github.io/2020/05/18/48-k8s升级-1-10-1-15/</a>
+    <span class="copy-path" title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://zhangzw001.github.io/2020/05/18/48-k8s升级-1-10-1-15/" aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    }));  
+</script>
+
+
+      </div>
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"># k8s</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/14/47-k8s安装promethues-alertmanager-grafana/" rel="next" title="k8s安装promethues+alertmanager+grafana">
+                <i class="fa fa-chevron-left"></i> k8s安装promethues+alertmanager+grafana
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zhangzw</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友链
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://johnnywl.github.io/" title="https://johnnywl.github.io/" rel="noopener" target="_blank">johnny</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.qikqiak.com/" title="https://www.qikqiak.com/" rel="noopener" target="_blank">阳明</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s升级"><span class="nav-number">1.</span> <span class="nav-text">k8s升级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本关系"><span class="nav-number">2.</span> <span class="nav-text">版本关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s1-10-gt-k8s1-11"><span class="nav-number">3.</span> <span class="nav-text">k8s1.10 -&gt; k8s1.11</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#kubeadm升级准备"><span class="nav-number">3.1.</span> <span class="nav-text">kubeadm升级准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行升级操作"><span class="nav-number">3.2.</span> <span class="nav-text">执行升级操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#升级kubelet-kubectl"><span class="nav-number">3.3.</span> <span class="nav-text">升级kubelet kubectl</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s1-11-gt-k8s1-12"><span class="nav-number">4.</span> <span class="nav-text">k8s1.11 -&gt; k8s1.12</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s1-12-gt-k8s1-13"><span class="nav-number">5.</span> <span class="nav-text">k8s1.12 -&gt; k8s1.13</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s1-13-gt-k8s1-14"><span class="nav-number">6.</span> <span class="nav-text">k8s1.13 -&gt; k8s1.14</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#升级docker"><span class="nav-number">7.</span> <span class="nav-text">升级docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s1-14-gt-k8s1-15"><span class="nav-number">8.</span> <span class="nav-text">k8s1.14 -&gt; k8s1.15</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#kubeadm-upgrade-plan-具体结果"><span class="nav-number">8.1.</span> <span class="nav-text">kubeadm upgrade plan 具体结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">9.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-版本选择的image配置问题"><span class="nav-number">9.1.</span> <span class="nav-text">1. 版本选择的image配置问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-12版本开始阿里云镜像地址变化"><span class="nav-number">9.2.</span> <span class="nav-text">2. 1.12版本开始阿里云镜像地址变化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-如果执行升级中断或停止-可以"><span class="nav-number">9.3.</span> <span class="nav-text">3. 如果执行升级中断或停止, 可以</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhangzw</span>
+
+  
+
+  
+</div>
+
+<!--
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+
+
+
+-->
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="96,96,96" opacity="0.5" zindex="-1" count="229" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 'Q7DcnSqtpo3sXcnqbvDv7PkE-gzGzoHsz',
+      appKey: 'OLwBbxGhnrwtyHRU3bJynspO',
+      placeholder: 'ヾﾉ≧∀≦)o 来呀！快活呀！~啦啦啦~ 啦啦啦啦~',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: true
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<!-- 预加载 -->
+<script type="text/javascript" src="/js/src/instantclick.js" data-no-instant></script>
+<script data-no-instant>InstantClick.init();</script>
+
+</body>
+</html>
+
+<!-- 鼠标桃心动画 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<!-- 鼠标移动星星特效 -->
+<!--<script type="text/javascript" src="/js/src/love2.js"></script>-->
+<!-- 看板娘 -->
+<!--<script src="/live2d-widget/autoload.js"></script> -->
