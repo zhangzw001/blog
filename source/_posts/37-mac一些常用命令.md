@@ -8,7 +8,6 @@ categories:
   - [技术文档]
   - [mac]
   - [item2]
-top: 30
 ---
 记录一些常用的mac工具和方法
 <!-- more-->

@@ -6,7 +6,6 @@ tags:
   - shell
 categories:
   - [linux,shell]
-top: 20
 ---
 记录一些shell脚本
 <!-- more -->
