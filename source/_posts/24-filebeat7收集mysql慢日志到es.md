@@ -131,3 +131,25 @@ spec:
           hostPath:
             path: /data/k8s-container/mysql5.5/slow.log
 ```
+
+### logstash分析mysql日志
+> 省略input的kafka 和ouput的es
+
+```
+    if [type] == "showlog1" or [type] == "showlog2" {
+        json {
+                source => "message"
+        }
+
+        mutate {
+                gsub => [ "message", "\n", "" ]
+        }
+        grok {
+                match => ["message","(?m)^# User@Host: %{USER:user}\[[^\]]+\] @  \[%{IP:clientip}\]  Id: %{NUMBER:Id:int}# Query_time: %{NUMBER:query_time:float}\s+Lock_time: %{NUMBER:lock_time:float}\s+Rows_sent: %{NUMBER:rows_sent:int}\s+Rows_examined: %{NUMBER:rows_examined:int}(?<dbnameall>.*)SET\s+timestamp=%{NUMBER:timestamp_mysql:int};(?<query>.*)"]
+        }
+        date {
+                match => ["timestamp_mysql", "UNIX"]
+                target => "@timestamp"
+        }
+    }
+```
