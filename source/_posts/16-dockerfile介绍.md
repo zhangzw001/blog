@@ -10,7 +10,7 @@ categories:
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font  face="黑体" size=5> Dockerfile </font>
 </center>
 
@@ -34,7 +34,7 @@ categories:
 - ENTRYPOINT  设置容器启动时运行的命令。Dockerfile 中可以有多个 ENTRYPOINT 指令，但只有最后一个生效。CMD 或 docker run 之后的参数会被当做参数传递给 ENTRYPOINT，这个是与CMD的区别。
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font  face="黑体" size=5> 容器的原理 </font>
 </center>
 
@@ -49,7 +49,7 @@ categories:
 查看Docker 官方文档[https://docs.docker.com/storage/storagedriver/](https://docs.docker.com/storage/storagedriver/)进行学习。
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font  face="黑体" size=5> 每条指令都创建一个镜像层，会增加镜像的大小 </font>
 </center>
 
@@ -143,7 +143,7 @@ busybox                 latest              19485c79a9bb        5 weeks ago     
 ```
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font face="黑体" size=5> 一些小的镜像 </font>
 </center>
 
@@ -161,7 +161,7 @@ CMD ["/bin/sh"]
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font face="黑体" size=5> 注意事项 </font>
 </center>
 

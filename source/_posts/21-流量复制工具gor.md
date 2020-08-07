@@ -13,7 +13,7 @@ Gor 是一款go语言实现的简单的http流量复制工具，它的主要目�
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font color="blue" face="黑体" size=5> 流量复制工具 </font>
 </center>
 

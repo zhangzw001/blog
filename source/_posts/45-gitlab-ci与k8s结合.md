@@ -34,7 +34,7 @@ categories:
 ```
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### helm2.16安装
@@ -53,11 +53,11 @@ helm init --upgrade -i registry.cn-hangzhou.aliyuncs.com/google_containers/tille
 ```
 
 
-![](http://zhangzw001.github.io/images/45/02.png)
+![](//zhangzw001.github.io/images/45/02.png)
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
@@ -111,7 +111,7 @@ helm delete --purge gitlab-runner
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
@@ -145,7 +145,7 @@ bash-5.0$
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
@@ -207,7 +207,7 @@ xxxxxxtoken值xxxx
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
@@ -235,12 +235,12 @@ deploy:
 
 ```
 
-![](http://zhangzw001.github.io/images/45/03.png)
+![](//zhangzw001.github.io/images/45/03.png)
 
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
@@ -463,7 +463,7 @@ spec:
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
@@ -506,7 +506,7 @@ cloneUrl: http://gitlab.zhangzw.com
 
 > 但是这里诡异的是, 我三个步骤,前两个都是正常, 第三个一直是报错connection refused, 但是我重试了三遍又正常了, 这么不稳定的吗?
 
-![](http://zhangzw001.github.io/images/45/01.png)
+![](//zhangzw001.github.io/images/45/01.png)
 
 > 看日志错误有点像是这么回事, 我的nginx反向代理了gitlab.zhangzw.com proxy_pass的是ip:10080, 而日志中看起来报错提示是链接到ip:80
 

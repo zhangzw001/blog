@@ -26,7 +26,7 @@ categories:
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
@@ -150,7 +150,7 @@ curl https://127.0.0.1:2379/metrics --cacert /etc/kubernetes/pki/etcd/ca.crt --c
 ---
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
@@ -721,7 +721,7 @@ subjects:
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
@@ -1408,7 +1408,7 @@ kubectl get secret admin-token-h4zz4 -n kube-system -o json|jq -r ".data.token"|
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 

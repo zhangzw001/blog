@@ -15,7 +15,7 @@ shell中 gt 和 > 的一些相关问题介绍和测试
 > 以下是bash的测试, 注意如果你是zsh可能会不同喔😯
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font  face="黑体" size=4> [[]] , [] 和test比较 </font>
 </center>
 
@@ -46,7 +46,7 @@ shell中 gt 和 > 的一些相关问题介绍和测试
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font  face="黑体" size=4> 纯数字比较 </font>
 </center>
 
@@ -68,7 +68,7 @@ shell中 gt 和 > 的一些相关问题介绍和测试
 ```
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font  face="黑体" size=4> 字符串比较 </font>
 </center>
 

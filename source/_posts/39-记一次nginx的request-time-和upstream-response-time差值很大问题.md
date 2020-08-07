@@ -14,7 +14,7 @@ categories:
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 首先问题描述我们发现后端响应时间没问题, 从前端和后端的日志都发现响应状态是200, 说明请求都是正常的

@@ -14,7 +14,7 @@ top: 20
 <!-- more -->
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### Linux问题: 升级内核
@@ -74,7 +74,7 @@ listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### linux问题: 禁ping
@@ -92,7 +92,7 @@ net.ipv4.icmp_echo_ignore_all=1
 ---
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### linux问题: 文件锁问题
@@ -108,7 +108,7 @@ net.ipv4.icmp_echo_ignore_all=1
 
 ---
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### linux问题: 内存释放问题
@@ -123,7 +123,7 @@ net.ipv4.icmp_echo_ignore_all=1
 ---
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### nginx问题: 静态文件分离
@@ -147,7 +147,7 @@ net.ipv4.icmp_echo_ignore_all=1
 
 ---
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### nginx问题: root 和alias
@@ -175,7 +175,7 @@ location /a/ {
 
 ---
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### nginx问题: 隐藏版本信息
@@ -187,7 +187,7 @@ Context:  http, server, location
 
 ---
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### nginx问题: 日志出现encode内容如何查看
@@ -198,7 +198,7 @@ Context:  http, server, location
 
 ---
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### nginx问题: default配置未设置
@@ -239,7 +239,7 @@ if ($host != a.example.com) {
 ---
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 

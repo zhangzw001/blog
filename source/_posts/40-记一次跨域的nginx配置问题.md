@@ -12,7 +12,7 @@ nginx跨域的Access-Control-Allow-Origin的配置 和多域名配置的问题
 <!--more-->
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font color="blue" face="黑体" size=5> 简单配置 </font>
 </center>
 

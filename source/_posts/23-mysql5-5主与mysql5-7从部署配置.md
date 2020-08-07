@@ -17,7 +17,7 @@ categories:
 参考教程: [mysql从5.5直接升级到5.7](https://www.cnblogs.com/qq931399960/p/10243758.html)
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font color="blue" face="黑体" size=5> mysql5.5升级到mysql5.7 </font>
 </center>
 
@@ -41,7 +41,7 @@ categories:
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font color="blue" face="黑体" size=5> 配置mysql5.5主与mysql5.7从 </font>
 </center>
 
@@ -68,7 +68,7 @@ create table tutorials_tbl(
 ```
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font color="blue" face="黑体" size=5> 修改mysql5.7库名 </font>
 </center>
 
@@ -98,7 +98,7 @@ done
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font color="blue" face="黑体" size=5> 一些配置问题 </font>
 </center>
 
@@ -140,7 +140,7 @@ $bindir/mysqld_safe --defaults-file=/etc/my57.cnf --pid-file="$mysqld_pid_file_p
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 <font color="blue" face="黑体" size=5> 一些info信息 </font>
 </center>
 

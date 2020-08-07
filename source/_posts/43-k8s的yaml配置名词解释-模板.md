@@ -13,7 +13,7 @@ categories:
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 > 原文: [K8s Deployment YAML 名词解释](https://zhuanlan.zhihu.com/p/100237194)

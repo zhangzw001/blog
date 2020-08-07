@@ -11,7 +11,7 @@ categories:
 ---
 简单记录kubeadm方式安装k8s1.16.4高可用集群,haproxy通过keepalived绑定的vip来负载均衡到三台master, 其中keepalived则反之单机故障,haproxy则让三台master可以同时提供服务.
 
-![](http://zhangzw001.github.io/images/42/01.png)
+![](//zhangzw001.github.io/images/42/01.png)
 
 <!--more -->
 
@@ -23,7 +23,7 @@ categories:
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### 一、 安装准备
@@ -124,7 +124,7 @@ gpgkey=URL 数字签名的公钥文件所在位置，如果gpgcheck值为1，此
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
@@ -183,7 +183,7 @@ systemctl enable docker
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
@@ -318,7 +318,7 @@ systemctl enable keepalived
 ```
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### 四、 haproxy安装
@@ -419,7 +419,7 @@ netstat -lnptu|grep haproxy
   ```
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### 五、 k8s安装
@@ -494,7 +494,7 @@ k8s.gcr.io/pause                           3.1                  da86e6ba6ca1    
   ```
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### 六、初始化master
@@ -580,7 +580,7 @@ daemonset.apps/kube-flannel-ds-s390x created
 ```
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 ### 七、control plane节点加入集群
@@ -704,9 +704,9 @@ master02.k8s.io   Ready      master   12m   v1.16.4
 master03.k8s.io   Ready      master   11m   v1.16.4
 ```
 
-  ![](http://zhangzw001.github.io/images/42/02.png)
+  ![](//zhangzw001.github.io/images/42/02.png)
 
-  ![](http://zhangzw001.github.io/images/42/03.png)
+  ![](//zhangzw001.github.io/images/42/03.png)
 
 
 - 7.6 导入集群到rancher
@@ -715,5 +715,5 @@ master03.k8s.io   Ready      master   11m   v1.16.4
 curl --insecure -sfL https://rancher-dev.xxx.com/v3/import/68nzw8nlch92gshktcx2v5d8xvlvlk57nfgffz9jr7hxwfkwcbbtpz.yaml | kubectl apply -f -
 ```
 
-  ![](http://zhangzw001.github.io/images/42/04.png)
+  ![](//zhangzw001.github.io/images/42/04.png)
 

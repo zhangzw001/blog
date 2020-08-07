@@ -15,7 +15,7 @@ dell PowerEdge 1950 服务器两块盘做raid1的linux操作系统, 开机后无
 
 
 <center>
-<img src="http://zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
 
