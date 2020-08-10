@@ -7,7 +7,6 @@ tags:
 categories:
   - [技术文档]
   - [mysql]
-top: 10
 ---
 简单记录一些mysql知识点
 <!-- more -->

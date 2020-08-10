@@ -9,9 +9,9 @@ categories:
   - [有趣]
   - [博客,美化]
 description: "介绍一些hexo常用的配置和优化"
-top: 10
 ---
-
+首次搭建hexo博客系统, 简单记录一下一些用法和注意事项
+<!--more-->
 ### 1 安装hexo
 - 1.1 在mac上安装
 ```
