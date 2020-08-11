@@ -25,3 +25,16 @@ categories:
 
 - 1.3 将文本内容复制到剪切板
 `pbcopy < a.txt`
+
+<center>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<font color="blue" face="黑体" size=5> 2. 其他 </font>
+</center>
+
+- 1.4 前进的快捷键
+```
+1. sublime3
+command + shift + z   (比后退 command + z 多一个shift)
+或者
+command + y
+```

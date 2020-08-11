@@ -37,7 +37,7 @@
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="http://zhangzw001.github.io/images/dockerniu.jpeg">
-<meta property="og:updated_time" content="2020-08-07T06:57:51.000Z">
+<meta property="og:updated_time" content="2020-08-11T05:48:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="k8s升级(1.10-&gt;1.15)">
 <meta name="twitter:description" content="k8s升级一般不能跨版本升级, 所以这里间断介绍升级过程, 每次升级一个大版本">
@@ -520,10 +520,10 @@ height:50vh;
 <p> 这里之前是2.1.9版本, 更新为stable(2.4.3) ,我这里rancher只是用导入方式,rancher宕机不影响k8s集群</p>
 </blockquote>
 <ol>
-<li>首先将swarm启动的rancher停用:<br>docker service rm rancher_rancher</li>
-<li>其次将data目录备份<br>cp -ra /data/rancher /data/rancher_2.1.9_2020-05-20_bak</li>
-<li>修改docker-compose.yml重新启动<br>docker stack deploy -c docker-compose.yml rancher</li>
-<li>查看日志<br>docker logs -f $(docker ps|grep rancher_rancher|awk ‘{print $1}’)</li>
+<li>首先将swarm启动的rancher停用:<br><code>docker service rm rancher_rancher</code></li>
+<li>其次将data目录备份<br><code>cp -ra /data/rancher /data/rancher_2.1.9_2020-05-20_bak</code></li>
+<li>修改docker-compose.yml重新启动<br><code>docker stack deploy -c docker-compose.yml rancher</code></li>
+<li>查看日志<br><code>docker logs -f $(docker ps|grep rancher_rancher|awk &#39;{print $1}&#39;)</code></li>
 <li>恢复(停止服务,将备份的目录还原重新启动即可)</li>
 </ol>
 <ul>
@@ -561,7 +561,7 @@ height:50vh;
             <p>原文作者：<a href="http://zhangzw001.github.io">zhangzw</a>
             <p>原文链接：<a href="http://zhangzw001.github.io/2020/05/18/48-k8s升级-1-10-1-15/">http://zhangzw001.github.io/2020/05/18/48-k8s升级-1-10-1-15/</a>
             <p>发表日期：<a href="http://zhangzw001.github.io/2020/05/18/48-k8s升级-1-10-1-15/">May 18th 2020, 5:43:27 pm</a>
-            <p>更新日期：<a href="http://zhangzw001.github.io/2020/05/18/48-k8s升级-1-10-1-15/">August 7th 2020, 2:57:51 pm</a>
+            <p>更新日期：<a href="http://zhangzw001.github.io/2020/05/18/48-k8s升级-1-10-1-15/">August 11th 2020, 1:48:03 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     

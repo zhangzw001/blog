@@ -73,8 +73,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-#theme: nextv6
-theme: archer
+theme: nextv6
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -83,7 +82,6 @@ deploy:
 #  repository: git@github.com:zhangzw001/zhangzw001.github.io.git
   repo:
     github: git@github.com:zhangzw001/zhangzw001.github.io.git
-    coding: git@e.coding.net:k1s/blog/blog.git
   branch: master
 
 search:
@@ -114,24 +112,4 @@ symbols_count_time:
 #  verbose: true
 
 #################
-#####archer主题
-jsonContent:
-  meta: true
-  pages: true
-  posts:
-    title: true
-    date: true
-    path: true
-    text: true
-    raw: true
-    content: true
-    slug: false
-    updated: false
-    comments: true
-    link: false
-    permalink: true
-    excerpt: false
-    categories: true
-    tags: true
-#####archer主题
 #################
