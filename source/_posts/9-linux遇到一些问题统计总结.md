@@ -43,6 +43,7 @@ saved_entry=CentOS Linux (5.3.13-1.el7.elrepo.x86_64) 7 (Core)
 > 客户端 telnet x.x.x.x 80
 
 日志如下:
+
 ```
 tcpdump  -n port 80
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
@@ -58,6 +59,7 @@ listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
 那么这里ack 1 是啥呢?  ... 应该就是默认tcpdump 显示成相对值了, 通过-S 参数会显示绝对值
 
 - 执行命令监听: tcpdump -S  -n port 80
+
 ```
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
@@ -78,6 +80,7 @@ listening on enp0s3, link-type EN10MB (Ethernet), capture size 262144 bytes
 </center>
 
 ### linux问题: 禁ping
+
 ```
 # 一次性修改
 echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
@@ -96,6 +99,7 @@ net.ipv4.icmp_echo_ignore_all=1
 </center>
 
 ### linux问题: 文件锁问题
+
 ```
 问题描述: php slowlog 出现session_start() 慢
 问题原因: 我们这边有A 和B 两个二级域名,A 会请求 B, 并且由于测试环境在同一台服务器,公用一个php,所以在发生调用的时候同时写了session,而php的sessions配置是默认的file方式, 这就造成了锁的问题
@@ -112,6 +116,7 @@ net.ipv4.icmp_echo_ignore_all=1
 </center>
 
 ### linux问题: 内存释放问题
+
 ```
 问题描述: 开发这边写了个统计脚本, 占用49G内存, 从日志发现脚本已经全部执行完成, 但是php脚本依然存在
 问题原因: 通过 strace -p pid 观察进程, 发现是持续性的做内存释放操作 munmap(0x7f6db77ad000, 266240)          = 0
@@ -125,6 +130,32 @@ net.ipv4.icmp_echo_ignore_all=1
 <center>
 <img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
+
+### nginx if 条件 && 的实现
+
+- 1 允许所有人访问 a.php|b.php|c.php|d.php|e.php 
+- 2 仅允许127.0.0.1|172.16.0.2 ip可以访问 aa.php|bb.php 
+
+```
+set $flag "allow";
+# 以下php 所有人可以访问
+if ( $fastcgi_script_name ~ (a.php|b.php|c.php|d.php|e.php) ) {
+        set $flag "allow_php_ip";
+}
+
+# 以下php 仅固定ip可以访问
+if ($fastcgi_script_name ~ (aa.php|bb.php)) {
+        set $flag "${flag}_php";
+}
+
+if ( $proxy_add_x_forwarded_for ~ (127.0.0.1|172.16.0.2)) {
+        set $flag "${flag}_ip";
+}
+# 写包含是 $flag 可能为 "allow_php_ip_ip" (在允许的ip服务器(127.0.0.1)上访问 /a.php)
+if ( $flag !~ "allow_php_ip" ) {
+        return 403;
+}
+```
 
 ### nginx问题: 静态文件分离
 
@@ -155,6 +186,7 @@ net.ipv4.icmp_echo_ignore_all=1
 文件都映射成为文件夹，导致文件映射失败的情况出现；
 
 - root的例子
+
 ```
 location /a/ {
 	root /lumen/public;
@@ -163,6 +195,7 @@ location /a/ {
 ```
 
 - alias的例子
+
 ```
 # 注意这里目录最后加上/
 location /a/ {
@@ -179,6 +212,7 @@ location /a/ {
 </center>
 
 ### nginx问题: 隐藏版本信息
+
 ```
 Syntax:  server_tokens on | off | build | string;
 Default:  server_tokens on;
@@ -191,6 +225,7 @@ Context:  http, server, location
 </center>
 
 ### nginx问题: 日志出现encode内容如何查看
+
 ```
 # python2 执行decode
 >>> print "\x22content\x22\x0D\x0A\x0D\x0A\xE8\x8A\x8A\xE8\x8A\x8A\xE8\xBF\x98\xE6\x80\x95\xE5\xA6\x9E\xE5\xA6\x9E\xE4\xB8\x8D\xE8\x80\x81\xE5\xAE\x9E\xEF\xBC\x8C\xE7\x89\xB9\xE5\x9C\xB0\xE8\xBF\x87\xE6\x9D\xA5\xE8\xA7\x86\xE5\xAF\x9F\xE4\xB8\x80\xE4\xB8\x8B\x0D\x0A".decode('utf-8')
@@ -245,6 +280,7 @@ if ($host != a.example.com) {
 
 ### nginx1.11以前trace_id 生成问题
 - 如果是前端(upstream)
+
 ```
 log_format  server_name_main '"$request_trace_id" [ $host $request_time ] ' '[ $upstream_addr $upstream_response_time ] ' '$status ' '$remote_addr - $remote_user [$time_local] "$request" '  '$body_bytes_sent "$http_referer" '
                      '"$http_user_agent" "$http_x_forwarded_for" "$bytes_sent"'    '{$request_body}' ;
@@ -267,6 +303,7 @@ server {
 ```
 
 - 如果是后端节点
+
 ```
 # 一定要写到server段, 否则后端可能报404错误
 server {
@@ -291,6 +328,7 @@ server {
 
 
 ### 修改swap
+
 ```
 dd if=/dev/zero of=/data/swapfilenew bs=4096 count=4096000
 
