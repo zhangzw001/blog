@@ -16,7 +16,7 @@ categories:
 
 ---
 ###命令汇总
-#### 1. 生成字符串
+####  生成字符串
 ```
 tr -dc A-Za-z0-9_@$\%\^\/\+ < /dev/urandom|head -c 16|xargs
 
@@ -39,4 +39,13 @@ do
   *) ;;
  case
 done
+```
+
+### #%处理变量
+```
+tmpDir=/dir1/dir2/dir3/my.file.txt
+${tmpDir#*/}	-> dir1/dir2/dir3/my.file.txt	(左)删除从左往右第一个  /以及左边的所有内容
+${tmpDir##*/}	-> my.file.txt			(左)删除从左往右最后一个/以及左边的所有内容
+${tmpDir%/*}	-> /dir1/dir2/dir3/		(右)删除从右往左第一个  /以及右边的所有内容
+${tmpDir%%/*}	-> 空				(右)删除从右往左最后一个/以及右边的所有内容
 ```
