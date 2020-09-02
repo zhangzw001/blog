@@ -9,7 +9,7 @@ categories:
   - [k8s]
   - [gitlab-ci]
 ---
-本文减少如何通过gitlab-ci整合k8s实现流水线部署
+本文介绍如何通过gitlab-ci整合k8s实现流水线部署
 
 <!--more -->
 
@@ -35,6 +35,198 @@ categories:
 
 <center>
 <img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<font color="blue" face="黑体" size=5> 安装方法一 </font>
+</center>
+
+### k8s yaml直接部署
+#### gitlab-ci-token-secret.yaml
+
+> 具体token值 请查看 gitlab的admin页面-> Overview -> Runners 查看, 然后base64加密
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitlab-ci-token
+  namespace: kube-ops
+  labels:
+    app: gitlab-ci-runner
+data:
+  GITLAB_CI_TOKEN: $(echo "gitlab_ci_token"|base64)
+```
+
+
+#### runner-configmap.yaml
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: gitlab-ci-runner
+  name: gitlab-ci-runner-cm
+  namespace: kube-ops
+data:
+  REGISTER_NON_INTERACTIVE: "true"
+  REGISTER_LOCKED: "false"
+  METRICS_SERVER: "0.0.0.0:9100"
+  CI_SERVER_URL: "http://gitlab.xxx.com/ci"
+  RUNNER_REQUEST_CONCURRENCY: "4"
+  RUNNER_EXECUTOR: "kubernetes"
+  KUBERNETES_NAMESPACE: "kube-ops"
+  KUBERNETES_PRIVILEGED: "true"
+  KUBERNETES_CPU_LIMIT: "1"
+  KUBERNETES_MEMORY_LIMIT: "1Gi"
+  KUBERNETES_SERVICE_CPU_LIMIT: "1"
+  KUBERNETES_SERVICE_MEMORY_LIMIT: "1Gi"
+  KUBERNETES_HELPER_CPU_LIMIT: "500m"
+  KUBERNETES_HELPER_MEMORY_LIMIT: "100Mi"
+  KUBERNETES_PULL_POLICY: "if-not-present"
+  KUBERNETES_TERMINATIONGRACEPERIODSECONDS: "10"
+  KUBERNETES_POLL_INTERVAL: "5"
+  KUBERNETES_POLL_TIMEOUT: "360"
+```
+
+#### runner-rbac.yaml
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitlab-ci
+  namespace: kube-ops
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gitlab-ci
+  namespace: kube-ops
+rules:
+  - apiGroups: [""]
+    resources: ["*"]
+    verbs: ["*"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: gitlab-ci
+  namespace: kube-ops
+subjects:
+  - kind: ServiceAccount
+    name: gitlab-ci
+    namespace: kube-ops
+roleRef:
+  kind: Role
+  name: gitlab-ci
+  apiGroup: rbac.authorization.k8s.io
+```
+
+#### runner-scripts-cm.yaml
+
+```yaml
+apiVersion: v1
+data:
+  run.sh: |
+    #!/bin/bash
+    unregister() {
+        kill %1
+        echo "Unregistering runner ${RUNNER_NAME} ..."
+        /usr/bin/gitlab-ci-multi-runner unregister -t "$(/usr/bin/gitlab-ci-multi-runner list 2>&1 | tail -n1 | awk '{print $4}' | cut -d'=' -f2)" -n ${RUNNER_NAME}
+        exit $?
+    }
+    trap 'unregister' EXIT HUP INT QUIT PIPE TERM
+    echo "Registering runner ${RUNNER_NAME} ..."
+    /usr/bin/gitlab-ci-multi-runner register -r ${GITLAB_CI_TOKEN}
+    sed -i 's/^concurrent.*/concurrent = '"${RUNNER_REQUEST_CONCURRENCY}"'/' /home/gitlab-runner/.gitlab-runner/config.toml
+    echo "Starting runner ${RUNNER_NAME} ..."
+    /usr/bin/gitlab-ci-multi-runner run -n ${RUNNER_NAME} &
+    wait
+kind: ConfigMap
+metadata:
+  labels:
+    app: gitlab-ci-runner
+  name: gitlab-ci-runner-scripts
+  namespace: kube-ops
+```
+
+
+#### runner-statefulset.yaml
+
+```yaml
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: gitlab-ci-runner
+  namespace: kube-ops
+  labels:
+    app: gitlab-ci-runner
+spec:
+  updateStrategy:
+    type: RollingUpdate
+  replicas: 2
+  serviceName: gitlab-ci-runner
+  template:
+    metadata:
+      labels:
+        app: gitlab-ci-runner
+    spec:
+      volumes:
+      - name: gitlab-ci-runner-scripts
+        projected:
+          sources:
+          - configMap:
+              name: gitlab-ci-runner-scripts
+              items:
+              - key: run.sh
+                path: run.sh
+                mode: 0755
+      serviceAccountName: gitlab-ci
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        supplementalGroups: [999]
+      containers:
+      - image: gitlab/gitlab-runner:latest
+        name: gitlab-ci-runner
+        resources:
+          requests:
+            cpu: "50m"
+          limits:
+            cpu: "800m"
+        command:
+        - /scripts/run.sh
+        envFrom:
+        - configMapRef:
+            name: gitlab-ci-runner-cm
+        - secretRef:
+            name: gitlab-ci-token
+        env:
+        - name: RUNNER_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        ports:
+        - containerPort: 9100
+          name: http-metrics
+          protocol: TCP
+        volumeMounts:
+        - name: gitlab-ci-runner-scripts
+          mountPath: "/scripts"
+          readOnly: true
+      restartPolicy: Always
+```
+
+#### 部署和检查
+
+```yaml 
+kubectl apply -f ../
+kubectl get all -n kube-ops
+```
+
+
+<center>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+<font color="blue" face="黑体" size=5> 安装方法二 </font>
 </center>
 
 ### helm2.16安装
@@ -108,11 +300,6 @@ helm install  --name gitlab-runner .
 helm upgrade gitlab-runner .
 helm delete --purge gitlab-runner
 ```
-
-
-<center>
-<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
-</center>
 
 
 
