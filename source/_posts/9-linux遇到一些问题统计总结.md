@@ -16,6 +16,25 @@ top: 20
 <center>
 <img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
+### Linux问题: 2020-09-02 一次dnsmasq迁移问题
+
+> 网卡配置如下
+```
+DEVICE=em1
+HWADDR=x
+TYPE=Ethernet
+UUID=x
+ONBOOT=yes
+NM_CONTROLLED=yes
+BOOTPROTO=static
+IPADDR0=172.16.76.100
+PREFIX0=24
+GATEWAY=172.16.76.1
+DNS1=172.16.76.100
+DNS2=172.16.76.101
+```
+> 这里有个大问题, 由于本身就是dns服务器, 但配置的DNS1居然是本机, 这导致service network restart 的时候会去修改 /etc/resolv.conf 的配置为
+
 
 ### Linux问题: 升级内核
 
