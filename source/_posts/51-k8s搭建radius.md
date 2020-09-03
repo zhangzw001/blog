@@ -1106,7 +1106,7 @@ radtest xxx xxx 127.0.0.1 0 testing123
 
 #### 通过radius.xxx.com 管理页面测试连通性
 > 这是认证通过的
-![](//zhangzw001.github.io/images/51/img22.jpg)
+![](//zhangzw001.github.io/images/51/img2.jpg)
 
 > 这是被rejected
 ![](//zhangzw001.github.io/images/51/img.jpg)

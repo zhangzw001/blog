@@ -45,6 +45,10 @@ DNS2=223.5.5.5
 DNS3=114.114.114.114
 ```
 
+---
+<center>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
 
 ### Linux问题: 升级内核
 
@@ -65,6 +69,11 @@ grub2-set-default 'CentOS Linux (5.3.13-1.el7.elrepo.x86_64) 7 (Core)'
 # grub2-editenv list
 saved_entry=CentOS Linux (5.3.13-1.el7.elrepo.x86_64) 7 (Core)
 ```
+
+---
+<center>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
 
 ### linux问题: tcpdump抓包tcp第三次握手ack为1
 - 执行命令监听: tcpdump -n port 80 (想要详细信息加 -vv)
@@ -186,6 +195,11 @@ if ( $flag !~ "allow_php_ip" ) {
 }
 ```
 
+---
+<center>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
+
 ### nginx问题: 静态文件分离
 
 对于一般的nginx+php的方式, 我们php采用nobody用户,而代码/lumen采用web-www用户, 这样的好处是页面访问到/lumen时是nobody用户, 是无法修改代码的
@@ -301,7 +315,6 @@ if ($host != a.example.com) {
 
 
 ---
-
 <center>
 <img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
@@ -317,10 +330,11 @@ log_format  server_name_main '"$request_trace_id" [ $host $request_time ] ' '[ $
 
 server {
         set $request_trace_id $pid$connection$bytes_sent$msec;
-            if ( $http_x_request_id != "" ){
-                        set $request_trace_id $http_x_request_id;
-                }
+        if ( $http_x_request_id != "" ){
+                set $request_trace_id $http_x_request_id;
+        }
         add_header  Bq_F_Traceid $request_trace_id;
+
 	# 一定要写到location中, 因为proxy_pass
 	location / {
 
@@ -338,22 +352,24 @@ server {
 server {
 	listen 80;
     	server_name  openapi-community-alpha.zhangzw.com ;
-        set $request_trace_id trace-id-$pid-$connection-$bytes_sent-$msec;
-                # 如果请求头中已有该参数,则获取即可;如果没有,则使用$request_id进行填充
-                set $temp_request_id $http_x_request_id;
-                if ($temp_request_id = "") {
-                    set $temp_request_id $request_trace_id;
-                }
-                # 屏蔽掉原来的请求头参数
-                # proxy_set_header  x_request_id        "";
-                proxy_set_header  X-Request-Id "";
-                # 设置向后转发的请求头参数
-                proxy_set_header  X-Request-Id        $temp_request_id;
+
+        set $request_trace_id $pid$connection$bytes_sent$msec;
+        if ( $http_x_request_id != "" ){
+                set $request_trace_id $http_x_request_id;
+        }
+        add_header  Bq_X_Traceid $request_trace_id;
+
 	location / {
 		try_files $uri $uri/ /index.php?$query_string;
 	}
 }
 ```
+
+
+---
+<center>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
+</center>
 
 
 ### 修改swap
