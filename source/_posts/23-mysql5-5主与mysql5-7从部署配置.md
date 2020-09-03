@@ -72,7 +72,9 @@ create table tutorials_tbl(
 <font color="blue" face="黑体" size=5> 修改mysql5.7库名 </font>
 </center>
 
-### 没问题之后,我们需要将mysql5.7的mydatabase库改成mydatabasenew库名, 断开mysql5.5 和mysql5.7主从同步(最好设置mysql5.5只读,防止数据差异), 在mysql5.7上执行改库名, 以下有触发器的表会修改失败
+### 修改库名
+
+> 没问题之后,我们需要将mysql5.7的mydatabase库改成mydatabasenew库名, 断开mysql5.5 和mysql5.7主从同步(最好设置mysql5.5只读,防止数据差异), 在mysql5.7上执行改库名, 以下有触发器的表会修改失败
 
 > 测试执行时间在15s左右
 
@@ -93,8 +95,6 @@ done
 
 
 ### 此时在配置新的mysql5.7的主从机器
-```
-```
 
 
 <center>

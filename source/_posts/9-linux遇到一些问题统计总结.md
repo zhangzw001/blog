@@ -1,5 +1,5 @@
 ---
-title: linux遇到一些问题统计总结
+title: linux遇到一些问题统计
 copyright: true
 date: 2019-09-26 17:33:38
 tags:
@@ -16,6 +16,8 @@ top: 20
 <center>
 <img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
+
+
 ### Linux问题: 2020-09-02 一次dnsmasq迁移问题
 
 > 网卡配置如下
@@ -33,7 +35,15 @@ GATEWAY=172.16.76.1
 DNS1=172.16.76.100
 DNS2=172.16.76.101
 ```
-> 这里有个大问题, 由于本身就是dns服务器, 但配置的DNS1居然是本机, 这导致service network restart 的时候会去修改 /etc/resolv.conf 的配置为
+> 这里有个大问题, 由于本身就是dns服务器, 但配置的DNS1居然是本机, 这导致service network restart 的时候会去修改 /etc/resolv.conf 的配置为 DNS1 和DNS2的ip, 此时dns服务器将无法解析外网域名
+
+> 因此正确的配置是
+
+```
+DNS1=119.29.29.29
+DNS2=223.5.5.5
+DNS3=114.114.114.114
+```
 
 
 ### Linux问题: 升级内核
