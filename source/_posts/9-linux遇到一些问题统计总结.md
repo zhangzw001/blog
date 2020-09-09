@@ -17,6 +17,20 @@ top: 20
 <img src="//zhangzw001.github.io/images/dockerniu.jpeg" width = "100" height = "100" style="border: 0"/>
 </center>
 
+### Linux内核问题: 什么是tcp连接队列
+
+> [https://blog.csdn.net/whatday/article/details/107740002](https://blog.csdn.net/whatday/article/details/107740002)
+
+```
+1.	net.ipv4.tcp_max_syn_backlog:		半连接队列,保存SYN_RECV状态的连接(tcp握手第一次完成后, server端会将连接添加到sync query队列 )
+2.	min(net.core.somaxconn,backlog): 	全连接队列,保存ESTABLISHED状态的连接(tcp握手第三次完成周, server端会将连接添加到accept query队列)
+
+通过netstat -s |grep overflowed 查看 是否是全连接队列满了
+
+另外如果全连接满了处理方式是 直接丢弃
+cat cat /proc/sys/net/ipv4/tcp_abort_on_overflow
+0
+```
 
 ### Linux问题: 2020-09-02 一次dnsmasq迁移问题
 
