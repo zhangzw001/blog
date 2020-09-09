@@ -24,8 +24,8 @@ top: 20
 - [https://blog.huoding.com/2014/08/13/367](https://blog.huoding.com/2014/08/13/367)
 
 ```shell
-1.	net.ipv4.tcp_max_syn_backlog:		半连接队列,保存SYN_RECV状态的连接(tcp握手第一次完成后, server端会将连接添加到sync query队列 )
-2.	min(net.core.somaxconn,backlog): 	全连接队列,保存ESTABLISHED状态的连接(tcp握手第三次完成周, server端会将连接添加到accept query队列)
+1.	net.ipv4.tcp_max_syn_backlog:		半连接队列,保存SYN_RECV状态的连接(tcp握手第一次完成后, server端会将连接添加到sync queue队列 )
+2.	min(net.core.somaxconn,backlog): 	全连接队列,保存ESTABLISHED状态的连接(tcp握手第三次完成周, server端会将连接添加到accept queue队列)
 
 通过netstat -s |grep overflowed 查看 是否是全连接队列满了
 
