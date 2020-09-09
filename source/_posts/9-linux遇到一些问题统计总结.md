@@ -19,17 +19,27 @@ top: 20
 
 ### Linux内核问题: 什么是tcp连接队列
 
-> [https://blog.csdn.net/whatday/article/details/107740002](https://blog.csdn.net/whatday/article/details/107740002)
+- [https://blog.csdn.net/whatday/article/details/107740002](https://blog.csdn.net/whatday/article/details/107740002)
+- [http://jm.taobao.org/2017/05/25/525-1/](http://jm.taobao.org/2017/05/25/525-1/)
+- [https://blog.huoding.com/2014/08/13/367](https://blog.huoding.com/2014/08/13/367)
 
-```
+```shell
 1.	net.ipv4.tcp_max_syn_backlog:		半连接队列,保存SYN_RECV状态的连接(tcp握手第一次完成后, server端会将连接添加到sync query队列 )
 2.	min(net.core.somaxconn,backlog): 	全连接队列,保存ESTABLISHED状态的连接(tcp握手第三次完成周, server端会将连接添加到accept query队列)
 
 通过netstat -s |grep overflowed 查看 是否是全连接队列满了
 
-另外如果全连接满了处理方式是 直接丢弃
+另外如果全连接满了处理方式是 直接丢弃, 如果修改为1 则表示发送reset包给客户端
 cat cat /proc/sys/net/ipv4/tcp_abort_on_overflow
 0
+
+通过ss -l可以查到到nginx的默认backlog 是511
+ss -l|grep http
+
+通过修改nginx配置增加该值,reload nginx(前提是已经修改了net.core.somaxconn)
+ listen  80 backlog=4096;
+ listen 443 ssl backlog=4096;
+
 ```
 
 ### Linux问题: 2020-09-02 一次dnsmasq迁移问题
