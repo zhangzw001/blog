@@ -382,3 +382,18 @@ categories:
   - [k8s,安装]
   - [技术文档]
 ```
+
+- 12.7 对于自定义的html不想转成hexo的格式(比如一些baidu,google的收录分析工具的验证文件)
+```
+# hexo clean 清理public目录
+
+# hexo d -g 部署和更新, 此时会根据source目录生成html,css,js等文件
+
+# 假如我有一个 source/baidu_verify_xxx.html 文件 不想被更改
+
+# 需要修改_config.yml
+skip_render:
+  -  "*.html"
+
+# 如果非必须在 / 根目录也可以自建目录, skip_render 设置自定义的目录即可
+```

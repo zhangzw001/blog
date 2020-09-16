@@ -28,7 +28,7 @@
 <meta property="og:site_name" content="Zhangzw&#39;s Blog">
 <meta property="og:description" content="介绍一些hexo常用的配置和优化">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-08-07T09:56:00.000Z">
+<meta property="og:updated_time" content="2020-09-16T10:05:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="首次搭建hexo博客系统">
 <meta name="twitter:description" content="介绍一些hexo常用的配置和优化">
@@ -287,7 +287,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.9k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">2k</span>阅读时长: <span class="post-count reading-time">10 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -573,6 +573,9 @@ height:50vh;
 </li>
 <li><p>12.6 文章中多个tag和categories</p>
 <figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">tags:</span></span><br><span class="line">  - k8s</span><br><span class="line">  - k8s安装</span><br><span class="line">categories:</span><br><span class="line">  - [k8s,安装]</span><br><span class="line">  - [技术文档]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>12.7 对于自定义的html不想转成hexo的格式(比如一些baidu,google的收录分析工具的验证文件)</p>
+<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># hexo clean 清理public目录</span></span><br><span class="line"></span><br><span class="line"><span class="meta"># hexo d -g 部署和更新, 此时会根据source目录生成html,css,js等文件</span></span><br><span class="line"></span><br><span class="line"><span class="meta"># 假如我有一个 source/baidu_verify_xxx.html 文件 不想被更改</span></span><br><span class="line"></span><br><span class="line"><span class="meta"># 需要修改_config.yml</span></span><br><span class="line">skip_render:</span><br><span class="line">  -  <span class="string">"*.html"</span></span><br><span class="line"></span><br><span class="line"><span class="meta"># 如果非必须在 / 根目录也可以自建目录, skip_render 设置自定义的目录即可</span></span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
@@ -584,7 +587,7 @@ height:50vh;
             <p>原文作者：<a href="https://blog.k1s.club">zhangzw</a>
             <p>原文链接：<a href="https://blog.k1s.club/2019/09/19/首次搭建hexo博客系统/">https://blog.k1s.club/2019/09/19/首次搭建hexo博客系统/</a>
             <p>发表日期：<a href="https://blog.k1s.club/2019/09/19/首次搭建hexo博客系统/">September 19th 2019, 5:24:53 pm</a>
-            <p>更新日期：<a href="https://blog.k1s.club/2019/09/19/首次搭建hexo博客系统/">August 7th 2020, 5:56:00 pm</a>
+            <p>更新日期：<a href="https://blog.k1s.club/2019/09/19/首次搭建hexo博客系统/">September 16th 2020, 6:05:04 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -1518,9 +1521,22 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 55
+        Total : 56
         </div>
         <!-- search  -->
         
@@ -1533,6 +1549,11 @@ top:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/16</span><a class="archive-post-title" href= "/2020/09/16/55-helm部署metabase简介/" >helm部署metabase简介</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1833,13 +1854,13 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
     
+        <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
+    
         <span class="sidebar-tag-name" data-tags="云原生"><span class="iconfont-archer">&#xe606;</span>云原生</span>
     
         <span class="sidebar-tag-name" data-tags="cloud native"><span class="iconfont-archer">&#xe606;</span>cloud native</span>
     
         <span class="sidebar-tag-name" data-tags="大佬博客"><span class="iconfont-archer">&#xe606;</span>大佬博客</span>
-    
-        <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
     
         <span class="sidebar-tag-name" data-tags="markdown"><span class="iconfont-archer">&#xe606;</span>markdown</span>
     
@@ -1871,11 +1892,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="systemd"><span class="iconfont-archer">&#xe606;</span>systemd</span>
     
+        <span class="sidebar-tag-name" data-tags="raid"><span class="iconfont-archer">&#xe606;</span>raid</span>
+    
         <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
     
         <span class="sidebar-tag-name" data-tags="kubectl"><span class="iconfont-archer">&#xe606;</span>kubectl</span>
-    
-        <span class="sidebar-tag-name" data-tags="raid"><span class="iconfont-archer">&#xe606;</span>raid</span>
     
         <span class="sidebar-tag-name" data-tags="ip"><span class="iconfont-archer">&#xe606;</span>ip</span>
     
@@ -1891,13 +1912,13 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="ssh"><span class="iconfont-archer">&#xe606;</span>ssh</span>
     
+        <span class="sidebar-tag-name" data-tags="go"><span class="iconfont-archer">&#xe606;</span>go</span>
+    
         <span class="sidebar-tag-name" data-tags="ceph"><span class="iconfont-archer">&#xe606;</span>ceph</span>
     
         <span class="sidebar-tag-name" data-tags="cephfs"><span class="iconfont-archer">&#xe606;</span>cephfs</span>
     
         <span class="sidebar-tag-name" data-tags="k8s存储"><span class="iconfont-archer">&#xe606;</span>k8s存储</span>
-    
-        <span class="sidebar-tag-name" data-tags="go"><span class="iconfont-archer">&#xe606;</span>go</span>
     
         <span class="sidebar-tag-name" data-tags="mysql5.7"><span class="iconfont-archer">&#xe606;</span>mysql5.7</span>
     
@@ -1906,6 +1927,10 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="php5"><span class="iconfont-archer">&#xe606;</span>php5</span>
     
         <span class="sidebar-tag-name" data-tags="istio"><span class="iconfont-archer">&#xe606;</span>istio</span>
+    
+        <span class="sidebar-tag-name" data-tags="helm"><span class="iconfont-archer">&#xe606;</span>helm</span>
+    
+        <span class="sidebar-tag-name" data-tags="metabase"><span class="iconfont-archer">&#xe606;</span>metabase</span>
     
         <span class="sidebar-tag-name" data-tags="nfs"><span class="iconfont-archer">&#xe606;</span>nfs</span>
     
@@ -1958,21 +1983,19 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="linux"><span class="iconfont-archer">&#xe60a;</span>linux</span>
     
-        <span class="sidebar-category-name" data-categories="网址"><span class="iconfont-archer">&#xe60a;</span>网址</span>
+        <span class="sidebar-category-name" data-categories="docker"><span class="iconfont-archer">&#xe60a;</span>docker</span>
     
         <span class="sidebar-category-name" data-categories="nginx"><span class="iconfont-archer">&#xe60a;</span>nginx</span>
     
-        <span class="sidebar-category-name" data-categories="docker"><span class="iconfont-archer">&#xe60a;</span>docker</span>
-    
-        <span class="sidebar-category-name" data-categories="mysql"><span class="iconfont-archer">&#xe60a;</span>mysql</span>
+        <span class="sidebar-category-name" data-categories="网址"><span class="iconfont-archer">&#xe60a;</span>网址</span>
     
         <span class="sidebar-category-name" data-categories="markdown"><span class="iconfont-archer">&#xe60a;</span>markdown</span>
+    
+        <span class="sidebar-category-name" data-categories="mysql"><span class="iconfont-archer">&#xe60a;</span>mysql</span>
     
         <span class="sidebar-category-name" data-categories="linux/awk"><span class="iconfont-archer">&#xe60a;</span>linux/awk</span>
     
         <span class="sidebar-category-name" data-categories="linux/shell"><span class="iconfont-archer">&#xe60a;</span>linux/shell</span>
-    
-        <span class="sidebar-category-name" data-categories="网址/大佬博客"><span class="iconfont-archer">&#xe60a;</span>网址/大佬博客</span>
     
         <span class="sidebar-category-name" data-categories="k8s"><span class="iconfont-archer">&#xe60a;</span>k8s</span>
     
@@ -1982,27 +2005,29 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="elk7"><span class="iconfont-archer">&#xe60a;</span>elk7</span>
     
-        <span class="sidebar-category-name" data-categories="docker/Dockerfile"><span class="iconfont-archer">&#xe60a;</span>docker/Dockerfile</span>
+        <span class="sidebar-category-name" data-categories="网址/大佬博客"><span class="iconfont-archer">&#xe60a;</span>网址/大佬博客</span>
     
         <span class="sidebar-category-name" data-categories="k3s"><span class="iconfont-archer">&#xe60a;</span>k3s</span>
     
         <span class="sidebar-category-name" data-categories="linux/systemd"><span class="iconfont-archer">&#xe60a;</span>linux/systemd</span>
     
-        <span class="sidebar-category-name" data-categories="php"><span class="iconfont-archer">&#xe60a;</span>php</span>
+        <span class="sidebar-category-name" data-categories="docker/Dockerfile"><span class="iconfont-archer">&#xe60a;</span>docker/Dockerfile</span>
     
         <span class="sidebar-category-name" data-categories="raid"><span class="iconfont-archer">&#xe60a;</span>raid</span>
     
-        <span class="sidebar-category-name" data-categories="网址/收藏"><span class="iconfont-archer">&#xe60a;</span>网址/收藏</span>
+        <span class="sidebar-category-name" data-categories="php"><span class="iconfont-archer">&#xe60a;</span>php</span>
     
-        <span class="sidebar-category-name" data-categories="mac"><span class="iconfont-archer">&#xe60a;</span>mac</span>
+        <span class="sidebar-category-name" data-categories="网址/收藏"><span class="iconfont-archer">&#xe60a;</span>网址/收藏</span>
     
         <span class="sidebar-category-name" data-categories="网卡"><span class="iconfont-archer">&#xe60a;</span>网卡</span>
     
-        <span class="sidebar-category-name" data-categories="有趣"><span class="iconfont-archer">&#xe60a;</span>有趣</span>
+        <span class="sidebar-category-name" data-categories="mac"><span class="iconfont-archer">&#xe60a;</span>mac</span>
     
         <span class="sidebar-category-name" data-categories="nginx/问题总结"><span class="iconfont-archer">&#xe60a;</span>nginx/问题总结</span>
     
         <span class="sidebar-category-name" data-categories="k8s/mysql"><span class="iconfont-archer">&#xe60a;</span>k8s/mysql</span>
+    
+        <span class="sidebar-category-name" data-categories="有趣"><span class="iconfont-archer">&#xe60a;</span>有趣</span>
     
         <span class="sidebar-category-name" data-categories="流量复制工具/gor"><span class="iconfont-archer">&#xe60a;</span>流量复制工具/gor</span>
     
@@ -2010,11 +2035,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="elk/elasticsearch5"><span class="iconfont-archer">&#xe60a;</span>elk/elasticsearch5</span>
     
+        <span class="sidebar-category-name" data-categories="elk7/filebeat7"><span class="iconfont-archer">&#xe60a;</span>elk7/filebeat7</span>
+    
         <span class="sidebar-category-name" data-categories="go"><span class="iconfont-archer">&#xe60a;</span>go</span>
     
         <span class="sidebar-category-name" data-categories="存储"><span class="iconfont-archer">&#xe60a;</span>存储</span>
-    
-        <span class="sidebar-category-name" data-categories="elk7/filebeat7"><span class="iconfont-archer">&#xe60a;</span>elk7/filebeat7</span>
     
         <span class="sidebar-category-name" data-categories="elk/logstash"><span class="iconfont-archer">&#xe60a;</span>elk/logstash</span>
     
@@ -2036,9 +2061,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="有趣/二次元"><span class="iconfont-archer">&#xe60a;</span>有趣/二次元</span>
     
-        <span class="sidebar-category-name" data-categories="存储/ceph"><span class="iconfont-archer">&#xe60a;</span>存储/ceph</span>
-    
         <span class="sidebar-category-name" data-categories="k8s/elk7"><span class="iconfont-archer">&#xe60a;</span>k8s/elk7</span>
+    
+        <span class="sidebar-category-name" data-categories="存储/ceph"><span class="iconfont-archer">&#xe60a;</span>存储/ceph</span>
     
         <span class="sidebar-category-name" data-categories="博客/美化"><span class="iconfont-archer">&#xe60a;</span>博客/美化</span>
     
