@@ -44,7 +44,7 @@
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
-<meta property="og:updated_time" content="2020-09-03T03:48:01.000Z">
+<meta property="og:updated_time" content="2020-09-09T08:49:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux遇到一些问题统计">
 <meta name="twitter:description" content="记录一些Linux,nginx或其他服务一些问题">
@@ -302,7 +302,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">2k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">2.2k</span>阅读时长: <span class="post-count reading-time">10 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -438,6 +438,12 @@ height:50vh;
 <img src="//zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
 </center>
 
+<h3 id="Linux内核问题-什么是tcp连接队列"><a href="#Linux内核问题-什么是tcp连接队列" class="headerlink" title="Linux内核问题: 什么是tcp连接队列"></a>Linux内核问题: 什么是tcp连接队列</h3><ul>
+<li><a href="https://blog.csdn.net/whatday/article/details/107740002" target="_blank" rel="noopener">https://blog.csdn.net/whatday/article/details/107740002</a></li>
+<li><a href="http://jm.taobao.org/2017/05/25/525-1/" target="_blank" rel="noopener">http://jm.taobao.org/2017/05/25/525-1/</a></li>
+<li><a href="https://blog.huoding.com/2014/08/13/367" target="_blank" rel="noopener">https://blog.huoding.com/2014/08/13/367</a></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1.	net.ipv4.tcp_max_syn_backlog:		半连接队列,保存SYN_RECV状态的连接(tcp握手第一次完成后, server端会将连接添加到sync queue队列 )</span><br><span class="line">2.	min(net.core.somaxconn,backlog): 	全连接队列,保存ESTABLISHED状态的连接(tcp握手第三次完成周, server端会将连接添加到accept queue队列)</span><br><span class="line"></span><br><span class="line">通过netstat -s |grep overflowed 查看 是否是全连接队列满了</span><br><span class="line"></span><br><span class="line">另外如果全连接满了处理方式是 直接丢弃, 如果修改为1 则表示发送reset包给客户端</span><br><span class="line">cat cat /proc/sys/net/ipv4/tcp_abort_on_overflow</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">通过ss -l可以查到到nginx的默认backlog 是511</span><br><span class="line">ss -l|grep http</span><br><span class="line"></span><br><span class="line">通过修改nginx配置增加该值,reload nginx(前提是已经修改了net.core.somaxconn)</span><br><span class="line"> listen  80 backlog=4096;</span><br><span class="line"> listen 443 ssl backlog=4096;</span><br></pre></td></tr></table></figure>
 
 <h3 id="Linux问题-2020-09-02-一次dnsmasq迁移问题"><a href="#Linux问题-2020-09-02-一次dnsmasq迁移问题" class="headerlink" title="Linux问题: 2020-09-02 一次dnsmasq迁移问题"></a>Linux问题: 2020-09-02 一次dnsmasq迁移问题</h3><blockquote>
 <p>网卡配置如下</p>
@@ -601,7 +607,7 @@ height:50vh;
             <p>原文作者：<a href="https://blog.k1s.club">zhangzw</a>
             <p>原文链接：<a href="https://blog.k1s.club/2019/09/26/9-linux遇到一些问题统计总结/">https://blog.k1s.club/2019/09/26/9-linux遇到一些问题统计总结/</a>
             <p>发表日期：<a href="https://blog.k1s.club/2019/09/26/9-linux遇到一些问题统计总结/">September 26th 2019, 5:33:38 pm</a>
-            <p>更新日期：<a href="https://blog.k1s.club/2019/09/26/9-linux遇到一些问题统计总结/">September 3rd 2020, 11:48:01 am</a>
+            <p>更新日期：<a href="https://blog.k1s.club/2019/09/26/9-linux遇到一些问题统计总结/">September 9th 2020, 4:49:04 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -758,7 +764,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux问题-2020-09-02-一次dnsmasq迁移问题"><span class="toc-number">1.</span> <span class="toc-text">Linux问题: 2020-09-02 一次dnsmasq迁移问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux问题-升级内核"><span class="toc-number">2.</span> <span class="toc-text">Linux问题: 升级内核</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-tcpdump抓包tcp第三次握手ack为1"><span class="toc-number">3.</span> <span class="toc-text">linux问题: tcpdump抓包tcp第三次握手ack为1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-禁ping"><span class="toc-number">4.</span> <span class="toc-text">linux问题: 禁ping</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-文件锁问题"><span class="toc-number">5.</span> <span class="toc-text">linux问题: 文件锁问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-内存释放问题"><span class="toc-number">6.</span> <span class="toc-text">linux问题: 内存释放问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-if-条件-amp-amp-的实现"><span class="toc-number">7.</span> <span class="toc-text">nginx if 条件 &amp;&amp; 的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-静态文件分离"><span class="toc-number">8.</span> <span class="toc-text">nginx问题: 静态文件分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-root-和alias"><span class="toc-number">9.</span> <span class="toc-text">nginx问题: root 和alias</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-隐藏版本信息"><span class="toc-number">10.</span> <span class="toc-text">nginx问题: 隐藏版本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-日志出现encode内容如何查看"><span class="toc-number">11.</span> <span class="toc-text">nginx问题: 日志出现encode内容如何查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-default配置未设置"><span class="toc-number">12.</span> <span class="toc-text">nginx问题: default配置未设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx1-11以前trace-id-生成问题"><span class="toc-number">13.</span> <span class="toc-text">nginx1.11以前trace_id 生成问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改swap"><span class="toc-number">14.</span> <span class="toc-text">修改swap</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux内核问题-什么是tcp连接队列"><span class="toc-number">1.</span> <span class="toc-text">Linux内核问题: 什么是tcp连接队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux问题-2020-09-02-一次dnsmasq迁移问题"><span class="toc-number">2.</span> <span class="toc-text">Linux问题: 2020-09-02 一次dnsmasq迁移问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux问题-升级内核"><span class="toc-number">3.</span> <span class="toc-text">Linux问题: 升级内核</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-tcpdump抓包tcp第三次握手ack为1"><span class="toc-number">4.</span> <span class="toc-text">linux问题: tcpdump抓包tcp第三次握手ack为1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-禁ping"><span class="toc-number">5.</span> <span class="toc-text">linux问题: 禁ping</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-文件锁问题"><span class="toc-number">6.</span> <span class="toc-text">linux问题: 文件锁问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-内存释放问题"><span class="toc-number">7.</span> <span class="toc-text">linux问题: 内存释放问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-if-条件-amp-amp-的实现"><span class="toc-number">8.</span> <span class="toc-text">nginx if 条件 &amp;&amp; 的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-静态文件分离"><span class="toc-number">9.</span> <span class="toc-text">nginx问题: 静态文件分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-root-和alias"><span class="toc-number">10.</span> <span class="toc-text">nginx问题: root 和alias</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-隐藏版本信息"><span class="toc-number">11.</span> <span class="toc-text">nginx问题: 隐藏版本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-日志出现encode内容如何查看"><span class="toc-number">12.</span> <span class="toc-text">nginx问题: 日志出现encode内容如何查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-default配置未设置"><span class="toc-number">13.</span> <span class="toc-text">nginx问题: default配置未设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx1-11以前trace-id-生成问题"><span class="toc-number">14.</span> <span class="toc-text">nginx1.11以前trace_id 生成问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改swap"><span class="toc-number">15.</span> <span class="toc-text">修改swap</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1909,8 +1915,6 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="fluentd"><span class="iconfont-archer">&#xe606;</span>fluentd</span>
     
-        <span class="sidebar-tag-name" data-tags="go"><span class="iconfont-archer">&#xe606;</span>go</span>
-    
         <span class="sidebar-tag-name" data-tags="windows"><span class="iconfont-archer">&#xe606;</span>windows</span>
     
         <span class="sidebar-tag-name" data-tags="ssh"><span class="iconfont-archer">&#xe606;</span>ssh</span>
@@ -1920,6 +1924,8 @@ top:50vh;
         <span class="sidebar-tag-name" data-tags="cephfs"><span class="iconfont-archer">&#xe606;</span>cephfs</span>
     
         <span class="sidebar-tag-name" data-tags="k8s存储"><span class="iconfont-archer">&#xe606;</span>k8s存储</span>
+    
+        <span class="sidebar-tag-name" data-tags="go"><span class="iconfont-archer">&#xe606;</span>go</span>
     
         <span class="sidebar-tag-name" data-tags="mysql5.7"><span class="iconfont-archer">&#xe606;</span>mysql5.7</span>
     
@@ -2020,13 +2026,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="网卡"><span class="iconfont-archer">&#xe60a;</span>网卡</span>
     
-        <span class="sidebar-category-name" data-categories="nginx/问题总结"><span class="iconfont-archer">&#xe60a;</span>nginx/问题总结</span>
-    
         <span class="sidebar-category-name" data-categories="有趣"><span class="iconfont-archer">&#xe60a;</span>有趣</span>
     
-        <span class="sidebar-category-name" data-categories="k8s/mysql"><span class="iconfont-archer">&#xe60a;</span>k8s/mysql</span>
+        <span class="sidebar-category-name" data-categories="nginx/问题总结"><span class="iconfont-archer">&#xe60a;</span>nginx/问题总结</span>
     
-        <span class="sidebar-category-name" data-categories="go"><span class="iconfont-archer">&#xe60a;</span>go</span>
+        <span class="sidebar-category-name" data-categories="k8s/mysql"><span class="iconfont-archer">&#xe60a;</span>k8s/mysql</span>
     
         <span class="sidebar-category-name" data-categories="流量复制工具/gor"><span class="iconfont-archer">&#xe60a;</span>流量复制工具/gor</span>
     
@@ -2034,9 +2038,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="elk/elasticsearch5"><span class="iconfont-archer">&#xe60a;</span>elk/elasticsearch5</span>
     
-        <span class="sidebar-category-name" data-categories="elk7/filebeat7"><span class="iconfont-archer">&#xe60a;</span>elk7/filebeat7</span>
+        <span class="sidebar-category-name" data-categories="go"><span class="iconfont-archer">&#xe60a;</span>go</span>
     
         <span class="sidebar-category-name" data-categories="存储"><span class="iconfont-archer">&#xe60a;</span>存储</span>
+    
+        <span class="sidebar-category-name" data-categories="elk7/filebeat7"><span class="iconfont-archer">&#xe60a;</span>elk7/filebeat7</span>
     
         <span class="sidebar-category-name" data-categories="elk/logstash"><span class="iconfont-archer">&#xe60a;</span>elk/logstash</span>
     
@@ -2058,9 +2064,9 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="有趣/二次元"><span class="iconfont-archer">&#xe60a;</span>有趣/二次元</span>
     
-        <span class="sidebar-category-name" data-categories="k8s/elk7"><span class="iconfont-archer">&#xe60a;</span>k8s/elk7</span>
-    
         <span class="sidebar-category-name" data-categories="存储/ceph"><span class="iconfont-archer">&#xe60a;</span>存储/ceph</span>
+    
+        <span class="sidebar-category-name" data-categories="k8s/elk7"><span class="iconfont-archer">&#xe60a;</span>k8s/elk7</span>
     
         <span class="sidebar-category-name" data-categories="博客/美化"><span class="iconfont-archer">&#xe60a;</span>博客/美化</span>
     
