@@ -180,3 +180,38 @@ from openjdk:8-jdk-alpine
 copy --from-mavencache /opt/target/xxx.jar /
 cmd ["java", "-jar", "/xxx.jar"]
 ```
+
+
+### dockerfile中添加中文支持
+
+-  debian8
+
+```
+from php:7.0.13-fpm
+
+run apt-get update \
+    && apt-get install locales \
+    && sed -i '/zh_CN.UTF-8/s/^#//' /etc/locale.gen \
+    && locale-gen \
+    && rm -rf /usr/local/src/* \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge -y --auto-remove $buildDeps
+
+ENV LANG zh_CN.UTF-8
+
+user www-data
+
+CMD [ "/bin/bash", "-ce", "tail -f /dev/stdout" ]
+```
+
+- Ubuntu 18.04.1 LTS
+
+```
+RUN apt-get update \
+    && apt-get install language-pack-zh-hans -y \
+    && rm -rf /usr/local/src/* \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge -y --auto-remove $buildDeps
+
+ENV LANG zh_CN.utf8
+```
