@@ -85,7 +85,6 @@ deploy:
 #  repository: git@github.com:zhangzw001/zhangzw001.github.io.git
   repo:
     github: git@github.com:zhangzw001/zhangzw001.github.io.git
-    coding: git@e.coding.net:k1s/blog/blog.git
   branch: master
 
 search:

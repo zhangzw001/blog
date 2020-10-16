@@ -31,6 +31,7 @@
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
+<meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="https://blog.k1s.club/images/tcp%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%BE.png">
 <meta property="og:image" content="https://blog.k1s.club/images/tcp%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%E5%9B%BE.png">
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
@@ -44,7 +45,7 @@
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
-<meta property="og:updated_time" content="2020-09-09T08:49:04.000Z">
+<meta property="og:updated_time" content="2020-10-12T06:32:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux遇到一些问题统计">
 <meta name="twitter:description" content="记录一些Linux,nginx或其他服务一些问题">
@@ -302,7 +303,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">2.2k</span>阅读时长: <span class="post-count reading-time">10 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">2.9k</span>阅读时长: <span class="post-count reading-time">12 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -433,6 +434,24 @@ height:50vh;
     <article class="article-entry">
         <p>记录一些Linux,nginx或其他服务一些问题</p>
 <a id="more"></a>
+
+<center>
+<img src="//zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
+</center>
+
+<h3 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h3><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">一致性 <span class="comment">(Consistency)</span>：一个写操作返回成功，那么之后的读请求都必须读到这个新数据；如果返回失败，那么所有读操作都不能读到这个数据。所有节点访问同一份最新的数据。</span><br><span class="line">可用性 <span class="comment">(Availability)</span>：对数据更新具备高可用性，请求能够及时处理，不会一直等待，即使出现节点失效。</span><br><span class="line">分区容错性 <span class="comment">(Partition tolerance)</span>：能容忍网络分区，在网络断开的情况下，被分隔的节点仍能正常对外提供服务。</span><br></pre></td></tr></table></figure>
+
+<h3 id="分布式算法"><a href="#分布式算法" class="headerlink" title="分布式算法"></a>分布式算法</h3><h4 id="Basic-paxos-算法"><a href="#Basic-paxos-算法" class="headerlink" title="Basic paxos 算法"></a>Basic paxos 算法</h4><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>. 获取一个Proposal ID <span class="built_in">n</span>，为了保证Proposal ID唯一，可采用时间戳+Server ID生成；</span><br><span class="line"><span class="number">2</span>. Proposer向所有Acceptors广播Prepare(<span class="built_in">n</span>)请求；</span><br><span class="line"><span class="number">3</span>. Acceptor比较<span class="built_in">n</span>和minProposal，如果<span class="built_in">n</span>&gt;minProposal，minProposal=<span class="built_in">n</span>，并且将 acceptedProposal 和 acceptedValue 返回；</span><br><span class="line"><span class="number">4</span>. Proposer接收到过半数回复后，如果发现有acceptedValue返回，将所有回复中acceptedProposal最大的acceptedValue作为本次提案的<span class="built_in">value</span>，否则可以任意决定本次提案的<span class="built_in">value</span>；</span><br><span class="line"><span class="number">5</span>. 到这里可以进入第二阶段，广播Accept (<span class="built_in">n</span>,<span class="built_in">value</span>) 到所有节点；</span><br><span class="line"><span class="number">6</span>. Acceptor比较<span class="built_in">n</span>和minProposal，如果<span class="built_in">n</span>&gt;=minProposal，则acceptedProposal=minProposal=<span class="built_in">n</span>，acceptedValue=<span class="built_in">value</span>，本地持久化后，返回；否则，返回minProposal。</span><br><span class="line"><span class="number">7</span>. 提议者接收到过半数请求后，如果发现有返回值result &gt;<span class="built_in">n</span>，表示有更新的提议，跳转到<span class="number">1</span>；否则<span class="built_in">value</span>达成一致。</span><br></pre></td></tr></table></figure>
+
+<h4 id="Multi-Paxos-算法"><a href="#Multi-Paxos-算法" class="headerlink" title="Multi-Paxos 算法"></a>Multi-Paxos 算法</h4><blockquote>
+<p> 为了解决实际应用中连续多值传输的高效性,改进了Basix Paxos为Multi-Paxos:</p>
+</blockquote>
+<figure class="highlight sqf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>. 针对每一个要确定的值，运行一次Paxos算法实例（Instance），形成决议。每一个Paxos实例使用唯一的Instance ID标识。</span><br><span class="line"><span class="number">2</span>. 在所有Proposers中选举一个<span class="built_in">Leader</span>，由<span class="built_in">Leader</span>唯一地提交Proposal给Acceptors进行表决。这样没有Proposer竞争，解决了活锁问题。在系统中仅有一个<span class="built_in">Leader</span>进行Value提交的情况下，Prepare阶段就可以跳过，从而将两阶段变为一阶段，提高效率。</span><br></pre></td></tr></table></figure>
+
+<h4 id="raft"><a href="#raft" class="headerlink" title="raft"></a>raft</h4><blockquote>
+<p>为了更简便理解和实现,改进了Multi-Paxos 为raft</p>
+</blockquote>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>. 发送的<span class="keyword">log</span>的是连续的, 也就是说raft 的append 操作必须是连续的. 而paxos 可以并发的. (其实这里并发只是append <span class="keyword">log</span> 的并发提高, 应用的<span class="keyword">state</span> machine 还是必须是有序的)</span><br><span class="line"><span class="number">2</span>. 选主是有限制的, 必须有最新, 最全的日志节点才可以当选. 而multi-paxos 是随意的 所以raft 可以看成是简化版本的multi paxos(这里multi-paxos 因为允许并发的写<span class="keyword">log</span>, 因此不存在一个最新, 最全的日志节点, 因此只能这么做. 这样带来的麻烦就是选主以后, 需要将主里面没有的<span class="keyword">log</span> 给补全, 并执行commit 过程)</span><br></pre></td></tr></table></figure>
 
 <center>
 <img src="//zhangzw001.github.io/images/dockerniu.jpeg" width="100" height="100" style="border: 0">
@@ -607,7 +626,7 @@ height:50vh;
             <p>原文作者：<a href="https://blog.k1s.club">zhangzw</a>
             <p>原文链接：<a href="https://blog.k1s.club/2019/09/26/9-linux遇到一些问题统计总结/">https://blog.k1s.club/2019/09/26/9-linux遇到一些问题统计总结/</a>
             <p>发表日期：<a href="https://blog.k1s.club/2019/09/26/9-linux遇到一些问题统计总结/">September 26th 2019, 5:33:38 pm</a>
-            <p>更新日期：<a href="https://blog.k1s.club/2019/09/26/9-linux遇到一些问题统计总结/">September 9th 2020, 4:49:04 pm</a>
+            <p>更新日期：<a href="https://blog.k1s.club/2019/09/26/9-linux遇到一些问题统计总结/">October 12th 2020, 2:32:51 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -764,7 +783,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux内核问题-什么是tcp连接队列"><span class="toc-number">1.</span> <span class="toc-text">Linux内核问题: 什么是tcp连接队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux问题-2020-09-02-一次dnsmasq迁移问题"><span class="toc-number">2.</span> <span class="toc-text">Linux问题: 2020-09-02 一次dnsmasq迁移问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux问题-升级内核"><span class="toc-number">3.</span> <span class="toc-text">Linux问题: 升级内核</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-tcpdump抓包tcp第三次握手ack为1"><span class="toc-number">4.</span> <span class="toc-text">linux问题: tcpdump抓包tcp第三次握手ack为1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-禁ping"><span class="toc-number">5.</span> <span class="toc-text">linux问题: 禁ping</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-文件锁问题"><span class="toc-number">6.</span> <span class="toc-text">linux问题: 文件锁问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-内存释放问题"><span class="toc-number">7.</span> <span class="toc-text">linux问题: 内存释放问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-if-条件-amp-amp-的实现"><span class="toc-number">8.</span> <span class="toc-text">nginx if 条件 &amp;&amp; 的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-静态文件分离"><span class="toc-number">9.</span> <span class="toc-text">nginx问题: 静态文件分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-root-和alias"><span class="toc-number">10.</span> <span class="toc-text">nginx问题: root 和alias</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-隐藏版本信息"><span class="toc-number">11.</span> <span class="toc-text">nginx问题: 隐藏版本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-日志出现encode内容如何查看"><span class="toc-number">12.</span> <span class="toc-text">nginx问题: 日志出现encode内容如何查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-default配置未设置"><span class="toc-number">13.</span> <span class="toc-text">nginx问题: default配置未设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx1-11以前trace-id-生成问题"><span class="toc-number">14.</span> <span class="toc-text">nginx1.11以前trace_id 生成问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改swap"><span class="toc-number">15.</span> <span class="toc-text">修改swap</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CAP"><span class="toc-number">1.</span> <span class="toc-text">CAP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分布式算法"><span class="toc-number">2.</span> <span class="toc-text">分布式算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Basic-paxos-算法"><span class="toc-number">2.1.</span> <span class="toc-text">Basic paxos 算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Multi-Paxos-算法"><span class="toc-number">2.2.</span> <span class="toc-text">Multi-Paxos 算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#raft"><span class="toc-number">2.3.</span> <span class="toc-text">raft</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux内核问题-什么是tcp连接队列"><span class="toc-number">3.</span> <span class="toc-text">Linux内核问题: 什么是tcp连接队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux问题-2020-09-02-一次dnsmasq迁移问题"><span class="toc-number">4.</span> <span class="toc-text">Linux问题: 2020-09-02 一次dnsmasq迁移问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux问题-升级内核"><span class="toc-number">5.</span> <span class="toc-text">Linux问题: 升级内核</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-tcpdump抓包tcp第三次握手ack为1"><span class="toc-number">6.</span> <span class="toc-text">linux问题: tcpdump抓包tcp第三次握手ack为1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-禁ping"><span class="toc-number">7.</span> <span class="toc-text">linux问题: 禁ping</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-文件锁问题"><span class="toc-number">8.</span> <span class="toc-text">linux问题: 文件锁问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#linux问题-内存释放问题"><span class="toc-number">9.</span> <span class="toc-text">linux问题: 内存释放问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-if-条件-amp-amp-的实现"><span class="toc-number">10.</span> <span class="toc-text">nginx if 条件 &amp;&amp; 的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-静态文件分离"><span class="toc-number">11.</span> <span class="toc-text">nginx问题: 静态文件分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-root-和alias"><span class="toc-number">12.</span> <span class="toc-text">nginx问题: root 和alias</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-隐藏版本信息"><span class="toc-number">13.</span> <span class="toc-text">nginx问题: 隐藏版本信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-日志出现encode内容如何查看"><span class="toc-number">14.</span> <span class="toc-text">nginx问题: 日志出现encode内容如何查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx问题-default配置未设置"><span class="toc-number">15.</span> <span class="toc-text">nginx问题: default配置未设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx1-11以前trace-id-生成问题"><span class="toc-number">16.</span> <span class="toc-text">nginx1.11以前trace_id 生成问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改swap"><span class="toc-number">17.</span> <span class="toc-text">修改swap</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1559,9 +1578,39 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 56
+        Total : 58
         </div>
         <!-- search  -->
         
@@ -1574,6 +1623,16 @@ top:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2020/10/15/57-gin记录说明/" >gin记录说明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2020/09/25/56-centos8初体验/" >centos8初体验</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1716,12 +1775,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/25</span><a class="archive-post-title" href= "/2019/11/25/30-k3s集群部署项目报挂载nfs错误/" >k3s集群部署项目报挂载nfs错误</a>
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href= "/2019/11/25/29-k3s集群部署项目报挂载nfs错误/" >29-k3s集群部署项目报挂载nfs错误</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/25</span><a class="archive-post-title" href= "/2019/11/25/29-k3s集群部署项目报挂载nfs错误/" >29-k3s集群部署项目报挂载nfs错误</a>
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href= "/2019/11/25/30-k3s集群部署项目报挂载nfs错误/" >k3s集群部署项目报挂载nfs错误</a>
         </li>
     
     
@@ -1869,15 +1928,17 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
+    
         <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
     
         <span class="sidebar-tag-name" data-tags="php7"><span class="iconfont-archer">&#xe606;</span>php7</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
-    
-        <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
+        <span class="sidebar-tag-name" data-tags="markdown"><span class="iconfont-archer">&#xe606;</span>markdown</span>
     
         <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
     
@@ -1887,8 +1948,6 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="大佬博客"><span class="iconfont-archer">&#xe606;</span>大佬博客</span>
     
-        <span class="sidebar-tag-name" data-tags="markdown"><span class="iconfont-archer">&#xe606;</span>markdown</span>
-    
         <span class="sidebar-tag-name" data-tags="收藏"><span class="iconfont-archer">&#xe606;</span>收藏</span>
     
         <span class="sidebar-tag-name" data-tags="网址"><span class="iconfont-archer">&#xe606;</span>网址</span>
@@ -1897,11 +1956,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="k8s"><span class="iconfont-archer">&#xe606;</span>k8s</span>
     
+        <span class="sidebar-tag-name" data-tags="elasticsearch5"><span class="iconfont-archer">&#xe606;</span>elasticsearch5</span>
+    
         <span class="sidebar-tag-name" data-tags="gor"><span class="iconfont-archer">&#xe606;</span>gor</span>
     
         <span class="sidebar-tag-name" data-tags="http流量复制工具"><span class="iconfont-archer">&#xe606;</span>http流量复制工具</span>
-    
-        <span class="sidebar-tag-name" data-tags="elasticsearch5"><span class="iconfont-archer">&#xe606;</span>elasticsearch5</span>
     
         <span class="sidebar-tag-name" data-tags="filebeat7"><span class="iconfont-archer">&#xe606;</span>filebeat7</span>
     
@@ -1915,11 +1974,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="k3s"><span class="iconfont-archer">&#xe606;</span>k3s</span>
     
-        <span class="sidebar-tag-name" data-tags="systemd"><span class="iconfont-archer">&#xe606;</span>systemd</span>
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
     
         <span class="sidebar-tag-name" data-tags="raid"><span class="iconfont-archer">&#xe606;</span>raid</span>
     
-        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+        <span class="sidebar-tag-name" data-tags="systemd"><span class="iconfont-archer">&#xe606;</span>systemd</span>
     
         <span class="sidebar-tag-name" data-tags="kubectl"><span class="iconfont-archer">&#xe606;</span>kubectl</span>
     
@@ -1945,6 +2004,10 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="k8s存储"><span class="iconfont-archer">&#xe606;</span>k8s存储</span>
     
+        <span class="sidebar-tag-name" data-tags="gin"><span class="iconfont-archer">&#xe606;</span>gin</span>
+    
+        <span class="sidebar-tag-name" data-tags="centos8"><span class="iconfont-archer">&#xe606;</span>centos8</span>
+    
         <span class="sidebar-tag-name" data-tags="mysql5.7"><span class="iconfont-archer">&#xe606;</span>mysql5.7</span>
     
         <span class="sidebar-tag-name" data-tags="elasticsearch7"><span class="iconfont-archer">&#xe606;</span>elasticsearch7</span>
@@ -1957,11 +2020,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="metabase"><span class="iconfont-archer">&#xe606;</span>metabase</span>
     
+        <span class="sidebar-tag-name" data-tags="hexo美化"><span class="iconfont-archer">&#xe606;</span>hexo美化</span>
+    
         <span class="sidebar-tag-name" data-tags="nfs"><span class="iconfont-archer">&#xe606;</span>nfs</span>
     
         <span class="sidebar-tag-name" data-tags="storageclass"><span class="iconfont-archer">&#xe606;</span>storageclass</span>
-    
-        <span class="sidebar-tag-name" data-tags="hexo美化"><span class="iconfont-archer">&#xe606;</span>hexo美化</span>
     
         <span class="sidebar-tag-name" data-tags="gitlab-runner"><span class="iconfont-archer">&#xe606;</span>gitlab-runner</span>
     
@@ -2004,9 +2067,13 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="linux"><span class="iconfont-archer">&#xe60a;</span>linux</span>
+    
         <span class="sidebar-category-name" data-categories="技术文档"><span class="iconfont-archer">&#xe60a;</span>技术文档</span>
     
-        <span class="sidebar-category-name" data-categories="linux"><span class="iconfont-archer">&#xe60a;</span>linux</span>
+        <span class="sidebar-category-name" data-categories="markdown"><span class="iconfont-archer">&#xe60a;</span>markdown</span>
+    
+        <span class="sidebar-category-name" data-categories="linux/awk"><span class="iconfont-archer">&#xe60a;</span>linux/awk</span>
     
         <span class="sidebar-category-name" data-categories="docker"><span class="iconfont-archer">&#xe60a;</span>docker</span>
     
@@ -2014,57 +2081,55 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="网址"><span class="iconfont-archer">&#xe60a;</span>网址</span>
     
-        <span class="sidebar-category-name" data-categories="markdown"><span class="iconfont-archer">&#xe60a;</span>markdown</span>
-    
         <span class="sidebar-category-name" data-categories="mysql"><span class="iconfont-archer">&#xe60a;</span>mysql</span>
-    
-        <span class="sidebar-category-name" data-categories="linux/awk"><span class="iconfont-archer">&#xe60a;</span>linux/awk</span>
     
         <span class="sidebar-category-name" data-categories="linux/shell"><span class="iconfont-archer">&#xe60a;</span>linux/shell</span>
     
         <span class="sidebar-category-name" data-categories="k8s"><span class="iconfont-archer">&#xe60a;</span>k8s</span>
     
-        <span class="sidebar-category-name" data-categories="流量复制工具"><span class="iconfont-archer">&#xe60a;</span>流量复制工具</span>
-    
         <span class="sidebar-category-name" data-categories="elk"><span class="iconfont-archer">&#xe60a;</span>elk</span>
+    
+        <span class="sidebar-category-name" data-categories="流量复制工具"><span class="iconfont-archer">&#xe60a;</span>流量复制工具</span>
     
         <span class="sidebar-category-name" data-categories="elk7"><span class="iconfont-archer">&#xe60a;</span>elk7</span>
     
-        <span class="sidebar-category-name" data-categories="网址/大佬博客"><span class="iconfont-archer">&#xe60a;</span>网址/大佬博客</span>
+        <span class="sidebar-category-name" data-categories="docker/Dockerfile"><span class="iconfont-archer">&#xe60a;</span>docker/Dockerfile</span>
     
         <span class="sidebar-category-name" data-categories="k3s"><span class="iconfont-archer">&#xe60a;</span>k3s</span>
     
-        <span class="sidebar-category-name" data-categories="linux/systemd"><span class="iconfont-archer">&#xe60a;</span>linux/systemd</span>
-    
-        <span class="sidebar-category-name" data-categories="docker/Dockerfile"><span class="iconfont-archer">&#xe60a;</span>docker/Dockerfile</span>
-    
-        <span class="sidebar-category-name" data-categories="raid"><span class="iconfont-archer">&#xe60a;</span>raid</span>
+        <span class="sidebar-category-name" data-categories="网址/收藏"><span class="iconfont-archer">&#xe60a;</span>网址/收藏</span>
     
         <span class="sidebar-category-name" data-categories="php"><span class="iconfont-archer">&#xe60a;</span>php</span>
     
-        <span class="sidebar-category-name" data-categories="网址/收藏"><span class="iconfont-archer">&#xe60a;</span>网址/收藏</span>
+        <span class="sidebar-category-name" data-categories="网址/大佬博客"><span class="iconfont-archer">&#xe60a;</span>网址/大佬博客</span>
     
-        <span class="sidebar-category-name" data-categories="网卡"><span class="iconfont-archer">&#xe60a;</span>网卡</span>
+        <span class="sidebar-category-name" data-categories="linux/systemd"><span class="iconfont-archer">&#xe60a;</span>linux/systemd</span>
+    
+        <span class="sidebar-category-name" data-categories="raid"><span class="iconfont-archer">&#xe60a;</span>raid</span>
+    
+        <span class="sidebar-category-name" data-categories="nginx/问题总结"><span class="iconfont-archer">&#xe60a;</span>nginx/问题总结</span>
     
         <span class="sidebar-category-name" data-categories="mac"><span class="iconfont-archer">&#xe60a;</span>mac</span>
     
-        <span class="sidebar-category-name" data-categories="nginx/问题总结"><span class="iconfont-archer">&#xe60a;</span>nginx/问题总结</span>
+        <span class="sidebar-category-name" data-categories="网卡"><span class="iconfont-archer">&#xe60a;</span>网卡</span>
     
         <span class="sidebar-category-name" data-categories="k8s/mysql"><span class="iconfont-archer">&#xe60a;</span>k8s/mysql</span>
     
         <span class="sidebar-category-name" data-categories="有趣"><span class="iconfont-archer">&#xe60a;</span>有趣</span>
     
-        <span class="sidebar-category-name" data-categories="流量复制工具/gor"><span class="iconfont-archer">&#xe60a;</span>流量复制工具/gor</span>
+        <span class="sidebar-category-name" data-categories="elk/elasticsearch5"><span class="iconfont-archer">&#xe60a;</span>elk/elasticsearch5</span>
     
         <span class="sidebar-category-name" data-categories="windows"><span class="iconfont-archer">&#xe60a;</span>windows</span>
     
-        <span class="sidebar-category-name" data-categories="elk/elasticsearch5"><span class="iconfont-archer">&#xe60a;</span>elk/elasticsearch5</span>
-    
-        <span class="sidebar-category-name" data-categories="elk7/filebeat7"><span class="iconfont-archer">&#xe60a;</span>elk7/filebeat7</span>
+        <span class="sidebar-category-name" data-categories="流量复制工具/gor"><span class="iconfont-archer">&#xe60a;</span>流量复制工具/gor</span>
     
         <span class="sidebar-category-name" data-categories="go"><span class="iconfont-archer">&#xe60a;</span>go</span>
     
+        <span class="sidebar-category-name" data-categories="elk7/filebeat7"><span class="iconfont-archer">&#xe60a;</span>elk7/filebeat7</span>
+    
         <span class="sidebar-category-name" data-categories="存储"><span class="iconfont-archer">&#xe60a;</span>存储</span>
+    
+        <span class="sidebar-category-name" data-categories="centos"><span class="iconfont-archer">&#xe60a;</span>centos</span>
     
         <span class="sidebar-category-name" data-categories="elk/logstash"><span class="iconfont-archer">&#xe60a;</span>elk/logstash</span>
     
@@ -2072,11 +2137,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="k8s/问题总结"><span class="iconfont-archer">&#xe60a;</span>k8s/问题总结</span>
     
+        <span class="sidebar-category-name" data-categories="php/问题总结"><span class="iconfont-archer">&#xe60a;</span>php/问题总结</span>
+    
         <span class="sidebar-category-name" data-categories="nfs"><span class="iconfont-archer">&#xe60a;</span>nfs</span>
     
         <span class="sidebar-category-name" data-categories="k8s/kubectl"><span class="iconfont-archer">&#xe60a;</span>k8s/kubectl</span>
-    
-        <span class="sidebar-category-name" data-categories="php/问题总结"><span class="iconfont-archer">&#xe60a;</span>php/问题总结</span>
     
         <span class="sidebar-category-name" data-categories="item2"><span class="iconfont-archer">&#xe60a;</span>item2</span>
     

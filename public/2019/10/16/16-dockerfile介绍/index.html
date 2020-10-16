@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
 <meta property="og:image" content="https://zhangzw001.github.io/images/dockerniu.jpeg">
-<meta property="og:updated_time" content="2020-08-07T06:57:51.000Z">
+<meta property="og:updated_time" content="2020-10-13T08:39:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dockerfile介绍">
 <meta name="twitter:description" content="Dockerfile">
@@ -292,7 +292,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">1.2k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.3k</span>阅读时长: <span class="post-count reading-time">5 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -512,6 +512,16 @@ height:50vh;
 
 </li>
 </ol>
+<h3 id="dockerfile中添加中文支持"><a href="#dockerfile中添加中文支持" class="headerlink" title="dockerfile中添加中文支持"></a>dockerfile中添加中文支持</h3><ul>
+<li>debian8</li>
+</ul>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> php:<span class="number">7.0</span>.<span class="number">13</span>-fpm</span><br><span class="line"></span><br><span class="line"><span class="keyword">run</span><span class="bash"> apt-get update \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get install locales \</span></span><br><span class="line"><span class="bash">    &amp;&amp; sed -i <span class="string">'/zh_CN.UTF-8/s/^#//'</span> /etc/locale.gen \</span></span><br><span class="line"><span class="bash">    &amp;&amp; locale-gen \</span></span><br><span class="line"><span class="bash">    &amp;&amp; rm -rf /usr/<span class="built_in">local</span>/src/* \</span></span><br><span class="line"><span class="bash">    &amp;&amp; rm -rf /var/lib/apt/lists/* \</span></span><br><span class="line"><span class="bash">    &amp;&amp; apt-get purge -y --auto-remove <span class="variable">$buildDeps</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> LANG zh_CN.UTF-<span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">user</span> www-data</span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [ <span class="string">"/bin/bash"</span>, <span class="string">"-ce"</span>, <span class="string">"tail -f /dev/stdout"</span> ]</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Ubuntu 18.04.1 LTS</li>
+</ul>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get update \</span><br><span class="line">    &amp;&amp; apt-get install language-pack-zh-hans -y \</span><br><span class="line">    &amp;&amp; rm -rf /usr/local/src/* \</span><br><span class="line">    &amp;&amp; rm -rf /var/<span class="class"><span class="keyword">lib</span>/<span class="title">apt</span>/<span class="title">lists</span>/* \</span></span><br><span class="line">    &amp;&amp; apt-get purge -y --auto-remove $buildDeps</span><br><span class="line"></span><br><span class="line">ENV LANG zh_CN.utf8</span><br></pre></td></tr></table></figure>
+
 
     </article>
     <!-- license  -->
@@ -520,7 +530,7 @@ height:50vh;
             <p>原文作者：<a href="https://blog.k1s.club">zhangzw</a>
             <p>原文链接：<a href="https://blog.k1s.club/2019/10/16/16-dockerfile介绍/">https://blog.k1s.club/2019/10/16/16-dockerfile介绍/</a>
             <p>发表日期：<a href="https://blog.k1s.club/2019/10/16/16-dockerfile介绍/">October 16th 2019, 3:33:17 pm</a>
-            <p>更新日期：<a href="https://blog.k1s.club/2019/10/16/16-dockerfile介绍/">August 7th 2020, 2:57:51 pm</a>
+            <p>更新日期：<a href="https://blog.k1s.club/2019/10/16/16-dockerfile介绍/">October 13th 2020, 4:39:14 pm</a>
             <p>版权声明：本文采用<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -677,7 +687,7 @@ top:50vh;
         <div class="toc-catalog">
             <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
         </div>
-        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dockerfile-文件有自己的书写格式和支持的命令，常用的Dockerfile-指令有："><span class="toc-number">1.</span> <span class="toc-text">Dockerfile 文件有自己的书写格式和支持的命令，常用的Dockerfile 指令有：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下面看个例子"><span class="toc-number">2.</span> <span class="toc-text">下面看个例子</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dockerfile-文件有自己的书写格式和支持的命令，常用的Dockerfile-指令有："><span class="toc-number">1.</span> <span class="toc-text">Dockerfile 文件有自己的书写格式和支持的命令，常用的Dockerfile 指令有：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下面看个例子"><span class="toc-number">2.</span> <span class="toc-text">下面看个例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dockerfile中添加中文支持"><span class="toc-number">3.</span> <span class="toc-text">dockerfile中添加中文支持</span></a></li></ol>
     </div>
     
     <div class="back-top iconfont-archer">&#xe639;</div>
@@ -1472,9 +1482,39 @@ top:50vh;
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 56
+        Total : 58
         </div>
         <!-- search  -->
         
@@ -1487,6 +1527,16 @@ top:50vh;
     
     <div class="archive-year"> 2020 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span><a class="archive-post-title" href= "/2020/10/15/57-gin记录说明/" >gin记录说明</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/25</span><a class="archive-post-title" href= "/2020/09/25/56-centos8初体验/" >centos8初体验</a>
+        </li>
     
     
         <li class="archive-post-item">
@@ -1629,12 +1679,12 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/25</span><a class="archive-post-title" href= "/2019/11/25/30-k3s集群部署项目报挂载nfs错误/" >k3s集群部署项目报挂载nfs错误</a>
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href= "/2019/11/25/29-k3s集群部署项目报挂载nfs错误/" >29-k3s集群部署项目报挂载nfs错误</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/25</span><a class="archive-post-title" href= "/2019/11/25/29-k3s集群部署项目报挂载nfs错误/" >29-k3s集群部署项目报挂载nfs错误</a>
+            <span class="archive-post-date">11/25</span><a class="archive-post-title" href= "/2019/11/25/30-k3s集群部署项目报挂载nfs错误/" >k3s集群部署项目报挂载nfs错误</a>
         </li>
     
     
@@ -1782,15 +1832,17 @@ top:50vh;
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
     
+        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
+    
+        <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
+    
         <span class="sidebar-tag-name" data-tags="nginx"><span class="iconfont-archer">&#xe606;</span>nginx</span>
     
         <span class="sidebar-tag-name" data-tags="php7"><span class="iconfont-archer">&#xe606;</span>php7</span>
     
         <span class="sidebar-tag-name" data-tags="mysql"><span class="iconfont-archer">&#xe606;</span>mysql</span>
     
-        <span class="sidebar-tag-name" data-tags="linux"><span class="iconfont-archer">&#xe606;</span>linux</span>
-    
-        <span class="sidebar-tag-name" data-tags="awk"><span class="iconfont-archer">&#xe606;</span>awk</span>
+        <span class="sidebar-tag-name" data-tags="markdown"><span class="iconfont-archer">&#xe606;</span>markdown</span>
     
         <span class="sidebar-tag-name" data-tags="docker"><span class="iconfont-archer">&#xe606;</span>docker</span>
     
@@ -1800,8 +1852,6 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="大佬博客"><span class="iconfont-archer">&#xe606;</span>大佬博客</span>
     
-        <span class="sidebar-tag-name" data-tags="markdown"><span class="iconfont-archer">&#xe606;</span>markdown</span>
-    
         <span class="sidebar-tag-name" data-tags="收藏"><span class="iconfont-archer">&#xe606;</span>收藏</span>
     
         <span class="sidebar-tag-name" data-tags="网址"><span class="iconfont-archer">&#xe606;</span>网址</span>
@@ -1810,11 +1860,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="k8s"><span class="iconfont-archer">&#xe606;</span>k8s</span>
     
+        <span class="sidebar-tag-name" data-tags="elasticsearch5"><span class="iconfont-archer">&#xe606;</span>elasticsearch5</span>
+    
         <span class="sidebar-tag-name" data-tags="gor"><span class="iconfont-archer">&#xe606;</span>gor</span>
     
         <span class="sidebar-tag-name" data-tags="http流量复制工具"><span class="iconfont-archer">&#xe606;</span>http流量复制工具</span>
-    
-        <span class="sidebar-tag-name" data-tags="elasticsearch5"><span class="iconfont-archer">&#xe606;</span>elasticsearch5</span>
     
         <span class="sidebar-tag-name" data-tags="filebeat7"><span class="iconfont-archer">&#xe606;</span>filebeat7</span>
     
@@ -1828,11 +1878,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="k3s"><span class="iconfont-archer">&#xe606;</span>k3s</span>
     
-        <span class="sidebar-tag-name" data-tags="systemd"><span class="iconfont-archer">&#xe606;</span>systemd</span>
+        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
     
         <span class="sidebar-tag-name" data-tags="raid"><span class="iconfont-archer">&#xe606;</span>raid</span>
     
-        <span class="sidebar-tag-name" data-tags="php"><span class="iconfont-archer">&#xe606;</span>php</span>
+        <span class="sidebar-tag-name" data-tags="systemd"><span class="iconfont-archer">&#xe606;</span>systemd</span>
     
         <span class="sidebar-tag-name" data-tags="kubectl"><span class="iconfont-archer">&#xe606;</span>kubectl</span>
     
@@ -1858,6 +1908,10 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="k8s存储"><span class="iconfont-archer">&#xe606;</span>k8s存储</span>
     
+        <span class="sidebar-tag-name" data-tags="gin"><span class="iconfont-archer">&#xe606;</span>gin</span>
+    
+        <span class="sidebar-tag-name" data-tags="centos8"><span class="iconfont-archer">&#xe606;</span>centos8</span>
+    
         <span class="sidebar-tag-name" data-tags="mysql5.7"><span class="iconfont-archer">&#xe606;</span>mysql5.7</span>
     
         <span class="sidebar-tag-name" data-tags="elasticsearch7"><span class="iconfont-archer">&#xe606;</span>elasticsearch7</span>
@@ -1870,11 +1924,11 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="metabase"><span class="iconfont-archer">&#xe606;</span>metabase</span>
     
+        <span class="sidebar-tag-name" data-tags="hexo美化"><span class="iconfont-archer">&#xe606;</span>hexo美化</span>
+    
         <span class="sidebar-tag-name" data-tags="nfs"><span class="iconfont-archer">&#xe606;</span>nfs</span>
     
         <span class="sidebar-tag-name" data-tags="storageclass"><span class="iconfont-archer">&#xe606;</span>storageclass</span>
-    
-        <span class="sidebar-tag-name" data-tags="hexo美化"><span class="iconfont-archer">&#xe606;</span>hexo美化</span>
     
         <span class="sidebar-tag-name" data-tags="gitlab-runner"><span class="iconfont-archer">&#xe606;</span>gitlab-runner</span>
     
@@ -1917,9 +1971,13 @@ jsonContent:
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="linux"><span class="iconfont-archer">&#xe60a;</span>linux</span>
+    
         <span class="sidebar-category-name" data-categories="技术文档"><span class="iconfont-archer">&#xe60a;</span>技术文档</span>
     
-        <span class="sidebar-category-name" data-categories="linux"><span class="iconfont-archer">&#xe60a;</span>linux</span>
+        <span class="sidebar-category-name" data-categories="markdown"><span class="iconfont-archer">&#xe60a;</span>markdown</span>
+    
+        <span class="sidebar-category-name" data-categories="linux/awk"><span class="iconfont-archer">&#xe60a;</span>linux/awk</span>
     
         <span class="sidebar-category-name" data-categories="docker"><span class="iconfont-archer">&#xe60a;</span>docker</span>
     
@@ -1927,57 +1985,55 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="网址"><span class="iconfont-archer">&#xe60a;</span>网址</span>
     
-        <span class="sidebar-category-name" data-categories="markdown"><span class="iconfont-archer">&#xe60a;</span>markdown</span>
-    
         <span class="sidebar-category-name" data-categories="mysql"><span class="iconfont-archer">&#xe60a;</span>mysql</span>
-    
-        <span class="sidebar-category-name" data-categories="linux/awk"><span class="iconfont-archer">&#xe60a;</span>linux/awk</span>
     
         <span class="sidebar-category-name" data-categories="linux/shell"><span class="iconfont-archer">&#xe60a;</span>linux/shell</span>
     
         <span class="sidebar-category-name" data-categories="k8s"><span class="iconfont-archer">&#xe60a;</span>k8s</span>
     
-        <span class="sidebar-category-name" data-categories="流量复制工具"><span class="iconfont-archer">&#xe60a;</span>流量复制工具</span>
-    
         <span class="sidebar-category-name" data-categories="elk"><span class="iconfont-archer">&#xe60a;</span>elk</span>
+    
+        <span class="sidebar-category-name" data-categories="流量复制工具"><span class="iconfont-archer">&#xe60a;</span>流量复制工具</span>
     
         <span class="sidebar-category-name" data-categories="elk7"><span class="iconfont-archer">&#xe60a;</span>elk7</span>
     
-        <span class="sidebar-category-name" data-categories="网址/大佬博客"><span class="iconfont-archer">&#xe60a;</span>网址/大佬博客</span>
+        <span class="sidebar-category-name" data-categories="docker/Dockerfile"><span class="iconfont-archer">&#xe60a;</span>docker/Dockerfile</span>
     
         <span class="sidebar-category-name" data-categories="k3s"><span class="iconfont-archer">&#xe60a;</span>k3s</span>
     
-        <span class="sidebar-category-name" data-categories="linux/systemd"><span class="iconfont-archer">&#xe60a;</span>linux/systemd</span>
-    
-        <span class="sidebar-category-name" data-categories="docker/Dockerfile"><span class="iconfont-archer">&#xe60a;</span>docker/Dockerfile</span>
-    
-        <span class="sidebar-category-name" data-categories="raid"><span class="iconfont-archer">&#xe60a;</span>raid</span>
+        <span class="sidebar-category-name" data-categories="网址/收藏"><span class="iconfont-archer">&#xe60a;</span>网址/收藏</span>
     
         <span class="sidebar-category-name" data-categories="php"><span class="iconfont-archer">&#xe60a;</span>php</span>
     
-        <span class="sidebar-category-name" data-categories="网址/收藏"><span class="iconfont-archer">&#xe60a;</span>网址/收藏</span>
+        <span class="sidebar-category-name" data-categories="网址/大佬博客"><span class="iconfont-archer">&#xe60a;</span>网址/大佬博客</span>
     
-        <span class="sidebar-category-name" data-categories="网卡"><span class="iconfont-archer">&#xe60a;</span>网卡</span>
+        <span class="sidebar-category-name" data-categories="linux/systemd"><span class="iconfont-archer">&#xe60a;</span>linux/systemd</span>
+    
+        <span class="sidebar-category-name" data-categories="raid"><span class="iconfont-archer">&#xe60a;</span>raid</span>
+    
+        <span class="sidebar-category-name" data-categories="nginx/问题总结"><span class="iconfont-archer">&#xe60a;</span>nginx/问题总结</span>
     
         <span class="sidebar-category-name" data-categories="mac"><span class="iconfont-archer">&#xe60a;</span>mac</span>
     
-        <span class="sidebar-category-name" data-categories="nginx/问题总结"><span class="iconfont-archer">&#xe60a;</span>nginx/问题总结</span>
+        <span class="sidebar-category-name" data-categories="网卡"><span class="iconfont-archer">&#xe60a;</span>网卡</span>
     
         <span class="sidebar-category-name" data-categories="k8s/mysql"><span class="iconfont-archer">&#xe60a;</span>k8s/mysql</span>
     
         <span class="sidebar-category-name" data-categories="有趣"><span class="iconfont-archer">&#xe60a;</span>有趣</span>
     
-        <span class="sidebar-category-name" data-categories="流量复制工具/gor"><span class="iconfont-archer">&#xe60a;</span>流量复制工具/gor</span>
+        <span class="sidebar-category-name" data-categories="elk/elasticsearch5"><span class="iconfont-archer">&#xe60a;</span>elk/elasticsearch5</span>
     
         <span class="sidebar-category-name" data-categories="windows"><span class="iconfont-archer">&#xe60a;</span>windows</span>
     
-        <span class="sidebar-category-name" data-categories="elk/elasticsearch5"><span class="iconfont-archer">&#xe60a;</span>elk/elasticsearch5</span>
-    
-        <span class="sidebar-category-name" data-categories="elk7/filebeat7"><span class="iconfont-archer">&#xe60a;</span>elk7/filebeat7</span>
+        <span class="sidebar-category-name" data-categories="流量复制工具/gor"><span class="iconfont-archer">&#xe60a;</span>流量复制工具/gor</span>
     
         <span class="sidebar-category-name" data-categories="go"><span class="iconfont-archer">&#xe60a;</span>go</span>
     
+        <span class="sidebar-category-name" data-categories="elk7/filebeat7"><span class="iconfont-archer">&#xe60a;</span>elk7/filebeat7</span>
+    
         <span class="sidebar-category-name" data-categories="存储"><span class="iconfont-archer">&#xe60a;</span>存储</span>
+    
+        <span class="sidebar-category-name" data-categories="centos"><span class="iconfont-archer">&#xe60a;</span>centos</span>
     
         <span class="sidebar-category-name" data-categories="elk/logstash"><span class="iconfont-archer">&#xe60a;</span>elk/logstash</span>
     
@@ -1985,11 +2041,11 @@ jsonContent:
     
         <span class="sidebar-category-name" data-categories="k8s/问题总结"><span class="iconfont-archer">&#xe60a;</span>k8s/问题总结</span>
     
+        <span class="sidebar-category-name" data-categories="php/问题总结"><span class="iconfont-archer">&#xe60a;</span>php/问题总结</span>
+    
         <span class="sidebar-category-name" data-categories="nfs"><span class="iconfont-archer">&#xe60a;</span>nfs</span>
     
         <span class="sidebar-category-name" data-categories="k8s/kubectl"><span class="iconfont-archer">&#xe60a;</span>k8s/kubectl</span>
-    
-        <span class="sidebar-category-name" data-categories="php/问题总结"><span class="iconfont-archer">&#xe60a;</span>php/问题总结</span>
     
         <span class="sidebar-category-name" data-categories="item2"><span class="iconfont-archer">&#xe60a;</span>item2</span>
     
